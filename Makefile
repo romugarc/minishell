@@ -6,7 +6,7 @@
 #    By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 16:13:51 by rgarcia           #+#    #+#              #
-#    Updated: 2022/10/21 12:41:11 by rgarcia          ###   ########lyon.fr    #
+#    Updated: 2022/10/21 14:10:08 by rgarcia          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=thread
+CFLAGS	=	-Wall -Wextra -Werror
 
 all:		${NAME}
 
