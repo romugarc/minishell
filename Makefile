@@ -6,11 +6,11 @@
 #    By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 16:13:51 by rgarcia           #+#    #+#              #
-#    Updated: 2022/10/20 17:26:40 by rgarcia          ###   ########lyon.fr    #
+#    Updated: 2022/10/21 12:41:11 by rgarcia          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= philo
+NAME	= minishell
 
 SRCS	=	main.c
 
@@ -29,13 +29,15 @@ all:		${NAME}
 		${CC} -c ${CFLAGS} $< -o ${<:.c=.o}
 
 $(NAME):	${OBJS}
-				@${CC} ${CFLAGS} ${OBJS} -o philo
+			@$(MAKE) -C ./libft
+			@${CC} ${CFLAGS} ${OBJS} ./libft/libft.a -o minishell
 
 clean:
 			${RM} ${OBJS}
 
 fclean:		clean
-			${RM} philo
+			${RM} minishell
+			${MAKE} -C ./libft fclean
 
 re:			fclean all
 

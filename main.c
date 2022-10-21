@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/20 17:27:12 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/21 12:36:13 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@ int	main(int argc, char **argv)
 {
 	char	*prompt;
 
-	//while (
+	while (1)
+	{
+		
+	}
 	return (0);
 }
