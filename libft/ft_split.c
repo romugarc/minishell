@@ -6,11 +6,12 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 15:06:58 by rgarcia           #+#    #+#             */
-/*   Updated: 2021/11/29 17:55:06 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/22 13:40:34 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 void	ft_free_all_tab(char **tab)
 {
