@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/22 19:36:39 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/23 16:03:04 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,38 @@ t_commands	*init_commands(char	*line, int nb_pipes)
 		commands[i].single_command = ft_split(full_command_line[i], ' ');
 		i++;
 	}
+	i = 0;
+	while (i < nb_pipes)
+	{
+		free(full_command_line[i]);
+		i++;
+	}
+	free(full_command_line);
 	return (commands);
+}
+
+void	free_command_line(t_commands **commands, char **line, int nb_pipes)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < nb_pipes)
+	{
+		printf("%di\n", i);
+		j = 0;
+		while (j < 1)
+		{
+			printf("%dj\n", j);
+			//printf("%s.%d\n", commands[i]->single_command[j], i);
+			free(commands[i]->single_command[j]);
+			j++;
+		}
+		free(commands[i]->single_command);
+		i++;
+	}
+	free (*commands);
+	free (*line);
 }
 
 char	*correct_line(char *line)
@@ -94,10 +125,10 @@ char	*correct_line(char *line)
 int	main(int argc, char **argv)
 {
 	char		*line;
-	int			i;
-	int			j;
 	int			nb_pipes;
 	t_commands	*commands;
+	int			i;
+	int			j;
 
 	if (error_handler(argc, argv) == 1)
 		return (0);
@@ -105,7 +136,6 @@ int	main(int argc, char **argv)
 	while (1)
 	{
 		line = get_next_line(0);
-		//separate line with pipes and redirections
 		line = correct_line(line);
 		nb_pipes = count_arguments(line, '|');
 		printf("%dpipes\n", nb_pipes);
@@ -121,7 +151,8 @@ int	main(int argc, char **argv)
 			}
 			i++;
 		}
-		i = 0;
+		free_command_line(&commands, &line, nb_pipes);
+		/*i = 0;
 		while (i < nb_pipes)
 		{
 			j = 0;
@@ -133,8 +164,8 @@ int	main(int argc, char **argv)
 			free(commands[i].single_command);
 			i++;
 		}
-		free(commands);
-		free (line);
+		free (commands);
+		free (line);*/
 		prompt();
 	}
 	return (0);
