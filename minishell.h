@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:41:46 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/21 13:29:13 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/24 14:02:51 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <readline/history.h>
 # include <dirent.h>
 # include <errno.h>
+# include <termios.h>
 # include "libft/libft.h"
 # include "libft/ft_printf.h"
 # include "libft/get_next_line.h"

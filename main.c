@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/24 12:44:55 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/24 19:02:14 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,16 @@ char	*correct_line(char *line)
 	return (correct);
 }
 
-int	main(int argc, char **argv)
+void	sig_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		ft_putstr_fd("\n", 0);
+		prompt();
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	int			nb_pipes;
@@ -130,10 +139,16 @@ int	main(int argc, char **argv)
 	prompt();
 	while (1)
 	{
+		signal(SIGINT, sig_handler);
+		//signal(SIGQUIT, SIG_IGN);
+		//signal(SIGTSTP, SIG_IGN);
 		line = get_next_line(0);
 		line = correct_line(line);
 		nb_pipes = count_arguments(line, '|');
 		commands = init_commands(line, nb_pipes);
+		if (commands[0].single_command != 0)
+			execve(commands[0].single_command[0], commands[0].single_command, envp);
+		perror("rgarcia");
 		free_command_line(commands, line, nb_pipes);
 		prompt();
 	}
