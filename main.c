@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/23 16:03:04 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/24 12:44:55 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_commands	*init_commands(char	*line, int nb_pipes)
 	return (commands);
 }
 
-void	free_command_line(t_commands **commands, char **line, int nb_pipes)
+void	free_command_line(t_commands *commands, char *line, int nb_pipes)
 {
 	int	i;
 	int	j;
@@ -93,20 +93,17 @@ void	free_command_line(t_commands **commands, char **line, int nb_pipes)
 	i = 0;
 	while (i < nb_pipes)
 	{
-		printf("%di\n", i);
 		j = 0;
-		while (j < 1)
+		while (commands[i].single_command[j] != 0)
 		{
-			printf("%dj\n", j);
-			//printf("%s.%d\n", commands[i]->single_command[j], i);
-			free(commands[i]->single_command[j]);
+			free(commands[i].single_command[j]);
 			j++;
 		}
-		free(commands[i]->single_command);
+		free(commands[i].single_command);
 		i++;
 	}
-	free (*commands);
-	free (*line);
+	free (commands);
+	free (line);
 }
 
 char	*correct_line(char *line)
@@ -127,8 +124,6 @@ int	main(int argc, char **argv)
 	char		*line;
 	int			nb_pipes;
 	t_commands	*commands;
-	int			i;
-	int			j;
 
 	if (error_handler(argc, argv) == 1)
 		return (0);
@@ -138,34 +133,8 @@ int	main(int argc, char **argv)
 		line = get_next_line(0);
 		line = correct_line(line);
 		nb_pipes = count_arguments(line, '|');
-		printf("%dpipes\n", nb_pipes);
 		commands = init_commands(line, nb_pipes);
-		i = 0;
-		while (i < nb_pipes)
-		{
-			j = 0;
-			while (commands[i].single_command[j] != 0)
-			{
-				printf("%s.%d\n", commands[i].single_command[j], i);
-				j++;
-			}
-			i++;
-		}
-		free_command_line(&commands, &line, nb_pipes);
-		/*i = 0;
-		while (i < nb_pipes)
-		{
-			j = 0;
-			while (commands[i].single_command[j] != 0)
-			{
-				free(commands[i].single_command[j]);
-				j++;
-			}
-			free(commands[i].single_command);
-			i++;
-		}
-		free (commands);
-		free (line);*/
+		free_command_line(commands, line, nb_pipes);
 		prompt();
 	}
 	return (0);
