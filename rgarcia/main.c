@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/24 19:02:14 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/25 19:33:42 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,22 @@ void	prompt(void)
 	ft_putstr_fd("minishell$ ", 0);
 }
 
+int	is_in_quotes(char	*str, int index)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (str[i] != '"' && str[i] != 39 && str[i] != '\0')
+		i++;
+	j = 0;
+	while (str[j] != '"' && str[i] != 39 && str[j] != '\0')
+		j++;
+	if (index > i && str[i] != '\0' && index < j && str[j] != '\0')
+		return (1);
+	return (0);
+}
+
 int	count_arguments(char *line, char c)
 {
 	int		count;
@@ -47,7 +63,7 @@ int	count_arguments(char *line, char c)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (flag_count == 1 && line[i] != c && line[i] != '\n')
+		if (flag_count == 1 && line[i] != c && line[i] != '\n' && is_in_quotes(line, i) == 0)
 		{
 			flag_count = 0;
 			count++;
@@ -132,6 +148,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	int			nb_pipes;
+	int			start_quote;
+	int			end_quote;
 	t_commands	*commands;
 
 	if (error_handler(argc, argv) == 1)
