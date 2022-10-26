@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/24 19:02:14 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/26 11:41:21 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,12 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	int			nb_pipes;
 	t_commands	*commands;
+////////////////////////////////////////////////////////////////////////////////////////////////
+	int			status;
+	pid_t		pid;
 
+	pid = fork();
+////////////////////////////////////////////////////////////////////////////////////////////////
 	if (error_handler(argc, argv) == 1)
 		return (0);
 	prompt();
@@ -146,8 +151,20 @@ int	main(int argc, char **argv, char **envp)
 		line = correct_line(line);
 		nb_pipes = count_arguments(line, '|');
 		commands = init_commands(line, nb_pipes);
+////////////////////////////////////////////////////////////////////////////////////////////////
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
 		if (commands[0].single_command != 0)
 			execve(commands[0].single_command[0], commands[0].single_command, envp);
+	}
+		else
+			wait(&status);
+////////////////////////////////////////////////////////////////////////////////////////////////
 		perror("rgarcia");
 		free_command_line(commands, line, nb_pipes);
 		prompt();
