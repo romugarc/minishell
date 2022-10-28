@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/26 11:41:21 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/10/27 17:02:31 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ int	main(int argc, char **argv, char **envp)
 	int			status;
 	pid_t		pid;
 
-	pid = fork();
 ////////////////////////////////////////////////////////////////////////////////////////////////
 	if (error_handler(argc, argv) == 1)
 		return (0);
@@ -151,7 +150,10 @@ int	main(int argc, char **argv, char **envp)
 		line = correct_line(line);
 		nb_pipes = count_arguments(line, '|');
 		commands = init_commands(line, nb_pipes);
+		printf("cho\n");
+		printf("cho\n");
 ////////////////////////////////////////////////////////////////////////////////////////////////
+		pid = fork();
 	if (pid == -1)
 	{
 		perror("fork");

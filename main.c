@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/27 16:48:57 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/28 19:30:19 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*line;
-	int			nb_pipes;
+	char			*line;
+	int				nb_pipes;
 	//int			start_quote;
 	//int			end_quote;
-	t_commands	*commands;
+	t_commands		*commands;
+	t_flag_string	flag_string;
+	//int	i;
+	//int	j;
 
+	(void)envp;
 	if (error_handler(argc, argv) == 1)
 			return (0);
 	prompt();
@@ -28,10 +32,11 @@ int	main(int argc, char **argv, char **envp)
 		//signal(SIGINT, sig_handler);
 		//signal(SIGQUIT, SIG_IGN);
 		//signal(SIGTSTP, SIG_IGN);
-		parsing(&commands, &nb_pipes, &line);
-		if (commands[0].single_command != 0)
-			execve(commands[0].single_command[0], commands[0].single_command, envp);
-		perror("minishell");
+		parsing(&commands, &flag_string, &nb_pipes, &line);
+		printf("%s\n", flag_string.special_chars);
+		//if (commands[0].single_command != 0)
+		//	execve(commands[0].single_command[0], commands[0].single_command, envp);
+		//perror("minishell");
 		free_command_line(commands, line, nb_pipes);
 		prompt();
 	}

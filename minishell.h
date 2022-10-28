@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:41:46 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/27 15:34:54 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/28 18:40:09 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,21 @@ typedef struct s_commands
 	char	**single_command;
 }	t_commands;
 
+typedef struct s_flag_string
+{
+	char	*special_chars;
+	char	*quotes;
+}	t_flag_string;
+
 char		*correct_line(char *line);
 int			count_arguments(char *line, char c);
-int			is_in_quotes(char	*str, int index);
+int			is_in_quotes(char	*str, int index, int *last_quote);
 int			error_handler(int argc, char **argv);
-int			parsing(t_commands **commands, int *nb_pipes, char **line);
+int			parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, char **line);
 void		sig_handler(int signum);
 void		prompt(void);
 void		free_command_line(t_commands *commands, char *line, int nb_pipes);
+char		**ft_split_v2(char const *s, char c);
 t_commands	*init_commands(char	*line, int nb_pipes);
 
 #endif
