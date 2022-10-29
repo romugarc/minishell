@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/28 19:30:19 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/29 18:01:06 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	main(int argc, char **argv, char **envp)
 		//signal(SIGQUIT, SIG_IGN);
 		//signal(SIGTSTP, SIG_IGN);
 		parsing(&commands, &flag_string, &nb_pipes, &line);
-		printf("%s\n", flag_string.special_chars);
+		//printf("%s\n", flag_string.special_chars);
+		//printf("%s\n", flag_string.quotes);
 		//if (commands[0].single_command != 0)
 		//	execve(commands[0].single_command[0], commands[0].single_command, envp);
 		//perror("minishell");
