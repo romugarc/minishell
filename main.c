@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/29 18:01:06 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/30 15:57:50 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	char			*line;
 	int				nb_pipes;
-	//int			start_quote;
-	//int			end_quote;
 	t_commands		*commands;
 	t_flag_string	flag_string;
 	//int	i;
@@ -33,12 +31,12 @@ int	main(int argc, char **argv, char **envp)
 		//signal(SIGQUIT, SIG_IGN);
 		//signal(SIGTSTP, SIG_IGN);
 		parsing(&commands, &flag_string, &nb_pipes, &line);
-		//printf("%s\n", flag_string.special_chars);
-		//printf("%s\n", flag_string.quotes);
+		printf("%s\n", flag_string.special_chars);
+		printf("%s\n", flag_string.quotes);
 		//if (commands[0].single_command != 0)
 		//	execve(commands[0].single_command[0], commands[0].single_command, envp);
 		//perror("minishell");
-		free_command_line(commands, line, nb_pipes);
+//		free_command_line(commands, line, nb_pipes);
 		prompt();
 	}
 	return (0);

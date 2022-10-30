@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:41:46 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/28 18:40:09 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/30 15:55:19 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int			count_arguments(char *line, char c);
 int			is_in_quotes(char	*str, int index, int *last_quote);
 int			error_handler(int argc, char **argv);
 int			parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, char **line);
+int			quotes_flags(t_flag_string *flag_string, char *line);
+int			special_char_flags(t_flag_string *flag_string, char *line);
 void		sig_handler(int signum);
 void		prompt(void);
 void		free_command_line(t_commands *commands, char *line, int nb_pipes);
