@@ -43,11 +43,13 @@ static char	what_quote(char *str, int i, int flag)
 {
 	if (str[i] != '\0')
 	{
-		if (flag == 2)
+		if (flag == 2 && str[i] != '"')
 			return ('2');
-		else if (flag == 1)
+		else if (flag == 1 && str[i] != 39)
 			return ('1');
 		else if (flag == 0)
+			return ('0');
+		else
 			return ('0');
 	}
 	return ('\0');
