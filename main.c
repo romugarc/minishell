@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/31 18:56:15 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/31 19:15:34 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,6 @@ int	main(int argc, char **argv, char **envp)
 		//signal(SIGQUIT, SIG_IGN);
 		//signal(SIGTSTP, SIG_IGN);
 		parsing(&commands, &flag_string, &nb_pipes, &line);
-		printf("%s\n", flag_string.special_chars);
-		printf("%s\n", flag_string.quotes);
-		printf("%d\n", nb_pipes);
-		i = 0;
-		while (i < nb_pipes)
-		{
-			j = 0;
-			while (commands[i].single_command[j] != 0)
-			{
-				printf("%s.%d\n", commands[i].single_command[j], i);
-				j++;
-			}
-			i++;
-		}
 		//if (commands[0].single_command != 0)
 		//execve(commands[0].single_command[0], commands[0].single_command, envp);
 		//perror("minishell");
@@ -63,6 +49,9 @@ int	main(int argc, char **argv, char **envp)
 		nb_pipes = count_arguments(line, '|');
 		full_command_line = ft_split(line, '|');
 		printf("%dpipes\n", nb_pipes);
+		printf("%s\n", flag_string.special_chars);
+		printf("%s\n", flag_string.quotes);
+		printf("%d\n", nb_pipes);
 		i = 0;
 		while (full_command_line[i] != 0)
 		{
