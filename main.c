@@ -6,11 +6,17 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/31 19:15:34 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/31 19:28:44 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_flag_string(t_flag_string flag_string)
+{
+	free(flag_string.special_chars);
+	free(flag_string.quotes);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -34,6 +40,7 @@ int	main(int argc, char **argv, char **envp)
 		//if (commands[0].single_command != 0)
 		//execve(commands[0].single_command[0], commands[0].single_command, envp);
 		//perror("minishell");
+		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_pipes);
 		prompt();
 	}
