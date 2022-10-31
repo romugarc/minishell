@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/30 15:57:50 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/31 16:42:40 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	main(int argc, char **argv, char **envp)
 	int				nb_pipes;
 	t_commands		*commands;
 	t_flag_string	flag_string;
-	//int	i;
-	//int	j;
 
 	(void)envp;
 	if (error_handler(argc, argv) == 1)
@@ -27,16 +25,9 @@ int	main(int argc, char **argv, char **envp)
 	prompt();
 	while (1)
 	{
-		//signal(SIGINT, sig_handler);
-		//signal(SIGQUIT, SIG_IGN);
-		//signal(SIGTSTP, SIG_IGN);
 		parsing(&commands, &flag_string, &nb_pipes, &line);
-		printf("%s\n", flag_string.special_chars);
-		printf("%s\n", flag_string.quotes);
-		//if (commands[0].single_command != 0)
-		//	execve(commands[0].single_command[0], commands[0].single_command, envp);
-		//perror("minishell");
-//		free_command_line(commands, line, nb_pipes);
+		exec_main(commands, nb_pipes, envp);
+		free_command_line(commands, line, nb_pipes);
 		prompt();
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:41:46 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/30 15:55:19 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/31 17:48:04 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,7 @@ void		prompt(void);
 void		free_command_line(t_commands *commands, char *line, int nb_pipes);
 char		**ft_split_v2(char const *s, char c);
 t_commands	*init_commands(char	*line, int nb_pipes);
+void		exec_main(t_commands *commands, int nb_pipes, char **envp);
+
 
 #endif
