@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:49:16 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/30 15:55:25 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/31 12:51:56 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static char	what_special_char(char *str, int i)
 		return ('6');
 	else if (str[i] == '<')
 		return ('7');
+	else if (str[i] == '$')
+		return ('8');
 	return ('0');
 }
 

@@ -6,7 +6,7 @@
 #    By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 16:13:51 by rgarcia           #+#    #+#              #
-#    Updated: 2022/10/30 15:56:31 by rgarcia          ###   ########lyon.fr    #
+#    Updated: 2022/10/31 16:57:18 by rgarcia          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	= minishell
 
 SRCS	=	main.c parsing.c prompt.c \
 			init_init_commands.c \
-			utils_correct_line.c utils_count_arguments.c utils_ft_split_v2.c \
+			utils_correct_line.c utils_count_arguments.c utils_ft_split_v2.c utils_is_in_quotes.c utils_ft_increment.c \
 			parsing_quotes_flags.c parsing_special_char_flags.c \
 			signal_sig_handler.c \
 			free_free_command_line.c \
