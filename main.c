@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/31 19:28:44 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/02 16:25:22 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	main(int argc, char **argv, char **envp)
 	int				nb_pipes;
 	t_commands		*commands;
 	t_flag_string	flag_string;
-	int	i;
-	int	j;
+//	int	i;
+//	int	j;
 
 	(void)envp;
 	if (error_handler(argc, argv) == 1)
@@ -37,9 +37,9 @@ int	main(int argc, char **argv, char **envp)
 		//signal(SIGQUIT, SIG_IGN);
 		//signal(SIGTSTP, SIG_IGN);
 		parsing(&commands, &flag_string, &nb_pipes, &line);
-		//if (commands[0].single_command != 0)
-		//execve(commands[0].single_command[0], commands[0].single_command, envp);
-		//perror("minishell");
+//		if (commands[0].single_command != 0)
+//		execve(commands[0].single_command[0], commands[0].single_command, envp);
+//		perror("minishell");
 		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_pipes);
 		prompt();
