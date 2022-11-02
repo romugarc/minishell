@@ -1,0 +1,23 @@
+total 152
+-rw-r--r--   1 fsariogl  4221   916 Nov  2 16:44 Makefile
+-rw-r--r--   1 fsariogl  4221    22 Oct 31 13:53 README.md
+-rw-r--r--   1 fsariogl  4221     0 Nov  2 17:18 a
+-rw-r--r--   1 fsariogl  4221     8 Nov  2 17:18 b
+-rw-r--r--   1 fsariogl  4221  1064 Oct 31 13:53 error_error_handler.c
+-rw-r--r--   1 fsariogl  4221  1440 Nov  2 17:12 exec.c
+-rw-r--r--   1 fsariogl  4221  1229 Oct 31 13:53 free_free_command_line.c
+drwxr-xr-x   7 fsariogl  4221   238 Oct 31 13:53 fsariogl
+-rw-r--r--   1 fsariogl  4221  1432 Oct 31 19:32 init_init_commands.c
+drwxr-xr-x  55 fsariogl  4221  1870 Nov  2 17:15 libft
+-rw-r--r--   1 fsariogl  4221  1730 Nov  2 16:53 main.c
+-rw-r--r--   1 fsariogl  4221  1508 Nov  2 17:13 minishell.h
+-rw-r--r--   1 fsariogl  4221  1319 Oct 31 19:32 parsing.c
+-rw-r--r--   1 fsariogl  4221  2214 Oct 31 19:32 parsing_quotes_flags.c
+-rw-r--r--   1 fsariogl  4221  1635 Oct 31 19:32 parsing_special_char_flags.c
+-rw-r--r--   1 fsariogl  4221   971 Oct 31 13:53 prompt.c
+-rw-r--r--   1 fsariogl  4221  1015 Oct 31 13:53 signal_sig_handler.c
+-rw-r--r--   1 fsariogl  4221  1076 Oct 31 13:53 utils_correct_line.c
+-rw-r--r--   1 fsariogl  4221  1335 Oct 31 19:32 utils_count_arguments.c
+-rw-r--r--   1 fsariogl  4221  1137 Oct 31 19:32 utils_ft_increment.c
+-rw-r--r--   1 fsariogl  4221  2426 Oct 31 19:32 utils_ft_split_v2.c
+-rw-r--r--   1 fsariogl  4221  1065 Oct 31 19:32 utils_is_in_quotes.c

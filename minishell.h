@@ -22,8 +22,10 @@
 typedef struct s_commands
 {
 	int		nb_args_in_command;
-	int		infile;
-	int		outfile;
+	int		nb_infile;
+	int		nb_outfile;
+	char	**infiles;
+	char	**outfiles;
 	char	**single_command;
 }	t_commands;
 
