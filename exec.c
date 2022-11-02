@@ -6,20 +6,18 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/02 15:04:32 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:12:46 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_main(t_commands *commands, int nb_pipes, char **envp)
+int	exec_main(t_commands *commands, int nb_pipes, char **envp)
 {
 	int		i;
 	int		ret;
 	pid_t	pid;
 	int		fd[2];
-	int		t1;
-	int		t2 = 0;
 
 	i = 0;
 	if (!commands)
@@ -32,10 +30,7 @@ void	exec_main(t_commands *commands, int nb_pipes, char **envp)
 		pid = fork();
 		if (pid == 0)
 		{
-			close(fd[0]);
-			close(fd[1]);
-			t1 = dup(t2);
-			printf("t1 = %d\nt2 = %d", t1, t2);
+			printf("\ntesttt\n");
 			execve(commands[i].single_command[0], commands[i].single_command, envp);
 			exit(EXIT_SUCCESS);
 		}
@@ -44,8 +39,7 @@ void	exec_main(t_commands *commands, int nb_pipes, char **envp)
 			waitpid(pid, &ret, 0);
 			if (ret != 0)
 				exit(EXIT_FAILURE);
-			close(fd[0]);
-			close(fd[1]);
+			dup2(1, 0);
 		}
 		nb_pipes--;
 		i++;

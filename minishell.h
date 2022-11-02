@@ -46,6 +46,6 @@ void		free_command_line(t_commands *commands, char *line, int nb_pipes);
 void		ft_increment(char const *s, char c, size_t *i, t_flag_string f_str);
 char		**ft_split_v2(char const *s, char c, t_flag_string f_str);
 t_commands	*init_commands(char	*line, int nb_pipes, t_flag_string fs);
-void		exec_main(t_commands *commands, int nb_pipes, char **envp);
+int			exec_main(t_commands *commands, int nb_pipes, char **envp);
 
 #endif
