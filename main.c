@@ -1,16 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/20 16:21:23 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/31 16:42:40 by fsariogl         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
+
+void	free_flag_string(t_flag_string flag_string)
+{
+	free(flag_string.special_chars);
+	free(flag_string.quotes);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -42,6 +36,9 @@ int	main(int argc, char **argv, char **envp)
 		nb_pipes = count_arguments(line, '|');
 		full_command_line = ft_split(line, '|');
 		printf("%dpipes\n", nb_pipes);
+		printf("%s\n", flag_string.special_chars);
+		printf("%s\n", flag_string.quotes);
+		printf("%d\n", nb_pipes);
 		i = 0;
 		while (full_command_line[i] != 0)
 		{

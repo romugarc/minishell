@@ -6,12 +6,11 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 15:06:58 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/28 17:42:59 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/10/31 17:00:40 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
 
 static void	ft_free_all_tab(char **tab)
 {
@@ -48,7 +47,7 @@ static char	*ft_strdup_n_to_i(char const *src, size_t n, size_t index, char **ta
 	return (dest);
 }
 
-static size_t	ft_nb_str(char const *str, char c)
+static size_t	ft_nb_str(char const *str, char c, t_flag_string f_str)
 {
 	size_t	i;
 	size_t	nb_str;
@@ -69,29 +68,30 @@ static size_t	ft_nb_str(char const *str, char c)
 			stat = 0;
 			nb_str++;
 		}
-		if (str[i] && str[i] == c)
+		if (str[i] && str[i] == c && is_in_quotes(f_str, i) == 0)
 			stat = 1;
 		i++;
 	}
 	return (nb_str);
 }
 
-static void	ft_splitting(char **tab, char const *s, char c)
+static void	ft_splitting(char **tab, char const *s, char c, t_flag_string f_str)
 {
 	size_t	i;
 	size_t	n;
 	size_t	line;
+	size_t	nb_str;
 
 	i = 0;
 	n = 0;
 	line = 0;
+	nb_str = ft_nb_str(s, c, f_str);
 	while (s[i] && (s[i] == c))
 		i++;
-	while (s[i] && (line < ft_nb_str(s, c)))
+	while (s[i] && (line < nb_str))
 	{
 		n = i;
-		while (s[i] && (s[i] != c))
-			i++;
+		ft_increment(s, c, &i, f_str);
 		tab[line++] = ft_strdup_n_to_i(s, n, i, tab);
 		while (s[i] && (s[i] == c))
 			i++;
@@ -99,15 +99,15 @@ static void	ft_splitting(char **tab, char const *s, char c)
 	tab[line] = 0;
 }
 
-char	**ft_split_v2(char const *s, char c)
+char	**ft_split_v2(char const *s, char c, t_flag_string f_str)
 {
 	char	**tab;
 
 	if (!s)
 		return (NULL);
-	tab = malloc(sizeof(char *) * (ft_nb_str(s, c) + 1));
+	tab = malloc(sizeof(char *) * (ft_nb_str(s, c, f_str) + 1));
 	if (!tab)
 		return (NULL);
-	ft_splitting(tab, s, c);
+	ft_splitting(tab, s, c, f_str);
 	return (tab);
 }

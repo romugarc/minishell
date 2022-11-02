@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_is_in_quotes.c                               :+:      :+:    :+:   */
+/*   utils_ft_increment.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 12:40:41 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/31 13:21:06 by rgarcia          ###   ########lyon.fr   */
+/*   Created: 2022/10/31 16:55:25 by rgarcia           #+#    #+#             */
+/*   Updated: 2022/10/31 16:55:44 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_in_quotes(t_flag_string flag_string, int i)
+void	ft_increment(char const *s, char c, size_t *i, t_flag_string f_str)
 {
-	if (flag_string.quotes[i] == '2' || flag_string.quotes[i] == '1')
-		return (1);
-	return (0);
+	while (s[*i])
+	{
+		if (s[*i] == c && is_in_quotes(f_str, *i) != 0)
+			*i = *i + 1;
+		else if (s[*i] != c)
+			*i = *i + 1;
+		else
+			break ;
+	}
 }
