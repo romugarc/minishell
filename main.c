@@ -21,6 +21,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		parsing(&commands, &flag_string, &nb_pipes, &line);
 		exec_main(commands, nb_pipes, envp);
+		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_pipes);
 		prompt();
 	}
