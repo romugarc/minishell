@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/02 19:23:57 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/03 19:31:38 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,57 @@
 int	exec_main(t_commands *commands, int nb_pipes, char **envp)
 {
 	int		i;
-	int		ret;
-	pid_t	pid;
+//	int		io;
+//	int		ret;
+	int		pid;
+	int		pid2;
 	int		fd[2];
+	int		nb_commands;
 
 	i = 0;
+	nb_commands = (nb_pipes * 2) - 1;
 	if (!commands)
 		return (-1);
-	while (nb_pipes > 0)
-	{
-		if (nb_pipes > 1)
-			if (pipe(fd) == -1)
+	printf("%s\n", commands[1].single_command[0]);
+//	while (nb_commands > 0)
+//	{
+//		io = nb_commands % 2;
+//		if (nb_commands > 1)
+//		{
+		if (pipe(fd) == -1)
 				exit(EXIT_FAILURE);
-		printf("%d\n", fd[0]);
-		printf("%d\n", fd[1]);
+//		}
 		pid = fork();
 		if (pid == 0)
 		{
-			if (nb_pipes > 1)
-				dup2(fd[1], 1);
-			printf("Fils = %d\n", nb_pipes);
+			dup2(fd[1], STDOUT_FILENO);
 			close(fd[0]);
 			close(fd[1]);
+//			perror("CHLD ");
 			execve(commands[i].single_command[0], commands[i].single_command, envp);
 			exit(EXIT_SUCCESS);
 		}
-		else
+//		printf("test 22 >> fd0 = %d >>>> fd1 = %d\n", fd[0], fd[1]);
+		pid2 = fork();
+		if (pid2 == 0)
 		{
-			printf("Parent = %d\n", nb_pipes);
-			waitpid(pid, &ret, 0);
-			if (ret != 0)
-				exit(EXIT_FAILURE);
+			dup2(fd[0], STDIN_FILENO);
 			close(fd[0]);
 			close(fd[1]);
-			if (nb_pipes > 1)
-				dup2(fd[0], 0);
+//			perror("CHLD ");
+			//printf("%s\n", commands[i].single_command[0]);
+			execve(commands[i].single_command[0], commands[i].single_command, envp);
+			exit(EXIT_SUCCESS);
 		}
-		nb_pipes--;
-		i++;
-	}
+//		waitpid(pid, NULL, 0);
+//		waitpid(pid2, NULL, 0);
+//		if (ret != 0)
+//			exit(EXIT_FAILURE);
+//		perror("PAR ");
+//		nb_commands--;
+//		i++;
+//	}
+		close(fd[1]);
+		close(fd[0]);
 	return (0);
 }
