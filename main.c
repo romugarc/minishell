@@ -12,6 +12,8 @@ int	main(int argc, char **argv, char **envp)
 	int				nb_pipes;
 	t_commands		*commands;
 	t_flag_string	flag_string;
+	int	i;
+//	int	j;
 
 	(void)envp;
 	if (error_handler(argc, argv) == 1)
@@ -83,3 +85,11 @@ int	main(int argc, char **argv, char **envp)
 		free(full_command_line);
 		free (line);
 		*/
+/*debug redirections
+ 		i = 0;
+		while (i < nb_pipes)
+		{
+			printf("%d\t%d\n", commands[i].nb_infile, commands[i].nb_outfile);
+			i++;
+		}
+*/
