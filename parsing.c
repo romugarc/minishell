@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/03 19:34:21 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/04 14:57:34 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	
 	return (0);
 }*/
-int	split_redirection(char *tab, char **tab_files, int nb_files, t_flag_string f_str)
+/*int	split_redirection(char *tab, char **tab_files, int nb_files, t_flag_string f_str)
 {
 	int	i;
 	int	j;
@@ -36,9 +36,9 @@ int	split_redirection(char *tab, char **tab_files, int nb_files, t_flag_string f
 		i++;
 	}
 	return (0);
-}
+}*/
 
-int	is_redirection(char *str, t_flag_string f_str)
+/*int	is_redirection(char *str, t_flag_string f_str)
 {
 	int	i;
 
@@ -60,9 +60,9 @@ int	is_redirection(char *str, t_flag_string f_str)
 		i++;
 	}
 	return (0);
-}
+}*/
 
-void	count_redirections(t_commands **commands, int np)
+/*void	count_redirections(t_commands **commands, int np)
 {
 	int	i;
 	int	j;
@@ -83,7 +83,7 @@ void	count_redirections(t_commands **commands, int np)
 		}
 		i++;
 	}
-}
+}*/
 
 /*int	correct_tabs(t_commands **commands, t_flag_string flag_string, int nb_pipes)
 {
@@ -137,7 +137,7 @@ int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, ch
 	if (!tab_outfiles)
 		return (1);*/
 	*commands = init_commands(*line, *nb_pipes, *flag_string);
-	count_redirections(commands, *nb_pipes);
+//	count_redirections(commands, *nb_pipes);
 //	correct_tabs(commands, *flag_string, *nb_pipes);
 	return (0);
 }
