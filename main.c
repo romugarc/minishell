@@ -12,6 +12,7 @@ int	main(int argc, char **argv, char **envp)
 	int				nb_pipes;
 	t_commands		*commands;
 	t_flag_string	flag_string;
+//	int	i;
 
 	(void)envp;
 	if (error_handler(argc, argv) == 1)

@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/04 14:57:34 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/04 18:12:05 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	
 	return (0);
 }*/
-/*int	split_redirection(char *tab, char **tab_files, int nb_files, t_flag_string f_str)
+int	split_redirection(char *tab, char **tab_files, int nb_files, t_flag_string f_str)
 {
 	int	i;
 	int	j;
@@ -36,54 +36,57 @@
 		i++;
 	}
 	return (0);
-}*/
+}
 
-/*int	is_redirection(char *str, t_flag_string f_str)
+int	is_redirection(t_commands *c, char *str, t_flag_string f_str, int *k)
 {
 	int	i;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '>')
+		if (str[i] == '>' && f_str.quotes[*k] == '0')
 		{
 			if (str[i + 1] != '>')
-				return (1);
-			return (0);
+				c->nb_outfile += 1;
 		}
-		else if (str[i] == '<')
+		else if (str[i] == '<' && f_str.quotes[*k] == '0')
 		{
 			if (str[i + 1] != '<')
-				return (2);
-			return (0);
+				c->nb_infile += 1;
 		}
 		i++;
+		*k += 1;;
 	}
 	return (0);
-}*/
+}
 
-/*void	count_redirections(t_commands **commands, int np)
+void	count_redirections(t_commands **commands, int np, t_flag_string f_str)
 {
 	int	i;
 	int	j;
+	int	k;
+	int	r;
 
-	i = 0;
-	while (i < np)
+	i = -1;
+	k = 0;
+	while (++i < np)
 	{
 		(*commands)[i].nb_outfile = 0;
 		(*commands)[i].nb_infile = 0;
 		j = 0;
 		while ((*commands)[i].single_command[j] != 0)
 		{
-			if (is_redirection((*commands)[i].single_command[j]) == 1)
-				(*commands)[i].nb_outfile += 1;
-			else if (is_redirection((*commands)[i].single_command[j]) == 2)
-				(*commands)[i].nb_infile += 1;
+			if (f_str.special_chars[k] == '5' && f_str.quotes[k] == '0')
+				k++;
+			if (f_str.quotes[k] != '\0')
+			{
+				r = is_redirection(&(*commands)[i], (*commands)[i].single_command[j], f_str, &k);
+			}
 			j++;
 		}
-		i++;
 	}
-}*/
+}
 
 /*int	correct_tabs(t_commands **commands, t_flag_string flag_string, int nb_pipes)
 {
@@ -137,7 +140,7 @@ int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, ch
 	if (!tab_outfiles)
 		return (1);*/
 	*commands = init_commands(*line, *nb_pipes, *flag_string);
-//	count_redirections(commands, *nb_pipes);
+	count_redirections(commands, *nb_pipes, *flag_string);
 //	correct_tabs(commands, *flag_string, *nb_pipes);
 	return (0);
 }
