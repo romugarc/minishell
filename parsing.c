@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/04 18:12:05 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/04 18:25:55 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	
 	return (0);
 }*/
-int	split_redirection(char *tab, char **tab_files, int nb_files, t_flag_string f_str)
+/*int	split_redirection(char *tab, char **tab_files, int nb_files, t_flag_string f_str)
 {
 	int	i;
 	int	j;
@@ -86,7 +86,7 @@ void	count_redirections(t_commands **commands, int np, t_flag_string f_str)
 			j++;
 		}
 	}
-}
+}*/
 
 /*int	correct_tabs(t_commands **commands, t_flag_string flag_string, int nb_pipes)
 {
@@ -140,7 +140,7 @@ int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, ch
 	if (!tab_outfiles)
 		return (1);*/
 	*commands = init_commands(*line, *nb_pipes, *flag_string);
-	count_redirections(commands, *nb_pipes, *flag_string);
+//	count_redirections(commands, *nb_pipes, *flag_string);
 //	correct_tabs(commands, *flag_string, *nb_pipes);
 	return (0);
 }
