@@ -24,8 +24,8 @@ typedef struct s_commands
 	int		nb_args_in_command;
 	int		nb_infile;
 	int		nb_outfile;
-	char	**infiles;
-	char	**outfiles;
+	char	**tab_infile;
+	char	**tab_outfile;
 	char	**single_command;
 }	t_commands;
 
@@ -33,7 +33,17 @@ typedef struct s_flag_string
 {
 	char	*special_chars;
 	char	*quotes;
+	char	**tab_special_chars;
+	char	**tab_quotes;
 }	t_flag_string;
+
+typedef struct s_inc
+{
+	int	i;
+	int	j;
+	int	k;
+	int	n;
+}	t_inc;
 
 char		*correct_line(char *line);
 int			count_arguments(char *line, char c, t_flag_string f_str);

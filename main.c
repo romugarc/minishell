@@ -9,10 +9,10 @@ void	free_flag_string(t_flag_string flag_string)
 int	main(int argc, char **argv, char **envp)
 {
 	char			*line;
-	int				nb_pipes;
+	int				nb_commands;
 	t_commands		*commands;
 	t_flag_string	flag_string;
-//	int	i;
+	int	i;
 
 	(void)envp;
 	if (error_handler(argc, argv) == 1)
@@ -20,10 +20,10 @@ int	main(int argc, char **argv, char **envp)
 	prompt();
 	while (1)
 	{
-		parsing(&commands, &flag_string, &nb_pipes, &line);
-		exec_main(commands, nb_pipes, envp);
+		parsing(&commands, &flag_string, &nb_commands, &line);
+//		exec_main(commands, nb_commands, envp);
 		free_flag_string(flag_string);
-		free_command_line(commands, line, nb_pipes);
+		free_command_line(commands, line, nb_commands);
 		prompt();
 	}
 	return (0);

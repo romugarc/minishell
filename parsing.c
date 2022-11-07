@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/04 18:25:55 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/07 19:23:42 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,34 @@
 		i++;
 	}
 	return (0);
+}*/
+
+static char	*ft_strdup_s_to_e(char const *src, size_t n, size_t index)
+{
+	size_t	i;
+	char	*dest;
+
+	dest = malloc(sizeof(char) * ((index - n) + 1));
+	if (!dest)
+		return (NULL);
+	i = 0;
+	while (src[n] && n < index)
+	{
+		dest[i] = src[n];
+		n++;
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 int	is_redirection(t_commands *c, char *str, t_flag_string f_str, int *k)
 {
 	int	i;
 
+	printf("%s\n", str);
 	i = 0;
+	printf("%c\t%d\n", f_str.quotes[*k], *k);
 	while (str[i] != '\0')
 	{
 		if (str[i] == '>' && f_str.quotes[*k] == '0')
@@ -77,34 +98,118 @@ void	count_redirections(t_commands **commands, int np, t_flag_string f_str)
 		j = 0;
 		while ((*commands)[i].single_command[j] != 0)
 		{
-			if (f_str.special_chars[k] == '5' && f_str.quotes[k] == '0')
+			while ((f_str.special_chars[k] == '5' || \
+					f_str.special_chars[k] == '9') && f_str.quotes[k] == '0')
 				k++;
 			if (f_str.quotes[k] != '\0')
-			{
 				r = is_redirection(&(*commands)[i], (*commands)[i].single_command[j], f_str, &k);
-			}
 			j++;
 		}
 	}
-}*/
+}
 
-/*int	correct_tabs(t_commands **commands, t_flag_string flag_string, int nb_pipes)
+int	malloc_tab_files(t_commands **c, int nb_pipes)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (i < nb_pipes)
 	{
-		j = 0;
-		while (*commands[i]->single_command[j] != 0)
+		if ((*c)[i].nb_infile > 0)
 		{
-			if ((*commands)[i].single_command[j][0] == '>')
-			{
-				if ((*commands)[i].single_command[j][1] != '>')
-					(*commands)[i].nb_outfile += 1;
-			}
-			j++;
+			(*c)[i].tab_infile = malloc(sizeof(char *) * (*c)[i].nb_infile);
+			if (!(*c)[i].tab_infile)
+				return (1);
+		}
+		if ((*c)[i].nb_outfile > 0)
+		{
+			(*c)[i].tab_outfile = malloc(sizeof(char *) * (*c)[i].nb_outfile);
+			if (!(*c)[i].tab_outfile)
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	find_special_char(char c, t_flag_string f_str, int *k)
+{
+	while (f_str.special_chars[*k] != '\0')
+	{
+		if (f_str.special_chars[*k] == c && f_str.quotes[*k] == '0')
+		{
+			if (f_str.special_chars[*k + 1] != c)
+				return (*k);
+		}
+		*k += 1;
+	}
+	return (*k);
+}
+
+int	find_end_redirection(char c, t_flag_string f_str, int *k)
+{
+	while (f_str.special_chars[*k] == c && f_str.special_chars[*k] != '\0')
+		*k += 1;
+	while (f_str.special_chars[*k] < '5' && f_str.special_chars[*k] != '9' \
+		&& f_str.special_chars[*k] != '\0')
+		*k += 1;
+	return (*k);
+}
+
+char	*form_tab_2(char c, t_commands *comm, t_flag_string f_str, t_inc *inc)
+{
+	int		start;
+	int		end;
+	char	*ret;
+
+	start = find_special_char(c, f_str, &inc->k);
+	end = find_end_redirection(c, f_str, &inc->k);
+	ret = ft_strdup_s_to_e(comm[inc->i].single_command[inc->j], start, end);
+	inc->n += 1;
+	return (ret);
+}
+
+int	form_tab(t_commands *com, t_flag_string f_str, int np)
+{
+	t_inc	i;
+
+	i.i = 0;
+	i.k = 0;
+	while(i.i < np)
+	{
+		i.j = 0;
+		while ((com)[i.i].single_command[i.j] != 0)
+		{
+			while ((f_str.special_chars[i.k] == '5' \
+					|| f_str.special_chars[i.k] == '9') \
+					&& f_str.quotes[i.k] == '0')
+				i.k += 1;
+			if (i.n < com[i.i].nb_infile && com[i.i].single_command[i.j] != 0)
+				com[i.i].tab_infile[i.n] = form_tab_2('<', com, f_str, &i);
+		}
+		i.k += 1;
+		i.i += 1;
+	}
+	return (0);
+}
+//todo: Creer une fonction qui va correctement creer les tableaux dans form tab pour la norme, tester tout ca, 
+//organiser toutes les fonctions deja finies dans des fichiers
+/*int	correct_tabs(t_commands **c, t_flag_string flag_string, int nb_pipes)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_pipes)
+	{
+		if ((*c)[i].nb_infile > 0)
+		{
+			form_tab(&(*c)[i], flag_string);
+		}
+		if ((*c)[i].nb_outfile > 0)
+		{
+			(*c)[i].tab_outfile = malloc(sizeof(char *) * (*c)[i].nb_outfile);
+			if (!(*c)[i].tab_outfile)
+				return (1);
 		}
 		i++;
 	}
@@ -140,8 +245,9 @@ int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, ch
 	if (!tab_outfiles)
 		return (1);*/
 	*commands = init_commands(*line, *nb_pipes, *flag_string);
-//	count_redirections(commands, *nb_pipes, *flag_string);
-//	correct_tabs(commands, *flag_string, *nb_pipes);
+	count_redirections(commands, *nb_pipes, *flag_string);
+	malloc_tab_files(commands, *nb_pipes);
+	//	correct_tabs(commands, *flag_string, *nb_pipes);
 	return (0);
 }
 
