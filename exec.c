@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/08 14:41:06 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/08 19:50:28 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_tab(int **tab, int i)
 	int	temp;
 
 	temp = 0;
-	while (temp != i)
+	while (temp < i)
 	{
 		free(tab[temp]);
 		temp++;
@@ -52,16 +52,16 @@ void	wait_all_cpid(pid_t *cpid, int status, int i)
 	}
 }
 
-int	**tab_fd_mall(int nb_pipes)
+int	**tab_fd_mall(int nb_comm)
 {
 	int	i;
 	int **ret;
 	
-	ret = malloc(sizeof(int *) * (nb_pipes + 1));
+	ret = malloc(sizeof(int *) * (nb_comm + 1));
 	if (!ret)
 		return (NULL);
 	i = 0;
-	while (i < nb_pipes)
+	while (i < nb_comm)
 	{
 		ret[i] = malloc(sizeof(int) * 2);
 		if (!ret[i])
@@ -74,67 +74,81 @@ int	**tab_fd_mall(int nb_pipes)
 	return (ret);
 }
 
-int	exec_main(t_commands *commands, int nb_pipes, char **envp)
-{
-	int			i;
-	pid_t		*cpid;
-	int			**fd;
-	int			status;
-	int			nb_commands;
 
-	i = 0;
-	status = 0;
-	cpid = malloc(sizeof(int) * (nb_pipes + 1));
-	if (!cpid)
-		return (1);
-	fd = tab_fd_mall(nb_pipes);
-	if (!fd)
+void	child_process(t_commands *commands, int temp, int nb_comm, t_exec exec)
+{
 	{
-		free(cpid);
-		return (1);
-	}
-	nb_commands = nb_pipes;
-	if (!commands)
-		return (1);
-	while (nb_commands > 0)
-	{
-		if (nb_commands > 1)
-		{
-			if (pipe(fd[i]) == -1)
+			if (temp != nb_comm && nb_comm > 1)
 			{
-				if (nb_pipes > 1)
-					close_fd(fd, i);
-				free(cpid);
-				free_tab(fd, i);
-				return (1);
+				dup2(exec.fd[exec.comm_i - 1][0], 0);
+				close_fd(exec.fd, exec.comm_i);
 			}
-		}
-		cpid[i] = fork();
-		if (cpid[i] == 0)
-		{
-			if (nb_commands != nb_pipes && nb_pipes > 1)
+			if (temp != 1)
 			{
-				dup2(fd[i - 1][0], 0);
-				close_fd(fd, i);
+				dup2(exec.fd[exec.comm_i][1], 1);
+				close_fd(exec.fd, exec.comm_i);
 			}
-			if (nb_commands != 1)
-			{
-				dup2(fd[i][1], 1);
-				close_fd(fd, i);
-			}
-			execve(commands[i].single_command[0], commands[i].single_command, envp);
+			execve(commands[exec.comm_i].single_command[0], commands[exec.comm_i].single_command, exec.envp);
 			printf("Errno >> %d\n", errno);
-			perror(commands[i].single_command[0]);
+			perror(commands[exec.comm_i].single_command[0]);
 			exit(EXIT_SUCCESS);
 		}
-		i++;
-		nb_commands--;
+}
+
+int	pipe_error_case(int nb_comm, t_exec exec)
+{
+	if (nb_comm > 1)
+		close_fd(exec.fd, exec.comm_i);
+	free(exec.cpid);
+	free_tab(exec.fd, exec.comm_i);
+	return (1);
+}
+
+int	free_all(t_exec exec, int nb_comm)
+{
+	if (exec.cpid)
+		free(exec.cpid);
+	if (exec.fd)
+		free_tab(exec.fd, nb_comm);
+	return (1);
+}
+
+int	exec_init(t_exec *exec, t_commands *commands, int nb_comm, char **envp)
+{
+	(*exec).comm_i = 0;
+	(*exec).status = 0;
+	(*exec).envp = envp;
+	(*exec).temp = nb_comm;
+	(*exec).cpid = malloc(sizeof(int) * (nb_comm + 1));
+	(*exec).fd = tab_fd_mall(nb_comm);
+	if (!(*exec).cpid || !(*exec).fd)
+		return (free_all((*exec), nb_comm));
+	if (!commands)
+		return (1);
+	return (0);
+}
+
+int	exec_main(t_commands *commands, int nb_comm, char **envp)
+{
+	t_exec		exec;
+
+	if (exec_init(&exec, commands, nb_comm, envp) == 1)
+		return (1);
+	while (exec.temp > 0)
+	{
+		if (exec.temp > 1)
+			if (pipe(exec.fd[exec.comm_i]) == -1)
+				return (pipe_error_case(nb_comm, exec));
+		exec.cpid[exec.comm_i] = fork();
+		if (exec.cpid[exec.comm_i] == 0)
+			child_process(commands, exec.temp, nb_comm, exec);
+		exec.comm_i++;
+		exec.temp--;
 	}
-	if (nb_pipes > 1)
-		close_fd(fd, i);
-	wait_all_cpid(cpid, status, i - 1);
-	free_tab(fd, i);
-	free(cpid);
+	if (nb_comm > 1)
+		close_fd(exec.fd, exec.comm_i);
+	wait_all_cpid(exec.cpid, exec.status, exec.comm_i - 1);
+	free_all(exec, nb_comm);
 	return (0);
 }
 //------------------------------------------------------------------------------------------------------------------------------------------

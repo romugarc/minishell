@@ -24,12 +24,15 @@ typedef struct s_commands
 	int		nb_args_in_command;
 	int		nb_infile;
 	int		nb_outfile;
+	int		builtin;
+	int		heredoc;
+	int		append;
 	char	**tab_infile;
 	char	**tab_outfile;
 	char	**single_command;
 }	t_commands;
 
-typedef struct s_flag_string
+typedef struct s_flag_string1
 {
 	char	*special_chars;
 	char	*quotes;
@@ -44,6 +47,17 @@ typedef struct s_inc
 	int	k;
 	int	n;
 }	t_inc;
+
+typedef struct s_exec
+{
+	int		nb_comm;
+	pid_t	*cpid;
+	int		**fd;
+	int		comm_i;
+	char	**envp;
+	int		status;
+	int		temp;
+}	t_exec;
 
 char		*correct_line(char *line);
 int			count_arguments(char *line, char c, t_flag_string f_str);

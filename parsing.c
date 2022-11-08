@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/07 19:23:42 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/08 17:32:22 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 	return (0);
 }*/
 
-static char	*ft_strdup_s_to_e(char const *src, size_t n, size_t index)
+/*static char	*ft_strdup_s_to_e(char const *src, size_t n, size_t index)
 {
 	size_t	i;
 	char	*dest;
@@ -191,7 +191,7 @@ int	form_tab(t_commands *com, t_flag_string f_str, int np)
 		i.i += 1;
 	}
 	return (0);
-}
+}*/
 //todo: Creer une fonction qui va correctement creer les tableaux dans form tab pour la norme, tester tout ca, 
 //organiser toutes les fonctions deja finies dans des fichiers
 /*int	correct_tabs(t_commands **c, t_flag_string flag_string, int nb_pipes)
@@ -245,8 +245,8 @@ int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, ch
 	if (!tab_outfiles)
 		return (1);*/
 	*commands = init_commands(*line, *nb_pipes, *flag_string);
-	count_redirections(commands, *nb_pipes, *flag_string);
-	malloc_tab_files(commands, *nb_pipes);
+//	count_redirections(commands, *nb_pipes, *flag_string);
+//	malloc_tab_files(commands, *nb_pipes);
 	//	correct_tabs(commands, *flag_string, *nb_pipes);
 	return (0);
 }
