@@ -73,5 +73,13 @@ void		ft_increment(char const *s, char c, size_t *i, t_flag_string f_str);
 char		**ft_split_v2(char const *s, char c, t_flag_string f_str);
 t_commands	*init_commands(char	*line, int nb_pipes, t_flag_string fs);
 int			exec_main(t_commands *commands, int nb_pipes, char **envp);
+int			pipe_error_case(int nb_comm, t_exec exec);
+void		wait_all_cpid(pid_t *cpid, int status, int i);
+int			exec_init(t_exec *exec, t_commands *commands, int nb_comm, char **envp);
+int			**tab_fd_mall(int nb_comm);
+void		close_fd(int **fd, int i);
+void		child_process(t_commands *commands, int temp, int nb_comm, t_exec exec);
+void		free_tab(int **tab, int i);
+int			free_all(t_exec exec, int nb_comm);
 
 #endif
