@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/08 17:32:22 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:23:56 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,13 @@
 	}
 	dest[i] = '\0';
 	return (dest);
-}
+}*/
 
 int	is_redirection(t_commands *c, char *str, t_flag_string f_str, int *k)
 {
 	int	i;
 
-	printf("%s\n", str);
 	i = 0;
-	printf("%c\t%d\n", f_str.quotes[*k], *k);
 	while (str[i] != '\0')
 	{
 		if (str[i] == '>' && f_str.quotes[*k] == '0')
@@ -108,7 +106,7 @@ void	count_redirections(t_commands **commands, int np, t_flag_string f_str)
 	}
 }
 
-int	malloc_tab_files(t_commands **c, int nb_pipes)
+/*int	malloc_tab_files(t_commands **c, int nb_pipes)
 {
 	int	i;
 
@@ -117,43 +115,19 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 	{
 		if ((*c)[i].nb_infile > 0)
 		{
-			(*c)[i].tab_infile = malloc(sizeof(char *) * (*c)[i].nb_infile);
+			(*c)[i].tab_infile = malloc(sizeof(char *) * ((*c)[i].nb_infile + 1));
 			if (!(*c)[i].tab_infile)
 				return (1);
 		}
 		if ((*c)[i].nb_outfile > 0)
 		{
-			(*c)[i].tab_outfile = malloc(sizeof(char *) * (*c)[i].nb_outfile);
+			(*c)[i].tab_outfile = malloc(sizeof(char *) * ((*c)[i].nb_outfile + 1));
 			if (!(*c)[i].tab_outfile)
 				return (1);
 		}
 		i++;
 	}
 	return (0);
-}
-
-int	find_special_char(char c, t_flag_string f_str, int *k)
-{
-	while (f_str.special_chars[*k] != '\0')
-	{
-		if (f_str.special_chars[*k] == c && f_str.quotes[*k] == '0')
-		{
-			if (f_str.special_chars[*k + 1] != c)
-				return (*k);
-		}
-		*k += 1;
-	}
-	return (*k);
-}
-
-int	find_end_redirection(char c, t_flag_string f_str, int *k)
-{
-	while (f_str.special_chars[*k] == c && f_str.special_chars[*k] != '\0')
-		*k += 1;
-	while (f_str.special_chars[*k] < '5' && f_str.special_chars[*k] != '9' \
-		&& f_str.special_chars[*k] != '\0')
-		*k += 1;
-	return (*k);
 }
 
 char	*form_tab_2(char c, t_commands *comm, t_flag_string f_str, t_inc *inc)
@@ -165,6 +139,8 @@ char	*form_tab_2(char c, t_commands *comm, t_flag_string f_str, t_inc *inc)
 	start = find_special_char(c, f_str, &inc->k);
 	end = find_end_redirection(c, f_str, &inc->k);
 	ret = ft_strdup_s_to_e(comm[inc->i].single_command[inc->j], start, end);
+	printf("%s\n", comm[inc->i].single_command[inc->j]);
+	printf("%s\n", ret);
 	inc->n += 1;
 	return (ret);
 }
@@ -175,6 +151,7 @@ int	form_tab(t_commands *com, t_flag_string f_str, int np)
 
 	i.i = 0;
 	i.k = 0;
+	i.n = 0;
 	while(i.i < np)
 	{
 		i.j = 0;
@@ -184,8 +161,15 @@ int	form_tab(t_commands *com, t_flag_string f_str, int np)
 					|| f_str.special_chars[i.k] == '9') \
 					&& f_str.quotes[i.k] == '0')
 				i.k += 1;
+			printf("%d\t%d\n", com[i.i].nb_infile, i.n);
 			if (i.n < com[i.i].nb_infile && com[i.i].single_command[i.j] != 0)
+			{
+				printf("huh3\n");
 				com[i.i].tab_infile[i.n] = form_tab_2('<', com, f_str, &i);
+				printf("huh4\n");
+			}
+			printf("huh2\n");
+			i.j += 1;
 		}
 		i.k += 1;
 		i.i += 1;
@@ -245,8 +229,9 @@ int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, ch
 	if (!tab_outfiles)
 		return (1);*/
 	*commands = init_commands(*line, *nb_pipes, *flag_string);
-//	count_redirections(commands, *nb_pipes, *flag_string);
+	count_redirections(commands, *nb_pipes, *flag_string);
 //	malloc_tab_files(commands, *nb_pipes);
+//	form_tab(*commands, *flag_string, *nb_pipes);
 	//	correct_tabs(commands, *flag_string, *nb_pipes);
 	return (0);
 }

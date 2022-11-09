@@ -81,5 +81,7 @@ void		close_fd(int **fd, int i);
 void		child_process(t_commands *commands, int temp, int nb_comm, t_exec exec);
 void		free_tab(int **tab, int i);
 int			free_all(t_exec exec, int nb_comm);
+int			find_special_char(char c, t_flag_string f_str, int *k);
+int			find_end_redirection(char c, t_flag_string f_str, int *k);
 
 #endif
