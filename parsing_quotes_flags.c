@@ -41,9 +41,6 @@ static char	set_quote_flag(char *str, int *i, int *flag)
 
 static char	what_quote(char *str, int i, int *flag)
 {
-	int	j;
-
-	j = 0;
 	if (str[i] != '\0')
 	{
 		if (*flag == 2 && str[i] != '"')

@@ -12,12 +12,9 @@
 
 #include "minishell.h"
 
-int	find_end_redirection(char c, t_flag_string f_str, int *k)
+int	find_end_redirection(t_flag_string f_str, int *k)
 {
-	while (f_str.special_chars[*k] == c && f_str.special_chars[*k] != '\0')
-		*k += 1;
-	while (f_str.special_chars[*k] < '5' && f_str.special_chars[*k] != '9' \
-		&& f_str.special_chars[*k] != '\0')
+	while (f_str.special_chars[*k] < '5' && f_str.special_chars[*k] != '\0')
 		*k += 1;
 	return (*k);
 }

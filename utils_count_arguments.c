@@ -17,11 +17,9 @@ int	count_arguments(char *line, char c, t_flag_string f_str)
 	int		count;
 	int		i;
 	int		flag_count;
-	int		last_quote;
 
 	count = 0;
 	flag_count = 1;
-	last_quote = 0;
 	i = 0;
 	while (line[i] != '\0')
 	{

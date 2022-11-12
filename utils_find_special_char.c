@@ -12,16 +12,30 @@
 
 #include "minishell.h"
 
-int	find_special_char(char c, t_flag_string f_str, int *k)
+int	find_special_char(char c, t_flag_string f_str, t_inc *inc, char *s_c)
 {
-	while (f_str.special_chars[*k] != '\0')
+	int	i;
+
+	if (inc->l_j == inc->j)
+		i = inc->l_e;
+	else
 	{
-		if (f_str.special_chars[*k] == c && f_str.quotes[*k] == '0')
-		{
-			if (f_str.special_chars[*k + 1] != c)
-				return (*k);
-		}
-		*k += 1;
+		inc->l_j = inc->j;
+		i = 0;
 	}
-	return (*k);
+	while (f_str.special_chars[inc->k] != '\0' && s_c[i] != '\0')
+	{
+		if (f_str.special_chars[inc->k] == c && f_str.quotes[inc->k] == '0')
+		{
+			if (f_str.special_chars[inc->k + 1] != c)
+			{
+				inc->l_i = i;
+				return (i);
+			}
+		}
+		inc->k += 1;
+		i++;
+	}
+	inc->l_i = 0;
+	return (-1);
 }

@@ -55,7 +55,7 @@
 	}
 	dest[i] = '\0';
 	return (dest);
-}*/
+}
 
 int	is_redirection(t_commands *c, char *str, t_flag_string f_str, int *k)
 {
@@ -106,7 +106,7 @@ void	count_redirections(t_commands **commands, int np, t_flag_string f_str)
 	}
 }
 
-/*int	malloc_tab_files(t_commands **c, int nb_pipes)
+int	malloc_tab_files(t_commands **c, int nb_pipes)
 {
 	int	i;
 
@@ -128,56 +128,110 @@ void	count_redirections(t_commands **commands, int np, t_flag_string f_str)
 		i++;
 	}
 	return (0);
-}
+}*/
 
-char	*form_tab_2(char c, t_commands *comm, t_flag_string f_str, t_inc *inc)
+/*char	*form_tab_2(char c, t_commands *comm, t_flag_string f_str, t_inc *inc)
 {
 	int		start;
 	int		end;
 	char	*ret;
 
+	printf("%s\n", f_str.special_chars);
 	start = find_special_char(c, f_str, &inc->k);
-	end = find_end_redirection(c, f_str, &inc->k);
+	while ((f_str.special_chars[inc->k] == c || f_str.special_chars[inc->k] == '9') && f_str.special_chars[inc->k] != '\0')
+		inc->k++;
+	start = inc->k;
+	printf("%d\t%c\n", start, f_str.special_chars[start]);
+	end = find_end_redirection(f_str, &inc->k);
+	printf("%d\t%c\n", end, f_str.special_chars[end]);
 	ret = ft_strdup_s_to_e(comm[inc->i].single_command[inc->j], start, end);
 	printf("%s\n", comm[inc->i].single_command[inc->j]);
 	printf("%s\n", ret);
 	inc->n += 1;
 	return (ret);
-}
+}*/
 
-int	form_tab(t_commands *com, t_flag_string f_str, int np)
+/*int	form_tab(t_commands **com, t_flag_string f_str, int np)
 {
 	t_inc	i;
+	int		start;
+	int		end;
 
 	i.i = 0;
 	i.k = 0;
 	i.n = 0;
+	i.l_i = 0;
+	i.l_j = 0;
+	i.l_e = 0;
 	while(i.i < np)
 	{
 		i.j = 0;
-		while ((com)[i.i].single_command[i.j] != 0)
+		while ((*com)[i.i].single_command[i.j] != 0 && i.n < (*com)[i.i].nb_infile)
 		{
 			while ((f_str.special_chars[i.k] == '5' \
 					|| f_str.special_chars[i.k] == '9') \
 					&& f_str.quotes[i.k] == '0')
 				i.k += 1;
-			printf("%d\t%d\n", com[i.i].nb_infile, i.n);
-			if (i.n < com[i.i].nb_infile && com[i.i].single_command[i.j] != 0)
+			printf("%d\t%d\n", com[i.i]->nb_infile, i.n);
+			start = find_special_char('7', f_str, &i, (*com)[i.i].single_command[i.j]);
+			if (start > -1)
 			{
-				printf("huh3\n");
-				com[i.i].tab_infile[i.n] = form_tab_2('<', com, f_str, &i);
-				printf("huh4\n");
+				printf("huh\n");
+				if (f_str.special_chars[i.k + 1] == '7')
+				{
+					i.k += 1;
+					start += 1;
+				}
+				if (f_str.special_chars[i.k + 1] == '9' && f_str.special_chars[i.k + 1] != '\0')
+				{
+					start = 0;
+					end = 0;
+					i.j++;
+					printf("%s\t%s\n", f_str.special_chars, (*com)[i.i].single_command[i.j]);
+					while ((f_str.special_chars[i.k] == '7' || f_str.special_chars[i.k] == '9') && f_str.special_chars[i.k] != '\0')
+						i.k++;
+					while ((f_str.special_chars[i.k] < '5' || (f_str.special_chars[i.k] == '9' && f_str.quotes[i.k] != '0')) \
+						&& f_str.special_chars[i.k] != '\0')
+					{
+						end += 1;
+						i.k++;
+					}
+					i.l_e = end;
+					if ((*com)[i.i].single_command[i.j] != 0)
+					{
+						(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].single_command[i.j], start, end);
+						printf("%s\n", (*com)[i.i].tab_infile[i.n]);
+						i.n += 1;
+					}
+				}
+				else if (f_str.special_chars[i.k + 1] != '\0')
+				{
+					end = start + 1;
+					i.k += 1;
+					while ((f_str.special_chars[i.k] < '5' || (f_str.special_chars[i.k] == '9' && f_str.quotes[i.k] != '0')) \
+						&& f_str.special_chars[i.k] != '\0')
+					{
+						end += 1;
+						i.k++;
+					}
+					i.l_e = end;
+					if ((*com)[i.i].single_command[i.j] != 0)
+					{
+						(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].single_command[i.j], start + 1, end);
+						printf("%s\n", (*com)[i.i].tab_infile[i.n]);
+						i.n += 1;
+					}
+				}
 			}
-			printf("huh2\n");
-			i.j += 1;
+			if ((*com)[i.i].single_command[i.j] != 0 && (*com)[i.i].single_command[i.j][end] == '\0')
+				i.j += 1;
 		}
 		i.k += 1;
 		i.i += 1;
 	}
 	return (0);
 }*/
-//todo: Creer une fonction qui va correctement creer les tableaux dans form tab pour la norme, tester tout ca, 
-//organiser toutes les fonctions deja finies dans des fichiers
+
 /*int	correct_tabs(t_commands **c, t_flag_string flag_string, int nb_pipes)
 {
 	int	i;
@@ -202,15 +256,6 @@ int	form_tab(t_commands *com, t_flag_string f_str, int np)
 
 int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, char **line)
 {
-//	char	**tab;
-//	char	**tab_infiles;
-//	char	**tab_outfiles;
-//	int		i;
-//	int		j;
-//	int		k;
-//	int		nb_infiles;
-//	int		nb_outfiles;
-
 	*line = get_next_line(0);
 	*line = correct_line(*line);
 	if (special_char_flags(flag_string, *line) != 0)
@@ -218,21 +263,12 @@ int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, ch
 	if (quotes_flags(flag_string, *line) != 0)
 		return (1);
 	*nb_pipes = count_arguments(*line, '|', *flag_string);
-//	tab = ft_split_v2(*line, '|', *flag_string);
-//	*commands = malloc(sizeof(t_commands) * *nb_pipes);
-//	if (!commands)
-//		return (0);
-/*	tab_infiles = malloc(sizeof(char *) * (nb_infiles + 1));
-	if (!tab_infiles)
-		return (1);
-	tab_outfiles = malloc(sizeof(char *) * (nb_outfiles + 1));
-	if (!tab_outfiles)
-		return (1);*/
 	*commands = init_commands(*line, *nb_pipes, *flag_string);
 	count_redirections(commands, *nb_pipes, *flag_string);
+	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
 //	malloc_tab_files(commands, *nb_pipes);
-//	form_tab(*commands, *flag_string, *nb_pipes);
-	//	correct_tabs(commands, *flag_string, *nb_pipes);
+//	form_tab(commands, *flag_string, *nb_pipes);
+//	correct_tabs(commands, *flag_string, *nb_pipes);
 	return (0);
 }
 
