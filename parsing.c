@@ -264,7 +264,7 @@ int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, ch
 		return (1);
 	*nb_pipes = count_arguments(*line, '|', *flag_string);
 	*commands = init_commands(*line, *nb_pipes, *flag_string);
-	count_redirections(commands, *nb_pipes, *flag_string);
+//	count_redirections(commands, *nb_pipes, *flag_string);
 	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
 //	malloc_tab_files(commands, *nb_pipes);
 //	form_tab(commands, *flag_string, *nb_pipes);
