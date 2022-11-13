@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		parsing(&commands, &flag_string, &nb_commands, &line);
-//		exec_main(commands, nb_commands, envp);
+		exec_main(commands, nb_commands, envp);
 		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_commands);
 		prompt();

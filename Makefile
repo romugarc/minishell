@@ -8,7 +8,8 @@ SRCS	=	main.c parsing.c prompt.c																					\
 			signal_sig_handler.c																						\
 			free_free_command_line.c																					\
 			error_error_handler.c																						\
-			exec.c exec_init.c close_fd.c child_process.c free_all_exec.c												\
+			exec/exec.c exec/exec_init.c exec/close_fd.c exec/child_process.c exec/free_all_exec.c exec/dup_fd.c		\
+			builtins/is_builtins.c builtins/ft_echo.c builtins/ft_pwd.c	builtins/ft_cd.c								\
 
 HEADER_FILES = minishell.h
 
