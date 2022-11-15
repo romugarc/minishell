@@ -32,14 +32,6 @@ typedef struct s_commands
 	char	**single_command;
 }	t_commands;
 
-typedef struct s_flag_string1
-{
-	char	*special_chars;
-	char	*quotes;
-	char	**tab_special_chars;
-	char	**tab_quotes;
-}	t_flag_string;
-
 typedef struct s_inc
 {
 	int	i;
@@ -50,6 +42,15 @@ typedef struct s_inc
 	int	l_j;
 	int	l_e;
 }	t_inc;
+
+typedef struct s_flag_string1
+{
+	char	*special_chars;
+	char	*quotes;
+	char	**tab_special_chars;
+	char	**tab_quotes;
+	t_inc	i;
+}	t_flag_string;
 
 typedef struct s_exec
 {
@@ -95,5 +96,6 @@ int			ft_pwd(int nb_comm);
 int			ft_cd(char **tab, int nb_comm);
 void		dup_fd(t_exec exec, int nb_comm);
 int			is_it_builtin(char *cmd);
+t_inc		init_inc(t_inc inc);
 
 #endif

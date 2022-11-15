@@ -1,7 +1,7 @@
 NAME	= minishell
 
 SRCS	=	main.c parsing.c prompt.c																					\
-			init_init_commands.c																						\
+			init_init_commands.c init_init_inc.c																		\
 			utils_correct_line.c utils_count_arguments.c utils_ft_split_v2.c utils_is_in_quotes.c utils_ft_increment.c	\
 			utils_find_special_char.c																					\
 			parsing_quotes_flags.c parsing_special_char_flags.c parsing_find_end_redirection.c							\
