@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/09 17:23:56 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/15 15:14:34 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,24 +159,26 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 
 	i.i = 0;
 	i.k = 0;
-	i.n = 0;
-	i.l_i = 0;
-	i.l_j = 0;
-	i.l_e = 0;
 	while(i.i < np)
 	{
+		i.n = 0;
+		i.l_i = 0;
+		i.l_j = 0;
+		i.l_e = 0;
 		i.j = 0;
 		while ((*com)[i.i].single_command[i.j] != 0 && i.n < (*com)[i.i].nb_infile)
 		{
+			printf("jloop%d\n", i.i);
 			while ((f_str.special_chars[i.k] == '5' \
 					|| f_str.special_chars[i.k] == '9') \
 					&& f_str.quotes[i.k] == '0')
 				i.k += 1;
-			printf("%d\t%d\n", com[i.i]->nb_infile, i.n);
+			printf("%d\t%d\n", (*com)[i.i].nb_infile, i.n);
+			printf("%s\n", (*com)[i.i].single_command[i.j]);
 			start = find_special_char('7', f_str, &i, (*com)[i.i].single_command[i.j]);
+			printf("start%d\n", start);
 			if (start > -1)
 			{
-				printf("huh\n");
 				if (f_str.special_chars[i.k + 1] == '7')
 				{
 					i.k += 1;
@@ -200,7 +202,7 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 					if ((*com)[i.i].single_command[i.j] != 0)
 					{
 						(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].single_command[i.j], start, end);
-						printf("%s\n", (*com)[i.i].tab_infile[i.n]);
+						printf("%s1\n", (*com)[i.i].tab_infile[i.n]);
 						i.n += 1;
 					}
 				}
@@ -218,17 +220,21 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 					if ((*com)[i.i].single_command[i.j] != 0)
 					{
 						(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].single_command[i.j], start + 1, end);
-						printf("%s\n", (*com)[i.i].tab_infile[i.n]);
+						printf("%s2\n", (*com)[i.i].tab_infile[i.n]);
 						i.n += 1;
 					}
 				}
 			}
-			if ((*com)[i.i].single_command[i.j] != 0 && (*com)[i.i].single_command[i.j][end] == '\0')
+			if (((*com)[i.i].single_command[i.j] != 0 && (*com)[i.i].single_command[i.j][i.l_e] == '\0') || start == -1)
 				i.j += 1;
 		}
-		i.k += 1;
+		if ((*com)[i.i].nb_infile == 0 && f_str.quotes[i.k] != '\0')
+			i.k += ft_strlen((*com)[i.i].single_command[i.j]);
+		else if (f_str.quotes[i.k] != '\0')
+			i.k += 1;
 		i.i += 1;
 	}
+	printf("%di\n", np);
 	return (0);
 }*/
 
