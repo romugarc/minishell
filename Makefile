@@ -10,6 +10,8 @@ SRCS	=	main.c parsing.c prompt.c																					\
 			error_error_handler.c																						\
 			exec/exec.c exec/exec_init.c exec/close_fd.c exec/child_process.c exec/free_all_exec.c exec/dup_fd.c		\
 			builtins/is_builtins.c builtins/ft_echo.c builtins/ft_pwd.c	builtins/ft_cd.c								\
+			envcpy/envcpy.c																								\
+			commands_path.c																								\
 
 HEADER_FILES = minishell.h
 

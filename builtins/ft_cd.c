@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:56:42 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/13 14:57:49 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/17 14:59:58 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	ft_cd(char **tab, int nb_comm)
 {
 	if (!tab[1])
 		return (1);
-	chdir(tab[1]);
+	if (chdir(tab[1]) == -1)
+		perror(tab[1]);
 	if (nb_comm != 1)
 		exit(EXIT_SUCCESS);
 	return (1);

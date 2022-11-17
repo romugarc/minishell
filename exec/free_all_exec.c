@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:59:11 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/10 13:13:46 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/17 14:16:21 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ void	free_tab(int **tab, int i)
 	{
 		free(tab[temp]);
 		temp++;
+	}
+	free(tab);
+}
+
+void	free_char_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i++]);
 	}
 	free(tab);
 }

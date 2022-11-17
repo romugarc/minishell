@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/13 15:53:42 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:15:57 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ int	exec_main(t_commands *commands, int nb_comm, char **envp)
 {
 	t_exec		exec;
 
+//	commands = check_access(commands);
 	if (exec_init(&exec, commands, nb_comm, envp) == 1)
 		return (1);
 	if (nb_comm == 1)
-		is_builtins(commands, exec, nb_comm);
+		is_builtins(commands[exec.comm_i].single_command, nb_comm);
 	while (exec.temp > 0 && (nb_comm > 1
 			|| is_it_builtin(commands[0].single_command[0]) != 1))
 	{

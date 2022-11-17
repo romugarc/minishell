@@ -12,14 +12,17 @@ int	main(int argc, char **argv, char **envp)
 	int				nb_commands;
 	t_commands		*commands;
 	t_flag_string	flag_string;
+	t_envlist		*envc;
 
-	(void)envp;
+	envc = NULL;
 	if (error_handler(argc, argv) == 1)
 			return (0);
+	envc = envcpy(envp);
 	prompt();
 	while (1)
 	{
 		parsing(&commands, &flag_string, &nb_commands, &line);
+		commands = commands_path(commands, nb_commands);
 		exec_main(commands, nb_commands, envp);
 		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_commands);

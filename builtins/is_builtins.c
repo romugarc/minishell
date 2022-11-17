@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 14:20:47 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/13 15:25:34 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/17 14:48:03 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,34 +28,34 @@ int	ft_strcmp(char *cmd, char *str)
 
 int	is_it_builtin(char *cmd)
 {
-	if (ft_strcmp(cmd, "echo") == 1)
+	if (ft_strcmp(cmd, "/bin/echo") == 1)
 		return (1);
-	else if (ft_strcmp(cmd, "cd") == 1)
+	else if (ft_strcmp(cmd, "/usr/bin/cd") == 1)
 		return (1);
-	else if (ft_strcmp(cmd, "pwd") == 1)
+	else if (ft_strcmp(cmd, "/bin/pwd") == 1)
 		return (1);
 //	else if (ft_strcmp(cmd, "export") == 1)
 //		return (1);
 //	else if (ft_strcmp(cmd, "unset") == 1)
 //		return (1);
-//	else if (ft_strcmp(cmd, "env") == 1)
+//	else if (ft_strcmp(cmd, "env") == 1 || ft_strcmp(cmd, "/usr/bin/env") == 1)
 //		return (1);
 //	else if (ft_strcmp(cmd, "exit") == 1)
 //		return (1);
 	return (0);
 }
 
-int	is_builtins(t_commands *comm, t_exec exec, int nb_comm)
+int	is_builtins(char **cmds, int nb_comm)
 {
-	if (ft_strcmp(comm[exec.comm_i].single_command[0], "echo") == 1)
+	if (ft_strcmp(cmds[0], "/bin/echo") == 1)
 	{
-		return (ft_echo(comm[exec.comm_i].single_command, nb_comm));
+		return (ft_echo(cmds, nb_comm));
 	}
-	else if (ft_strcmp(comm[exec.comm_i].single_command[0], "cd") == 1)
+	else if (ft_strcmp(cmds[0], "/usr/bin/cd") == 1)
 	{
-		return (ft_cd(comm[exec.comm_i].single_command, nb_comm));
+		return (ft_cd(cmds, nb_comm));
 	}
-	else if (ft_strcmp(comm[exec.comm_i].single_command[0], "pwd") == 1)
+	else if (ft_strcmp(cmds[0], "/bin/pwd") == 1)
 	{
 		return (ft_pwd(nb_comm));
 	}

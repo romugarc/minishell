@@ -1,3 +1,102 @@
+#include "minishell.h"
+
+void	free_flag_string(t_flag_string flag_string)
+{
+	free(flag_string.special_chars);
+	free(flag_string.quotes);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	char			*line;
+	int				nb_commands;
+	t_commands		*commands;
+	t_flag_string	flag_string;
+	t_envlist		*envc;
+
+	envc = NULL;
+	if (error_handler(argc, argv) == 1)
+		return (0);
+	envc = envcpy(envp);
+	prompt();
+	while (1)
+	{
+		parsing(&commands, &flag_string, &nb_commands, &line);
+		commands = commands_path(commands, nb_commands);
+		exec_main(commands, nb_commands, envp);
+		free_flag_string(flag_string);
+		free_command_line(commands, line, nb_commands);
+		prompt();
+	}
+	return (0);
+}
+
+/*debug code pour les tableaux d'arguments
+		i = 0;
+		while (line[i] != '\n')
+			i++;
+		line[i] = '\0';
+		printf("%sline\n", line);
+		nb_pipes = count_arguments(line, '|');
+		full_command_line = ft_split(line, '|');
+		printf("%dpipes\n", nb_pipes);
+		printf("%s\n", flag_string.special_chars);
+		printf("%s\n", flag_string.quotes);
+		printf("%d\n", nb_pipes);
+		i = 0;
+		while (full_command_line[i] != 0)
+		{
+			printf("%scommandline\n", full_command_line[i]);
+			i++;
+		}
+		commands = malloc(sizeof(t_commands) * nb_pipes);
+		if (!commands)
+			return (0);
+		i = 0;
+		while (full_command_line[i] != 0)
+		{
+			commands[i].single_command = ft_split(full_command_line[i], ' ');
+			i++;
+		}
+		i = 0;
+		while (i < nb_pipes)
+		{
+			j = 0;
+			while (commands[i].single_command[j] != 0)
+			{
+				printf("%s.%d\n", commands[i].single_command[j], i);
+				j++;
+			}
+			i++;
+		}
+		i = 0;
+		while (i < nb_pipes)
+		{
+			j = 0;
+			while (commands[i].single_command[j] != 0)
+			{
+				free(commands[i].single_command[j]);
+				j++;
+			}
+			free(commands[i].single_command);
+			free(full_command_line[i]);
+			i++;
+		}
+		free(commands);
+		free(full_command_line);
+		free (line);
+		*/
+/*debug redirections
+ 		i = 0;
+		while (i < nb_pipes)
+		{
+			printf("%d\t%d\n", commands[i].nb_infile, commands[i].nb_outfile);
+			i++;
+		}
+*/
+
+
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include <stdio.h>
@@ -46,6 +145,9 @@ typedef struct s_inc
 	int	j;
 	int	k;
 	int	n;
+	int l_i;
+	int	l_j;
+	int	l_e;
 }	t_inc;
 
 typedef struct s_exec
@@ -58,6 +160,14 @@ typedef struct s_exec
 	int		status;
 	int		temp;
 }	t_exec;
+
+typedef struct s_envcpy
+{
+	int				equal;
+	char			*var;
+	char			*val;
+	struct s_envcpy	*next;
+}	t_envlist;
 
 char		*correct_line(char *line);
 int			count_arguments(char *line, char c, t_flag_string f_str);
@@ -78,37 +188,42 @@ void		wait_all_cpid(pid_t *cpid, int status, int i);
 int			exec_init(t_exec *exec, t_commands *commands, int nb_comm, char **envp);
 int			**tab_fd_mall(int nb_comm);
 void		close_fd(int **fd, int i);
-void		child_process(t_commands *commands, t_exec exec);
+void		child_process(t_commands *commands, t_exec exec, int nb_comm);
 void		free_tab(int **tab, int i);
 int			free_all(t_exec exec, int nb_comm);
-int			ft_echo(char **tab);
-int			is_builtins(t_commands *comm, t_exec exec);
+int			find_special_char(char c, t_flag_string f_str, t_inc *i, char *s_c);
+int			find_end_redirection(t_flag_string f_str, int *k);
+int			ft_echo(char **tab, int nb_comm);
+int			is_builtins(char **cmds, int nb_comm);
 int			ft_strcmp(char *cmd, char *str);
-int			exec_main(t_commands *commands, int nb_comm, char **envp);
-int			pipe_error_case(int nb_comm, t_exec exec);
 int			ft_echo_n(char *str);
 int			ft_echo_next_n(char *str);
-int			ft_pwd();
-int			ft_cd(char **tab);
+int			ft_pwd(int nb_comm);
+int			ft_cd(char **tab, int nb_comm);
 void		dup_fd(t_exec exec, int nb_comm);
+int			is_it_builtin(char *cmd);
+t_envlist	*envcpy(char **envp);
+t_commands	*commands_path(t_commands *comm, int nb_comm);
+void		free_char_tab(char **tab);
 
 #endif
 
 
 
-
 NAME	= minishell
 
-SRCS	=	main.c parsing.c prompt.c																						\
-			init_init_commands.c																							\
-			utils_correct_line.c utils_count_arguments.c utils_ft_split_v2.c utils_is_in_quotes.c utils_ft_increment.c		\
-			parsing_quotes_flags.c parsing_special_char_flags.c																\
-			signal_sig_handler.c																							\
-			free_free_command_line.c																						\
-			error_error_handler.c																							\
-			exec/exec.c exec/exec_init.c exec/close_fd.c exec/child_process.c exec/free_all_exec.c exec/dup_fd.c			\
-			builtins/is_builtins.c builtins/ft_echo.c builtins/ft_pwd.c	builtins/ft_cd.c									\
-			
+SRCS	=	main.c parsing.c prompt.c																					\
+			init_init_commands.c																						\
+			utils_correct_line.c utils_count_arguments.c utils_ft_split_v2.c utils_is_in_quotes.c utils_ft_increment.c	\
+			utils_find_special_char.c																					\
+			parsing_quotes_flags.c parsing_special_char_flags.c parsing_find_end_redirection.c							\
+			signal_sig_handler.c																						\
+			free_free_command_line.c																					\
+			error_error_handler.c																						\
+			exec/exec.c exec/exec_init.c exec/close_fd.c exec/child_process.c exec/free_all_exec.c exec/dup_fd.c		\
+			builtins/is_builtins.c builtins/ft_echo.c builtins/ft_pwd.c	builtins/ft_cd.c								\
+			envcpy/envcpy.c																								\
+			commands_path.c																								\
 
 HEADER_FILES = minishell.h
 
@@ -117,7 +232,7 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address
+CFLAGS	=	-Wall -Wextra #-Werror -fsanitize=address
 
 all:		${NAME}
 
@@ -138,3 +253,4 @@ fclean:		clean
 re:			fclean all
 
 .PHONY:		all clean fclean re minishell
+

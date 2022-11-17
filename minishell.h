@@ -63,6 +63,14 @@ typedef struct s_exec
 	int		temp;
 }	t_exec;
 
+typedef struct s_envcpy
+{
+	int				equal;
+	char			*var;
+	char			*val;
+	struct s_envcpy	*next;
+}	t_envlist;
+
 char		*correct_line(char *line);
 int			count_arguments(char *line, char c, t_flag_string f_str);
 int			is_in_quotes(t_flag_string flag_string, int i);
@@ -88,7 +96,7 @@ int			free_all(t_exec exec, int nb_comm);
 int			find_special_char(char c, t_flag_string f_str, t_inc *i, char *s_c);
 int			find_end_redirection(t_flag_string f_str, int *k);
 int			ft_echo(char **tab, int nb_comm);
-int			is_builtins(t_commands *comm, t_exec exec, int nb_comm);
+int			is_builtins(char **cmds, int nb_comm);
 int			ft_strcmp(char *cmd, char *str);
 int			ft_echo_n(char *str);
 int			ft_echo_next_n(char *str);
@@ -97,5 +105,8 @@ int			ft_cd(char **tab, int nb_comm);
 void		dup_fd(t_exec exec, int nb_comm);
 int			is_it_builtin(char *cmd);
 t_inc		init_inc(t_inc inc);
+t_envlist	*envcpy(char **envp);
+t_commands	*commands_path(t_commands *comm, int nb_comm);
+void		free_char_tab(char **tab);
 
 #endif
