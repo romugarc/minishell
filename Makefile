@@ -1,17 +1,38 @@
 NAME	= minishell
 
-SRCS	=	main.c parsing.c prompt.c																					\
-			init_init_commands.c init_init_inc.c																		\
-			utils_correct_line.c utils_count_arguments.c utils_ft_split_v2.c utils_is_in_quotes.c utils_ft_increment.c	\
-			utils_find_special_char.c utils_ft_splitv2old.c																\
-			parsing_quotes_flags.c parsing_special_char_flags.c parsing_find_end_redirection.c							\
-			signal_sig_handler.c																						\
-			free_free_command_line.c																					\
-			error_error_handler.c																						\
-			exec/exec.c exec/exec_init.c exec/close_fd.c exec/child_process.c exec/free_all_exec.c exec/dup_fd.c		\
-			builtins/is_builtins.c builtins/ft_echo.c builtins/ft_pwd.c	builtins/ft_cd.c								\
-			envcpy/envcpy.c																								\
-			commands_path.c																								\
+SRCS	=	main.c prompt.c							\
+			signal_sig_handler.c					\
+			free_free_command_line.c				\
+			error_error_handler.c					\
+													\
+			init_init_commands.c					\
+			init_init_inc.c							\
+													\
+			utils/utils_correct_line.c				\
+			utils/utils_count_arguments.c			\
+			utils/utils_ft_split_v2.c				\
+			utils/utils_is_in_quotes.c				\
+			utils/utils_ft_increment.c				\
+			utils/utils_find_special_char.c			\
+			utils/utils_ft_splitv2old.c				\
+													\
+			exec/exec.c								\
+			exec/exec_init.c						\
+			exec/close_fd.c							\
+			exec/child_process.c					\
+			exec/free_all_exec.c					\
+			exec/dup_fd.c							\
+			builtins/is_builtins.c					\
+			builtins/ft_echo.c						\
+			builtins/ft_pwd.c						\
+			builtins/ft_cd.c						\
+			envcpy/envcpy.c							\
+			commands_path.c							\
+													\
+			parsing/parsing.c						\
+			parsing/parsing_quotes_flags.c			\
+			parsing/parsing_special_char_flags.c	\
+			parsing/parsing_find_end_redirection.c	\
 
 HEADER_FILES = minishell.h
 
