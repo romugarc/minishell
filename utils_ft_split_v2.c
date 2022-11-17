@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 15:06:58 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/15 17:41:48 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/17 16:35:58 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	ft_free_all_tab(char **tab)
 	free(tab);
 }
 
-static char	*ft_strdup_n_to_i(char const *src, size_t n, size_t index, char **tab)
+static char	*ft_strdup_n_to_i(char *src, size_t n, size_t index, char **tab)
 {
 	size_t	i;
 	char	*dest;
@@ -47,35 +47,34 @@ static char	*ft_strdup_n_to_i(char const *src, size_t n, size_t index, char **ta
 	return (dest);
 }
 
-static size_t	ft_nb_str(char const *str, char c, t_flag_string f_str)
+static size_t	ft_nb_str(char *str, char c, t_flag_string *f_str)
 {
 	size_t	i;
 	size_t	nb_str;
 	size_t	stat;
 
+	f_str->i.l_i = f_str->i.i;
 	i = 0;
 	nb_str = 0;
 	stat = 1;
 	if (c == 0)
-	{
 		nb_str++;
-		return (nb_str);
-	}
-	while (str[i])
+	while (str[i] && c != 0)
 	{
 		if (stat == 1 && str[i] && str[i] != c)
 		{
 			stat = 0;
 			nb_str++;
 		}
-		if (str[i] && str[i] == c && is_in_quotes(f_str, i) == 0)
+		if (str[i] && str[i] == c && is_in_quotes(*f_str, f_str->i.i) == 0)
 			stat = 1;
+		f_str->i.i += 1;
 		i++;
 	}
 	return (nb_str);
 }
 
-static void	ft_splitting(char **tab, char const *s, char c, t_flag_string f_str)
+static void	ft_splitting(char **tab, char *s, char c, t_flag_string *f_str)
 {
 	size_t	i;
 	size_t	n;
@@ -91,7 +90,7 @@ static void	ft_splitting(char **tab, char const *s, char c, t_flag_string f_str)
 	while (s[i] && (line < nb_str))
 	{
 		n = i;
-		ft_increment(s, c, &i, f_str);
+		ft_increment(s, c, &i, *f_str);
 		tab[line++] = ft_strdup_n_to_i(s, n, i, tab);
 		while (s[i] && (s[i] == c))
 			i++;
@@ -99,13 +98,15 @@ static void	ft_splitting(char **tab, char const *s, char c, t_flag_string f_str)
 	tab[line] = 0;
 }
 
-char	**ft_split_v2(char const *s, char c, t_flag_string f_str)
+char	**ft_split_v2(char *s, char c, t_flag_string *f_str)
 {
 	char	**tab;
+	int		size;
 
 	if (!s)
 		return (NULL);
-	tab = malloc(sizeof(char *) * (ft_nb_str(s, c, f_str) + 1));
+	size = count_arguments(s, c, f_str);
+	tab = malloc(sizeof(char *) * (size + 1));
 	if (!tab)
 		return (NULL);
 	ft_splitting(tab, s, c, f_str);

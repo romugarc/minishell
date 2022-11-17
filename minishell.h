@@ -72,7 +72,7 @@ typedef struct s_envcpy
 }	t_envlist;
 
 char		*correct_line(char *line);
-int			count_arguments(char *line, char c, t_flag_string f_str);
+int			count_arguments(char *line, char c, t_flag_string *f_str);
 int			is_in_quotes(t_flag_string flag_string, int i);
 int			error_handler(int argc, char **argv);
 int			parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, char **line);
@@ -82,8 +82,9 @@ void		sig_handler(int signum);
 void		prompt(void);
 void		free_command_line(t_commands *commands, char *line, int nb_pipes);
 void		ft_increment(char const *s, char c, size_t *i, t_flag_string f_str);
-char		**ft_split_v2(char const *s, char c, t_flag_string f_str);
-t_commands	*init_commands(char	*line, int nb_pipes, t_flag_string fs);
+char		**ft_split_v2(char *s, char c, t_flag_string *f_str);
+char		**ft_split_v2old(char const *s, char c, t_flag_string f_str);
+t_commands	*init_commands(char	*line, int nb_pipes, t_flag_string *fs);
 int			exec_main(t_commands *commands, int nb_pipes, char **envp);
 int			pipe_error_case(int nb_comm, t_exec exec);
 void		wait_all_cpid(pid_t *cpid, int status, int i);

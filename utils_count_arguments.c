@@ -6,13 +6,13 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:35:11 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/10/31 17:03:13 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/17 16:35:57 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_arguments(char *line, char c, t_flag_string f_str)
+int	count_arguments(char *line, char c, t_flag_string *f_str)
 {
 	int		count;
 	int		i;
@@ -28,8 +28,10 @@ int	count_arguments(char *line, char c, t_flag_string f_str)
 			flag_count = 0;
 			count++;
 		}
-		if (line[i] == c && line[i] != '\0' && is_in_quotes(f_str, i) == 0)
+		if (line[i] == c && line[i] != '\0' \
+			&& is_in_quotes(*f_str, f_str->i.k) == 0)
 			flag_count = 1;
+		f_str->i.k += 1;
 		i++;
 	}
 	return (count);

@@ -94,3 +94,17 @@ int	main(int argc, char **argv, char **envp)
 			i++;
 		}
 */
+//debug arguments
+/*		printf("%s\t%s\n", flag_string.quotes, flag_string.special_chars);
+		printf("%d\n", nb_commands);
+		i = 0;
+		while (i < nb_commands)
+		{
+			j = 0;
+			while (commands[i].single_command[j] != 0)
+			{
+				printf("%s\n", commands[i].single_command[j]);
+				j++;
+			}
+			i++;
+		}*/

@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 15:06:58 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/15 17:05:42 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/16 17:30:03 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static size_t	ft_nb_str(char const *str, char c, t_flag_string f_str)
 		nb_str++;
 		return (nb_str);
 	}
-	printf("%s\n", str);
 	while (str[i])
 	{
 		if (stat == 1 && str[i] && str[i] != c)
@@ -100,7 +99,7 @@ static void	ft_splitting(char **tab, char const *s, char c, t_flag_string f_str)
 	tab[line] = 0;
 }
 
-char	**ft_split_v2(char const *s, char c, t_flag_string f_str)
+char	**ft_split_v2old(char const *s, char c, t_flag_string f_str)
 {
 	char	**tab;
 

@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/15 17:42:44 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/17 16:36:20 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,9 +269,10 @@ int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, ch
 	if (quotes_flags(flag_string, *line) != 0)
 		return (1);
 	flag_string->i = init_inc(flag_string->i);
-	*nb_pipes = count_arguments(*line, '|', *flag_string);
+	*nb_pipes = count_arguments(*line, '|', flag_string);
+	flag_string->i.k = 0;
 //	printf("%dnbpipes\n", *nb_pipes);
-	*commands = init_commands(*line, *nb_pipes, *flag_string);
+	*commands = init_commands(*line, *nb_pipes, flag_string);
 //	count_redirections(commands, *nb_pipes, *flag_string);
 	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
 //	malloc_tab_files(commands, *nb_pipes);
