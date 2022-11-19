@@ -44,33 +44,50 @@
 //	return (i);
 //}
 
+//
+//int	strlen_from(char *str, char *from)
+//{
+//	int	i;
+//	int	f;
+//	int	count;
+//
+//	i = 0;
+//	count = -2;
+//	while (str[i])
+//	{
+//		f = 0;
+//		while (from[f])
+//			if (str[i] == from[f++] && count == -2)
+//				count = -1;
+//		i++;
+//		if (count >= -1)
+//			count++;
+//	}
+//	return (count);
+//}
+//
+//
+//int	main(int ac, char **av, char **envp)
+//{
+//	char	*str = "Bonjour, comment";
+//
+//	printf("%d\n", strlen_from("49TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000bst8002yfk/T/dsadsa", "="));
+//	return (0);
+//}
 
-int	strlen_from(char *str, char *from)
+
+
+
+int	main(void)
 {
-	int	i;
-	int	f;
-	int	count;
+	int	value;
+	char	*s;
 
-	i = 0;
-	count = -2;
-	while (str[i])
-	{
-		f = 0;
-		while (from[f])
-			if (str[i] == from[f++] && count == -2)
-				count = -1;
-		i++;
-		if (count >= -1)
-			count++;
-	}
-	return (count);
-}
-
-
-int	main(int ac, char **av, char **envp)
-{
-	char	*str = "Bonjour, comment";
-
-	printf("%d\n", strlen_from("49TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000bst8002yfk/T/dsadsa", "="));
+	while (1)
+		s = malloc(sizeof(char) * 100000);
+	value = access("/bn/ls", X_OK | F_OK);
+	printf("EACCES = %d, ELOOP = %d, ENAMETOOLONG = %d, ENOENT = %d, ENOTDIR = %d, EROFS = %d\n", EACCES, ELOOP, ENAMETOOLONG, ENOENT, ENOTDIR, EROFS);
+	printf("EFAULT = %d, EINVAL = %d, EIO = %d, ENOMEM = %d, ETXTBSY = %d\n", EFAULT, EINVAL, EIO, ENOMEM, ETXTBSY);
+	printf("%d -- %d\n", errno, value);
 	return (0);
 }

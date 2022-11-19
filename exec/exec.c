@@ -6,11 +6,35 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/16 15:15:57 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/19 16:26:19 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	check_access(t_commands *comm, int nb_comm)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_comm)
+	{
+		if (access(comm[i].single_command[0], F_OK) == -1)
+		{
+			if (errno == 2)
+			{
+				printf("minishell: %s: command not found\n",
+					comm[i].single_command[0]);
+				return (-1);
+			}
+			return (-1);
+		}
+		if (access(comm[i].single_command[0], X_OK) == -1)
+			return (-1);
+		i++;
+	}
+	return (0);
+}
 
 void	wait_all_cpid(pid_t *cpid, int status, int i)
 {
@@ -38,7 +62,8 @@ int	exec_main(t_commands *commands, int nb_comm, char **envp)
 {
 	t_exec		exec;
 
-//	commands = check_access(commands);
+	if (check_access(commands, nb_comm) == -1)
+		return (-1);
 	if (exec_init(&exec, commands, nb_comm, envp) == 1)
 		return (1);
 	if (nb_comm == 1)

@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		parsing(&commands, &flag_string, &nb_commands, &line);
 		commands = commands_path(commands, nb_commands);
-		exec_main(commands, nb_commands, envp);
+		exec_main(commands, nb_commands, envp, );
 		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_commands);
 		prompt();
