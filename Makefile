@@ -5,6 +5,9 @@ SRCS	=	main.c prompt.c							\
 			free_free_command_line.c				\
 			error_error_handler.c					\
 													\
+			commands_path.c							\
+			envcpy/envcpy.c							\
+													\
 			init_init_commands.c					\
 			init_init_inc.c							\
 													\
@@ -22,12 +25,11 @@ SRCS	=	main.c prompt.c							\
 			exec/child_process.c					\
 			exec/free_all_exec.c					\
 			exec/dup_fd.c							\
+													\
 			builtins/is_builtins.c					\
 			builtins/ft_echo.c						\
 			builtins/ft_pwd.c						\
 			builtins/ft_cd.c						\
-			envcpy/envcpy.c							\
-			commands_path.c							\
 													\
 			parsing/parsing.c						\
 			parsing/parsing_quotes_flags.c			\
