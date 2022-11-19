@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:59:49 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/19 16:07:39 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/19 16:44:01 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ t_commands	new_comm(t_commands comm, char *temp)
 	int	i;
 
 	i = 0;
-	free(comm.single_command[0]);
-	comm.single_command[0] = ft_strdup(temp);
+	free(comm.sgl_cmd[0]);
+	comm.sgl_cmd[0] = ft_strdup(temp);
 	return (comm);
 }
 
@@ -32,7 +32,7 @@ t_commands	check_comm(t_commands comm, char **allpath)
 	res = -1;
 	while (allpath[j] && res == -1)
 	{
-		temp = ft_strjoin(allpath[j], comm.single_command[0]);
+		temp = ft_strjoin(allpath[j], comm.sgl_cmd[0]);
 		res = access(temp, F_OK);
 		if (res == 0)
 			comm = new_comm(comm, temp);

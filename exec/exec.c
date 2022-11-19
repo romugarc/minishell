@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/19 16:26:19 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/19 16:43:43 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ int	check_access(t_commands *comm, int nb_comm)
 	i = 0;
 	while (i < nb_comm)
 	{
-		if (access(comm[i].single_command[0], F_OK) == -1)
+		if (access(comm[i].sgl_cmd[0], F_OK) == -1)
 		{
 			if (errno == 2)
 			{
 				printf("minishell: %s: command not found\n",
-					comm[i].single_command[0]);
+					comm[i].sgl_cmd[0]);
 				return (-1);
 			}
 			return (-1);
 		}
-		if (access(comm[i].single_command[0], X_OK) == -1)
+		if (access(comm[i].sgl_cmd[0], X_OK) == -1)
 			return (-1);
 		i++;
 	}
@@ -67,9 +67,9 @@ int	exec_main(t_commands *commands, int nb_comm, char **envp)
 	if (exec_init(&exec, commands, nb_comm, envp) == 1)
 		return (1);
 	if (nb_comm == 1)
-		is_builtins(commands[exec.comm_i].single_command, nb_comm);
+		is_builtins(commands[exec.comm_i].sgl_cmd, nb_comm);
 	while (exec.temp > 0 && (nb_comm > 1
-			|| is_it_builtin(commands[0].single_command[0]) != 1))
+			|| is_it_builtin(commands[0].sgl_cmd[0]) != 1))
 	{
 		if (exec.temp > 1)
 			if (pipe(exec.fd[exec.comm_i]) == -1)

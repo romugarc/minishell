@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 14:20:47 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/19 16:15:41 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/19 16:45:26 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	is_builtins(char **cmds, int nb_comm)
 		return (ft_cd(cmds, nb_comm));
 	else if (ft_strcmp(cmds[0], "/bin/pwd") == 1)
 		return (ft_pwd(nb_comm));
-//	else if (ft_strcmp(comm.single_command, "export") == 1)
-//	else if (ft_strcmp(comm.single_command, "unset") == 1)
-//	else if (ft_strcmp(comm.single_command, "env") == 1)
-//	else if (ft_strcmp(comm.single_command, exit) == 1)
+//	else if (ft_strcmp(comm.sgl_cmd, "export") == 1)
+//	else if (ft_strcmp(comm.sgl_cmd, "unset") == 1)
+//	else if (ft_strcmp(comm.sgl_cmd, "env") == 1)
+//	else if (ft_strcmp(comm.sgl_cmd, exit) == 1)
 	return (0);
 }
