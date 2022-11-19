@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:49:32 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/17 16:56:00 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/19 14:49:16 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	what_quote(char *str, int i, int *flag)
 	return ('\0');
 }
 
-int	quotes_flags(t_flag_string *flag_string, char *line)
+int	quotes_flags(t_f_str *f_str, char *line)
 {
 	int		i;
 	int		j;
@@ -78,6 +78,6 @@ int	quotes_flags(t_flag_string *flag_string, char *line)
 			i++;
 	}
 	quote_string[i] = '\0';
-	flag_string->quotes = quote_string;
+	f_str->quotes = quote_string;
 	return (0);
 }

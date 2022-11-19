@@ -6,13 +6,13 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:22:01 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/17 16:35:12 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/19 15:06:51 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_commands	*init_commands(char	*line, int nb_pipes, t_flag_string *fs)
+t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs)
 {
 	int			i;
 	t_commands	*commands;
@@ -25,8 +25,8 @@ t_commands	*init_commands(char	*line, int nb_pipes, t_flag_string *fs)
 	i = 0;
 	while (full_command_line[i] != 0)
 	{
-		commands[i].single_command = ft_split_v2(full_command_line[i], ' ', fs);
-		while (fs->special_chars[fs->i.k] == '5' && fs->quotes[fs->i.k] == '0')
+		commands[i].sgl_cmd = ft_split_v2(full_command_line[i], ' ', fs);
+		while (fs->sp_chars[fs->i.k] == '5' && fs->quotes[fs->i.k] == '0')
 		{
 			fs->i.i += 1;
 			fs->i.k += 1;

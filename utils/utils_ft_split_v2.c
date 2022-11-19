@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 15:06:58 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/17 17:04:44 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:09:35 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*ft_strdup_n_to_i(char *src, size_t n, size_t index, char **tab)
 	return (dest);
 }
 
-static size_t	ft_nb_str(char *str, char c, t_flag_string *f_str)
+static size_t	ft_nb_str(char *str, char c, t_f_str *f_str)
 {
 	size_t	i;
 	size_t	nb_str;
@@ -74,7 +74,7 @@ static size_t	ft_nb_str(char *str, char c, t_flag_string *f_str)
 	return (nb_str);
 }
 
-static void	ft_splitting(char **tab, char *s, char c, t_flag_string *f_str)
+static void	ft_splitting(char **tab, char *s, char c, t_f_str *f_str)
 {
 	size_t	i;
 	size_t	n;
@@ -98,7 +98,7 @@ static void	ft_splitting(char **tab, char *s, char c, t_flag_string *f_str)
 	tab[line] = 0;
 }
 
-char	**ft_split_v2(char *s, char c, t_flag_string *f_str)
+char	**ft_split_v2(char *s, char c, t_f_str *f_str)
 {
 	char	**tab;
 	int		size;
