@@ -38,7 +38,7 @@
 	return (0);
 }*/
 
-/*static char	*ft_strdup_s_to_e(char const *src, size_t n, size_t index)
+static char	*ft_strdup_s_to_e(char const *src, size_t n, size_t index)
 {
 	size_t	i;
 	char	*dest;
@@ -128,7 +128,7 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 		i++;
 	}
 	return (0);
-}*/
+}
 
 /*char	*form_tab_2(char c, t_commands *comm, t_flag_string f_str, t_inc *inc)
 {
@@ -151,7 +151,7 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 	return (ret);
 }*/
 
-/*int	form_tab(t_commands **com, t_flag_string f_str, int np)
+int	form_tab(t_commands **com, t_flag_string f_str, int np)
 {
 	t_inc	i;
 	int		start;
@@ -168,15 +168,15 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 		i.j = 0;
 		while ((*com)[i.i].single_command[i.j] != 0 && i.n < (*com)[i.i].nb_infile)
 		{
-			printf("jloop%d\n", i.i);
+//			printf("jloop%d\n", i.i);
 			while ((f_str.special_chars[i.k] == '5' \
 					|| f_str.special_chars[i.k] == '9') \
 					&& f_str.quotes[i.k] == '0')
 				i.k += 1;
-			printf("%d\t%d\n", (*com)[i.i].nb_infile, i.n);
-			printf("%s\n", (*com)[i.i].single_command[i.j]);
+//			printf("%d\t%d\n", (*com)[i.i].nb_infile, i.n);
+//			printf("%s\n", (*com)[i.i].single_command[i.j]);
 			start = find_special_char('7', f_str, &i, (*com)[i.i].single_command[i.j]);
-			printf("start%d\n", start);
+//			printf("start%d\n", start);
 			if (start > -1)
 			{
 				if (f_str.special_chars[i.k + 1] == '7')
@@ -189,16 +189,17 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 					start = 0;
 					end = 0;
 					i.j++;
-					printf("%s\t%s\n", f_str.special_chars, (*com)[i.i].single_command[i.j]);
+//					printf("%s\t%s\n", f_str.special_chars, (*com)[i.i].single_command[i.j]);
 					while ((f_str.special_chars[i.k] == '7' || f_str.special_chars[i.k] == '9') && f_str.special_chars[i.k] != '\0')
 						i.k++;
-					while ((f_str.special_chars[i.k] < '5' || (f_str.special_chars[i.k] == '9' && f_str.quotes[i.k] != '0')) \
-						&& f_str.special_chars[i.k] != '\0')
+					while ((f_str.special_chars[i.k] < '5' || ((f_str.special_chars[i.k] == '9' || f_str.special_chars[i.k] == '7') \
+						&& f_str.quotes[i.k] != '0')) && f_str.special_chars[i.k] != '\0')
 					{
 						end += 1;
 						i.k++;
 					}
 					i.l_e = end;
+					printf("%d\t%d\n", start, end);
 					if ((*com)[i.i].single_command[i.j] != 0)
 					{
 						(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].single_command[i.j], start, end);
@@ -210,13 +211,15 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 				{
 					end = start + 1;
 					i.k += 1;
-					while ((f_str.special_chars[i.k] < '5' || (f_str.special_chars[i.k] == '9' && f_str.quotes[i.k] != '0')) \
-						&& f_str.special_chars[i.k] != '\0')
+					while ((f_str.special_chars[i.k] < '5' || ((f_str.special_chars[i.k] == '9' || f_str.special_chars[i.k] == '7') \
+						&& f_str.quotes[i.k] != '0')) && f_str.special_chars[i.k] != '\0')
 					{
+						printf("%d\t%c\t%c\n", end, f_str.special_chars[i.k], f_str.special_chars[i.k]);
 						end += 1;
 						i.k++;
 					}
 					i.l_e = end;
+					printf("%d\t%d\n", start, end);
 					if ((*com)[i.i].single_command[i.j] != 0)
 					{
 						(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].single_command[i.j], start + 1, end);
@@ -234,9 +237,9 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 			i.k += 1;
 		i.i += 1;
 	}
-	printf("%di\n", np);
+//	printf("%di\n", np);
 	return (0);
-}*/
+}
 
 /*int	correct_tabs(t_commands **c, t_flag_string flag_string, int nb_pipes)
 {
@@ -271,12 +274,11 @@ int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, ch
 	flag_string->i = init_inc(flag_string->i);
 	*nb_pipes = count_arguments(*line, '|', flag_string);
 	flag_string->i.k = 0;
-//	printf("%dnbpipes\n", *nb_pipes);
 	*commands = init_commands(*line, *nb_pipes, flag_string);
-//	count_redirections(commands, *nb_pipes, *flag_string);
+	count_redirections(commands, *nb_pipes, *flag_string);
 	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
-//	malloc_tab_files(commands, *nb_pipes);
-//	form_tab(commands, *flag_string, *nb_pipes);
+	malloc_tab_files(commands, *nb_pipes);
+	form_tab(commands, *flag_string, *nb_pipes);
 //	correct_tabs(commands, *flag_string, *nb_pipes);
 	return (0);
 }
