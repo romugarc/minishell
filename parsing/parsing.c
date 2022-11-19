@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/17 16:56:08 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/19 16:05:51 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 	return (dest);
 }
 
-int	is_redirection(t_commands *c, char *str, t_flag_string f_str, int *k)
+int	is_redirection(t_commands *c, char *str, t_f_str f_str, int *k)
 {
 	int	i;
 
@@ -80,7 +80,7 @@ int	is_redirection(t_commands *c, char *str, t_flag_string f_str, int *k)
 	return (0);
 }
 
-void	count_redirections(t_commands **commands, int np, t_flag_string f_str)
+void	count_redirections(t_commands **commands, int np, t_f_str f_str)
 {
 	int	i;
 	int	j;
@@ -94,13 +94,13 @@ void	count_redirections(t_commands **commands, int np, t_flag_string f_str)
 		(*commands)[i].nb_outfile = 0;
 		(*commands)[i].nb_infile = 0;
 		j = 0;
-		while ((*commands)[i].single_command[j] != 0)
+		while ((*commands)[i].sgl_cmd[j] != 0)
 		{
-			while ((f_str.special_chars[k] == '5' || \
-					f_str.special_chars[k] == '9') && f_str.quotes[k] == '0')
+			while ((f_str.sp_chars[k] == '5' || \
+					f_str.sp_chars[k] == '9') && f_str.quotes[k] == '0')
 				k++;
 			if (f_str.quotes[k] != '\0')
-				r = is_redirection(&(*commands)[i], (*commands)[i].single_command[j], f_str, &k);
+				r = is_redirection(&(*commands)[i], (*commands)[i].sgl_cmd[j], f_str, &k);
 			j++;
 		}
 	}
@@ -151,7 +151,69 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 	return (ret);
 }*/
 
-/*int	form_tab(t_commands **com, t_flag_string f_str, int np)
+/*void	manage_infile_tab2(t_commands **com, t_f_str f_str, t_inc i)
+{
+	int	start;
+	int	end;
+
+	start = 0;
+	end = 0;
+	i.j++;
+	while ((f_str.sp_chars[i.k] == '7' || f_str.sp_chars[i.k] == '9')\
+		&& f_str.sp_chars[i.k] != '\0')
+		i.k++;
+	while ((f_str.sp_chars[i.k] < '5' || ((f_str.sp_chars[i.k] == '9'\
+		|| f_str.sp_chars[i.k] == '7') && f_str.quotes[i.k] != '0')) &&\
+		f_str.sp_chars[i.k] != '\0')
+	{
+		end += 1;
+		i.k++;
+	}
+	i.l_e = end;
+	printf("%d\t%d\n", start, end);
+	if ((*com)[i.i].sgl_cmd[i.j] != 0)
+	{
+		(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].sgl_cmd[i.j], start, end);
+		printf("%s1\n", (*com)[i.i].tab_infile[i.n]);
+		i.n += 1;
+	}
+}
+
+void	manage_infile_tab(t_commands **com, t_f_str f_str, t_inc i)
+{
+	int	start;
+	int	end;
+
+	if (f_str.sp_chars[i.k + 1] == '7')
+	{
+		i.k += 1;
+		start += 1;
+	}
+	if (f_str.sp_chars[i.k + 1] == '9' && f_str.sp_chars[i.k + 1] != '\0')
+		manage_infile_tab2(com, f_str, i);
+	else if (f_str.sp_chars[i.k + 1] != '\0')
+	{
+		end = start + 1;
+		i.k += 1;
+		while ((f_str.sp_chars[i.k] < '5' || ((f_str.sp_chars[i.k] == '9' || f_str.sp_chars[i.k] == '7') \
+			&& f_str.quotes[i.k] != '0')) && f_str.sp_chars[i.k] != '\0')
+		{
+			printf("%d\t%c\t%c\n", end, f_str.sp_chars[i.k], f_str.sp_chars[i.k]);
+			end += 1;
+			i.k++;
+		}
+		i.l_e = end;
+		printf("%d\t%d\n", start, end);
+		if ((*com)[i.i].sgl_cmd[i.j] != 0)
+		{
+			(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].sgl_cmd[i.j], start + 1, end);
+			printf("%s2\n", (*com)[i.i].tab_infile[i.n]);
+			i.n += 1;
+		}
+	}
+}
+
+int	form_tab(t_commands **com, t_f_str f_str, int np)
 {
 	t_inc	i;
 	int		start;
@@ -166,75 +228,72 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 		i.l_j = 0;
 		i.l_e = 0;
 		i.j = 0;
-		while ((*com)[i.i].single_command[i.j] != 0 && i.n < (*com)[i.i].nb_infile)
+		while ((*com)[i.i].sgl_cmd[i.j] != 0 && i.n < (*com)[i.i].nb_infile)
 		{
-			printf("jloop%d\n", i.i);
-			while ((f_str.special_chars[i.k] == '5' \
-					|| f_str.special_chars[i.k] == '9') \
+			while ((f_str.sp_chars[i.k] == '5' \
+					|| f_str.sp_chars[i.k] == '9') \
 					&& f_str.quotes[i.k] == '0')
 				i.k += 1;
-			printf("%d\t%d\n", (*com)[i.i].nb_infile, i.n);
-			printf("%s\n", (*com)[i.i].single_command[i.j]);
-			start = find_special_char('7', f_str, &i, (*com)[i.i].single_command[i.j]);
-			printf("start%d\n", start);
+			start = find_special_char('7', f_str, &i, (*com)[i.i].sgl_cmd[i.j]);
 			if (start > -1)
 			{
-				if (f_str.special_chars[i.k + 1] == '7')
+				if (f_str.sp_chars[i.k + 1] == '7')
 				{
 					i.k += 1;
 					start += 1;
 				}
-				if (f_str.special_chars[i.k + 1] == '9' && f_str.special_chars[i.k + 1] != '\0')
+				if (f_str.sp_chars[i.k + 1] == '9' && f_str.sp_chars[i.k + 1] != '\0')
 				{
 					start = 0;
 					end = 0;
 					i.j++;
-					printf("%s\t%s\n", f_str.special_chars, (*com)[i.i].single_command[i.j]);
-					while ((f_str.special_chars[i.k] == '7' || f_str.special_chars[i.k] == '9') && f_str.special_chars[i.k] != '\0')
+					while ((f_str.sp_chars[i.k] == '7' || f_str.sp_chars[i.k] == '9') && f_str.sp_chars[i.k] != '\0')
 						i.k++;
-					while ((f_str.special_chars[i.k] < '5' || (f_str.special_chars[i.k] == '9' && f_str.quotes[i.k] != '0')) \
-						&& f_str.special_chars[i.k] != '\0')
+					while ((f_str.sp_chars[i.k] < '5' || ((f_str.sp_chars[i.k] == '9' || f_str.sp_chars[i.k] == '7') \
+						&& f_str.quotes[i.k] != '0')) && f_str.sp_chars[i.k] != '\0')
 					{
 						end += 1;
 						i.k++;
 					}
 					i.l_e = end;
-					if ((*com)[i.i].single_command[i.j] != 0)
+					printf("%d\t%d\n", start, end);
+					if ((*com)[i.i].sgl_cmd[i.j] != 0)
 					{
-						(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].single_command[i.j], start, end);
+						(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].sgl_cmd[i.j], start, end);
 						printf("%s1\n", (*com)[i.i].tab_infile[i.n]);
 						i.n += 1;
 					}
 				}
-				else if (f_str.special_chars[i.k + 1] != '\0')
+				else if (f_str.sp_chars[i.k + 1] != '\0')
 				{
 					end = start + 1;
 					i.k += 1;
-					while ((f_str.special_chars[i.k] < '5' || (f_str.special_chars[i.k] == '9' && f_str.quotes[i.k] != '0')) \
-						&& f_str.special_chars[i.k] != '\0')
+					while ((f_str.sp_chars[i.k] < '5' || ((f_str.sp_chars[i.k] == '9' || f_str.sp_chars[i.k] == '7') \
+						&& f_str.quotes[i.k] != '0')) && f_str.sp_chars[i.k] != '\0')
 					{
+						printf("%d\t%c\t%c\n", end, f_str.sp_chars[i.k], f_str.sp_chars[i.k]);
 						end += 1;
 						i.k++;
 					}
 					i.l_e = end;
-					if ((*com)[i.i].single_command[i.j] != 0)
+					printf("%d\t%d\n", start, end);
+					if ((*com)[i.i].sgl_cmd[i.j] != 0)
 					{
-						(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].single_command[i.j], start + 1, end);
+						(*com)[i.i].tab_infile[i.n] = ft_strdup_s_to_e((*com)[i.i].sgl_cmd[i.j], start + 1, end);
 						printf("%s2\n", (*com)[i.i].tab_infile[i.n]);
 						i.n += 1;
 					}
 				}
 			}
-			if (((*com)[i.i].single_command[i.j] != 0 && (*com)[i.i].single_command[i.j][i.l_e] == '\0') || start == -1)
+			if (((*com)[i.i].sgl_cmd[i.j] != 0 && (*com)[i.i].sgl_cmd[i.j][i.l_e] == '\0') || start == -1)
 				i.j += 1;
 		}
 		if ((*com)[i.i].nb_infile == 0 && f_str.quotes[i.k] != '\0')
-			i.k += ft_strlen((*com)[i.i].single_command[i.j]);
+			i.k += ft_strlen((*com)[i.i].sgl_cmd[i.j]);
 		else if (f_str.quotes[i.k] != '\0')
 			i.k += 1;
 		i.i += 1;
 	}
-	printf("%di\n", np);
 	return (0);
 }*/
 
@@ -260,24 +319,23 @@ int	malloc_tab_files(t_commands **c, int nb_pipes)
 	return (0);
 }*/
 
-int	parsing(t_commands **commands, t_flag_string *flag_string, int *nb_pipes, char **line)
+int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
 {
 	*line = get_next_line(0);
 	*line = correct_line(*line);
-	if (special_char_flags(flag_string, *line) != 0)
+	if (special_char_flags(f_str, *line) != 0)
 		return (1);
-	if (quotes_flags(flag_string, *line) != 0)
+	if (quotes_flags(f_str, *line) != 0)
 		return (1);
-	flag_string->i = init_inc(flag_string->i);
-	*nb_pipes = count_arguments(*line, '|', flag_string);
-	flag_string->i.k = 0;
-//	printf("%dnbpipes\n", *nb_pipes);
-	*commands = init_commands(*line, *nb_pipes, flag_string);
-//	count_redirections(commands, *nb_pipes, *flag_string);
+	f_str->i = init_inc(f_str->i);
+	*nb_pipes = count_arguments(*line, '|', f_str);
+	f_str->i.k = 0;
+	*commands = init_commands(*line, *nb_pipes, f_str);
+//	count_redirections(commands, *nb_pipes, *f_str);
 	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
 //	malloc_tab_files(commands, *nb_pipes);
-//	form_tab(commands, *flag_string, *nb_pipes);
-//	correct_tabs(commands, *flag_string, *nb_pipes);
+//	form_tab(commands, *f_str, *nb_pipes);
+//	correct_tabs(commands, *f_str, *nb_pipes);
 	return (0);
 }
 

@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void	free_flag_string(t_flag_string flag_string)
+void	free_flag_string(t_f_str flag_string)
 {
-	free(flag_string.special_chars);
+	free(flag_string.sp_chars);
 	free(flag_string.quotes);
 }
 
@@ -11,7 +11,7 @@ int	main(int argc, char **argv, char **envp)
 	char			*line;
 	int				nb_commands;
 	t_commands		*commands;
-	t_flag_string	flag_string;
+	t_f_str	flag_string;
 	t_envlist		*envc;
 
 	envc = NULL;
@@ -40,8 +40,8 @@ int	main(int argc, char **argv, char **envp)
 		nb_pipes = count_arguments(line, '|');
 		full_command_line = ft_split(line, '|');
 		printf("%dpipes\n", nb_pipes);
-		printf("%s\n", flag_string.special_chars);
-		printf("%s\n", flag_string.quotes);
+		printf("%s\n", f_str.sp_chars);
+		printf("%s\n", f_str.quotes);
 		printf("%d\n", nb_pipes);
 		i = 0;
 		while (full_command_line[i] != 0)
@@ -95,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 */
 //debug arguments
-/*		printf("%s\t%s\n", flag_string.quotes, flag_string.special_chars);
+/*		printf("%s\t%s\n", f_str.quotes, f_str.sp_chars);
 		printf("%d\n", nb_commands);
 		i = 0;
 		while (i < nb_commands)

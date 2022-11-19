@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:49:16 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/17 16:56:02 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/19 14:50:37 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	what_special_char(char *str, int i)
 	return ('0');
 }
 
-int	special_char_flags(t_flag_string *flag_string, char *line)
+int	special_char_flags(t_f_str *f_str, char *line)
 {
 	int		i;
 	char	*special_string;
@@ -49,6 +49,6 @@ int	special_char_flags(t_flag_string *flag_string, char *line)
 		i++;
 	}
 	special_string[i] = '\0';
-	flag_string->special_chars = special_string;
+	f_str->sp_chars = special_string;
 	return (0);
 }

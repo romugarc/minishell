@@ -6,13 +6,13 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:35:11 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/17 17:04:21 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:08:30 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	count_arguments(char *line, char c, t_flag_string *f_str)
+int	count_arguments(char *line, char c, t_f_str *f_str)
 {
 	int		count;
 	int		i;
