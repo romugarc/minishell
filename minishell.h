@@ -80,6 +80,9 @@ int			quotes_flags(t_f_str *f_str, char *line);
 int			special_char_flags(t_f_str *f_str, char *line);
 int			find_end_redirection(t_f_str f_str, int *k);
 int			find_special_char(char c, t_f_str f_str, t_inc *i, char *s_c);
+int			malloc_tab_files(t_commands **c, int nb_pipes);
+void		count_redirections(t_commands **commands, int np, t_f_str f_str);
+int			form_tab(t_commands **com, t_f_str f_str, int np);
 
 //exec
 int			exec_main(t_commands *commands, int nb_pipes, char **envp);

@@ -35,6 +35,9 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_quotes_flags.c			\
 			parsing/parsing_special_char_flags.c	\
 			parsing/parsing_find_end_redirection.c	\
+			parsing/parsing_count_redirections.c	\
+			parsing/parsing_malloc_tab_files.c		\
+			parsing/parsing_form_tab.c				\
 
 HEADER_FILES = minishell.h
 

@@ -1,10 +1,9 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int	form_tab(t_commands **com, t_f_str f_str, int np)
 {
 	t_inc	i;
 	int		start;
-	int		end;
 
 	i.i = 0;
 	i.k = 0;
@@ -24,7 +23,7 @@ int	form_tab(t_commands **com, t_f_str f_str, int np)
 			start = find_special_char('7', f_str, &i, (*com)[i.i].sgl_cmd[i.j]);
 			if (start > -1)
 			{
-                manage_infile(com, &f_str, &start);
+ //               manage_infile(com, &f_str, &start);
 			}
 			if (((*com)[i.i].sgl_cmd[i.j] != 0 && (*com)[i.i].sgl_cmd[i.j][i.l_e] == '\0') || start == -1)
 				i.j += 1;
