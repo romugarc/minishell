@@ -38,6 +38,8 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_count_redirections.c	\
 			parsing/parsing_malloc_tab_files.c		\
 			parsing/parsing_form_tab.c				\
+			parsing/parsing_manage_infile.c			\
+			parsing/parsing_manage_outfile.c		\
 
 HEADER_FILES = minishell.h
 

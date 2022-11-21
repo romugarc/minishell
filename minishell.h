@@ -31,6 +31,8 @@ typedef struct s_commands
 	int		append;
 	char	**tab_infile;
 	char	**tab_outfile;
+	char	*flag_in;
+	char	*flag_out;
 	char	**sgl_cmd;
 }	t_commands;
 
@@ -49,8 +51,6 @@ typedef struct s_f_str
 {
 	char	*sp_chars;
 	char	*quotes;
-	char	**tab_sp_chars;
-	char	**tab_quotes;
 	t_inc	i;
 }	t_f_str;
 
@@ -83,6 +83,8 @@ int			find_special_char(char c, t_f_str f_str, t_inc *i, char *s_c);
 int			malloc_tab_files(t_commands **c, int nb_pipes);
 void		count_redirections(t_commands **commands, int np, t_f_str f_str);
 int			form_tab(t_commands **com, t_f_str f_str, int np);
+void		manage_infile(t_commands **com, t_f_str *f_str, t_inc *i, int *start);
+void		manage_outfile(t_commands **com, t_f_str *f_str, t_inc *i, int *start);
 
 //exec
 int			exec_main(t_commands *commands, int nb_pipes, char **envp);
