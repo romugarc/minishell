@@ -32,7 +32,7 @@ void    manage_outfile3(t_commands **com, t_f_str *f_str, int *start)
 
     end = *start + 1;
 	i->k += 1;
-	while ((f_str->sp_chars[i->k] < '5' || ((f_str->sp_chars[i->k] == '9' || f_str->sp_chars[i->k] == '7') \
+	while ((f_str->sp_chars[i->k] < '5' || ((f_str->sp_chars[i->k] == '9' || f_str->sp_chars[i->k] == '6') \
 		&& f_str->quotes[i->k] != '0')) && f_str->sp_chars[i->k] != '\0')
 	{
 		printf("%d\t%c\t%c\n", end, f_str->sp_chars[i->k], f_str.sp_chars[i.k]);
@@ -56,9 +56,9 @@ void    manage_outfile2(t_commands **com, t_f_str *f_str, int *start)
     *start = 0;
 	end = 0;
 	i->j++;
-	while ((f_str->sp_chars[i->k] == '7' || f_str->sp_chars[i->k] == '9') && f_str->sp_chars[i->k] != '\0')
+	while ((f_str->sp_chars[i->k] == '6' || f_str->sp_chars[i->k] == '9') && f_str->sp_chars[i->k] != '\0')
 		i->k += 1;
-	while ((f_str->sp_chars[i->k] < '5' || ((f_str->sp_chars[i->k] == '9' || f_str->sp_chars[i->k] == '7') \
+	while ((f_str->sp_chars[i->k] < '5' || ((f_str->sp_chars[i->k] == '9' || f_str->sp_chars[i->k] == '6') \
 		&& f_str->quotes[i->k] != '0')) && f_str->sp_chars[i->k] != '\0')
 	{
 		end += 1;
@@ -78,7 +78,7 @@ void    manage_outfile(t_commands **com, t_f_str *f_str, int *start)
 {
     int end;
 
-    if (f_str.sp_chars[i.k + 1] == '7')
+    if (f_str.sp_chars[i.k + 1] == '6')
 	{
 		i.k += 1;
 		start += 1;
