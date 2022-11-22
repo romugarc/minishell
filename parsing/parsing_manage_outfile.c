@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:30:19 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/21 19:03:35 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/22 19:28:39 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,9 @@ static void	manage_outfile3(t_commands **com, t_f_str *f_str, t_inc *i, int *sta
 		i->k++;
 	}
 	i->l_e = end;
-//	printf("%d\t%d\n", *start, end);
 	if ((*com)[i->i].sgl_cmd[i->j] != 0)
 	{
 		(*com)[i->i].tab_outfile[i->n] = ft_strdup_s_to_e((*com)[i->i].sgl_cmd[i->j], *start + 1, end);
-//		printf("%s4\n", (*com)[i->i].tab_outfile[i->n]);
 		i->n += 1;
 	}
 }
@@ -71,11 +69,9 @@ static void	manage_outfile2(t_commands **com, t_f_str *f_str, t_inc *i, int *sta
 		i->k++;
 	}
 	i->l_e = end;
-//	printf("%d\t%d\n", *start, end);
 	if ((*com)[i->i].sgl_cmd[i->j] != 0)
 	{
 		(*com)[i->i].tab_outfile[i->n] = ft_strdup_s_to_e((*com)[i->i].sgl_cmd[i->j], *start, end);
-//		printf("%s3\n", (*com)[i->i].tab_outfile[i->n]);
 		i->n += 1;
 	}
 }
