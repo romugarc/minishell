@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_init_inc.c                                    :+:      :+:    :+:   */
+/*   free_ft_free_tab.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 17:09:05 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/23 17:07:54 by rgarcia          ###   ########lyon.fr   */
+/*   Created: 2022/11/23 16:44:20 by rgarcia           #+#    #+#             */
+/*   Updated: 2022/11/23 16:55:30 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_inc(t_inc *inc)
+void	ft_free_tab(char **tab)
 {
-	inc->i = 0;
-	inc->j = 0;
-	inc->k = 0;
-	inc->n = 0;
-	inc->l_i = 0;
-	inc->l_j = 0;
-	inc->l_e = 0;
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }

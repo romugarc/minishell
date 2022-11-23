@@ -3,6 +3,7 @@ NAME	= minishell
 SRCS	=	main.c prompt.c							\
 			signal_sig_handler.c					\
 			free_free_command_line.c				\
+			free_ft_free_tab.c						\
 			error_error_handler.c					\
 													\
 			commands_path.c							\
@@ -48,7 +49,7 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra #-Werror #-g #-fsanitize=address
+CFLAGS	=	-Wall -Wextra -g #-Werror #-g #-fsanitize=address
 
 all:		${NAME}
 

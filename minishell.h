@@ -120,10 +120,11 @@ void		free_command_line(t_commands *commands, char *line, int nb_pipes);
 void		free_tab(int **tab, int i);
 int			free_all(t_exec exec, int nb_comm);
 void		free_char_tab(char **tab);
+void		ft_free_tab(char **tab);
 
 //init
 t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs);
-t_inc		init_inc(t_inc inc);
+void		init_inc(t_inc *inc);
 int			exec_init(t_exec *exec, t_commands *commands, int nb_comm, char **envp);
 
 //error

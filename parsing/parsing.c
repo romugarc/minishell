@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/22 19:27:27 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/23 19:33:13 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,11 @@ int	ft_del_str_from_i(char *str, int i)
 	return (0);
 }
 
-int	update_k(char *str, int i)
+int	update_k(char *str, int i, int ik)
 {
 	int	k;
 
-	k = i;
+	k = ik;
 	while (str[i] != '\0')
 	{
 		i++;
@@ -158,13 +158,7 @@ int	find_start_char(t_f_str f_str, t_inc *inc, char *s_c)
 {
 	int	i;
 
-	if (inc->l_j == inc->j)
-		i = inc->l_e;
-	else
-	{
-		inc->l_j = inc->j;
-		i = 0;
-	}
+	i = 0;
 	while (f_str.sp_chars[inc->k] != '\0' && s_c[i] != '\0')
 	{
 		if ((f_str.sp_chars[inc->k] == '7' || f_str.sp_chars[inc->k] == '6') \
@@ -204,8 +198,6 @@ int	correct_tab(t_commands **com, t_f_str f_str, int np)
 	{
 		i.n = 0;
 		i.l_i = 0;
-		i.l_j = 0;
-		i.l_e = 0;
 		i.j = 0;
 		del_flag = 0;
 		while ((*com)[i.i].sgl_cmd[i.j] != 0)
@@ -224,16 +216,67 @@ int	correct_tab(t_commands **com, t_f_str f_str, int np)
 					start = 0;
 					del_flag = 0;
 				}
-				i.k = update_k((*com)[i.i].sgl_cmd[i.j], start);
-				i.l_e = i.k;
+				i.k = update_k((*com)[i.i].sgl_cmd[i.j], start, i.k);
 				ft_del_str_from_i((*com)[i.i].sgl_cmd[i.j], start);
 			}
-			if (((*com)[i.i].sgl_cmd[i.j] != 0 && (*com)[i.i].sgl_cmd[i.j][i.l_e] == '\0') || start == -1)
-				i.j += 1;
+			i.j += 1;
 		}
 		if (f_str.quotes[i.k] != '\0')
 			i.k += 1;
 		i.i += 1;
+	}
+	return (0);
+}
+
+char	**reform_tab2(char **sgl_cmd, int n)
+{
+	t_inc	i;
+	char	**new_sgl;
+
+	new_sgl = malloc(sizeof(char *) * (n + 1));
+	if (!new_sgl)
+		return (NULL);
+	i.j = 0;
+	i.k = 0;
+	while (sgl_cmd[i.j] != 0)
+	{
+		if (sgl_cmd[i.j][0] != '\0')
+		{
+			new_sgl[i.k] = ft_strdup(sgl_cmd[i.j]);
+			if (new_sgl[i.k] == NULL)
+			{
+				ft_free_tab(new_sgl);
+				return (NULL);
+			}
+			i.k++;
+		}
+		i.j++;
+	}
+	new_sgl[i.k] = NULL;
+	return (new_sgl);
+}
+
+int	reform_tab(t_commands **com, int np)
+{
+	t_inc	i;
+	char	**oldtab;
+
+	init_inc(&i);
+	while (i.i < np)
+	{
+		i.j = 0;
+		while ((*com)[i.i].sgl_cmd[i.j] != 0)
+		{
+			if ((*com)[i.i].sgl_cmd[i.j][0] != '\0')
+				i.n++;
+			i.j++;
+		}
+		oldtab = (*com)[i.i].sgl_cmd;
+		(*com)[i.i].sgl_cmd = reform_tab2((*com)[i.i].sgl_cmd, i.n);
+		if ((*com)[i.i].sgl_cmd == NULL)
+			return (-1);
+		ft_free_tab(oldtab);
+		i.i++;
 	}
 	return (0);
 }*/
@@ -262,13 +305,16 @@ int	correct_tab(t_commands **com, t_f_str f_str, int np)
 
 int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
 {
+//	int	i;
+//	int	j;
+
 	*line = get_next_line(0);
 	*line = correct_line(*line);
 	if (special_char_flags(f_str, *line) != 0)
 		return (1);
 	if (quotes_flags(f_str, *line) != 0)
 		return (1);
-	f_str->i = init_inc(f_str->i);
+	init_inc(&f_str->i);
 	*nb_pipes = count_arguments(*line, '|', f_str);
 	f_str->i.k = 0;
 	*commands = init_commands(*line, *nb_pipes, f_str);
@@ -278,6 +324,7 @@ int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
 //	form_tab(commands, *f_str, *nb_pipes);
 //	form_tab2(commands, *f_str, *nb_pipes);
 //	correct_tab(commands, *f_str, *nb_pipes);
+//	reform_tab(commands, *nb_pipes);
 	return (0);
 }
 
