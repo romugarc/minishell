@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/23 19:33:13 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/26 17:18:45 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,8 +305,6 @@ int	reform_tab(t_commands **com, int np)
 
 int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
 {
-//	int	i;
-//	int	j;
 
 	*line = get_next_line(0);
 	*line = correct_line(*line);
@@ -318,13 +316,16 @@ int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
 	*nb_pipes = count_arguments(*line, '|', f_str);
 	f_str->i.k = 0;
 	*commands = init_commands(*line, *nb_pipes, f_str);
-//	count_redirections(commands, *nb_pipes, *f_str);
+	count_redirections(commands, *nb_pipes, *f_str);
 	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
-//	malloc_tab_files(commands, *nb_pipes);
-//	form_tab(commands, *f_str, *nb_pipes);
-//	form_tab2(commands, *f_str, *nb_pipes);
-//	correct_tab(commands, *f_str, *nb_pipes);
-//	reform_tab(commands, *nb_pipes);
+	if(malloc_tab_files(commands, *nb_pipes) == 1)
+		return (1);
+	if (form_tab(commands, *f_str, *nb_pipes) == 1)
+		return (1);
+	if (form_tab2(commands, *f_str, *nb_pipes) == 1)
+		return (1);
+	correct_tab(commands, *f_str, *nb_pipes);
+	reform_tab(commands, *nb_pipes);
 	return (0);
 }
 

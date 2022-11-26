@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_ft_free_tab.c                                 :+:      :+:    :+:   */
+/*   utils_ft_del_str_from_i.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/23 16:44:20 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/26 16:47:04 by rgarcia          ###   ########lyon.fr   */
+/*   Created: 2022/11/25 12:50:25 by rgarcia           #+#    #+#             */
+/*   Updated: 2022/11/25 12:50:41 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	ft_free_tab(char **tab)
+int	ft_del_str_from_i(char *str, int i)
 {
-	int	i;
-
-	i = 0;
-	while (tab[i] != NULL)
+	while (str[i] != '\0')
 	{
-		free(tab[i]);
+		str[i] = '\0';
 		i++;
 	}
-	free(tab);
+	return (0);
 }

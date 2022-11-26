@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:30:19 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/22 19:28:40 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/26 16:47:27 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*ft_strdup_s_to_e(char const *src, size_t n, size_t index)
 	return (dest);
 }
 
-static void	manage_infile3(t_commands **com, t_f_str *f_str, t_inc *i, int *start)
+static int	manage_infile3(t_commands **com, t_f_str *f_str, t_inc *i, int *start)
 {
 	int	end;
 
@@ -47,11 +47,14 @@ static void	manage_infile3(t_commands **com, t_f_str *f_str, t_inc *i, int *star
 	if ((*com)[i->i].sgl_cmd[i->j] != 0)
 	{
 		(*com)[i->i].tab_infile[i->n] = ft_strdup_s_to_e((*com)[i->i].sgl_cmd[i->j], *start + 1, end);
+		if ((*com)[i->i].tab_infile[i->n] == NULL)
+			return (1);
 		i->n += 1;
 	}
+	return (0);
 }
 
-static void	manage_infile2(t_commands **com, t_f_str *f_str, t_inc *i, int *start)
+static int	manage_infile2(t_commands **com, t_f_str *f_str, t_inc *i, int *start)
 {
 	int	end;
 
@@ -72,11 +75,14 @@ static void	manage_infile2(t_commands **com, t_f_str *f_str, t_inc *i, int *star
 	if ((*com)[i->i].sgl_cmd[i->j] != 0)
 	{
 		(*com)[i->i].tab_infile[i->n] = ft_strdup_s_to_e((*com)[i->i].sgl_cmd[i->j], *start, end);
+		if ((*com)[i->i].tab_infile[i->n] == NULL)
+			return (1);
 		i->n += 1;
 	}
+	return (0);
 }
 
-void	manage_infile(t_commands **com, t_f_str *f_str, t_inc *i, int *start)
+int	manage_infile(t_commands **com, t_f_str *f_str, t_inc *i, int *start)
 {
 	if (f_str->sp_chars[i->k + 1] == '7')
 	{
@@ -87,12 +93,19 @@ void	manage_infile(t_commands **com, t_f_str *f_str, t_inc *i, int *start)
 	else
 		(*com)[i->i].flag_in[i->n] = '0';
 	if (f_str->sp_chars[i->k + 1] == '9' && f_str->sp_chars[i->k + 1] != '\0')
-		manage_infile2(com, f_str, i, start);
+	{
+		if (manage_infile2(com, f_str, i, start) == 1)
+			return (1);
+	}
 	else if (f_str->sp_chars[i->k + 1] != '\0')
-		manage_infile3(com, f_str, i, start);
+	{
+		if (manage_infile3(com, f_str, i, start) == 1)
+			return (1);
+	}
 	if (i->n == (*com)[i->i].nb_infile)
 	{
 		(*com)[i->i].tab_infile[i->n] = NULL;
 		(*com)[i->i].flag_in[i->n] = '\0';
 	}
+	return (0);
 }
