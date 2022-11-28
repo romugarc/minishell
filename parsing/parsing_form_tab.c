@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:44:31 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/28 12:52:54 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/28 18:26:45 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static int	forming_tab(t_commands **com, t_f_str *f_str, t_inc *i)
 int	form_tab(t_commands **com, t_f_str f_str, int np)
 {
 	t_inc	i;
-	int	j;
 
 	i.i = 0;
 	i.k = 0;
@@ -108,20 +107,5 @@ int	form_tab(t_commands **com, t_f_str f_str, int np)
 		}
 		i.i += 1;
 	}
-/*		it = 0;
-		printf("%d\n", np);
-		while (it < np)
-		{
-			j = 0;
-			printf("%d\n", (*com)[it].nb_infile);
-			while (j < (*com)[it].nb_infile && (*com)[it].nb_infile > 0)
-			{
-				printf("WATYT\n");
-				printf("%s.%d\n", (*com)[it].tab_infile[j], it);
-				j++;
-			}
-			printf("hm\n");
-			it++;
-		}*/
 	return (0);
 }

@@ -24,13 +24,17 @@ typedef struct s_commands
 	int		nb_args_in_command;
 	int		nb_infile;
 	int		nb_outfile;
+	int		nb_hd;
 	int		fdin;
 	int		fdout;
 	int		builtin;
 	int		heredoc;
 	int		append;
+	int		*tab_fdin;
+	int		*tab_fdout;
 	char	**tab_infile;
 	char	**tab_outfile;
+	char	**tab_hd;
 	char	*flag_in;
 	char	*flag_out;
 	char	**sgl_cmd;
@@ -45,6 +49,7 @@ typedef struct s_inc
 	int l_i;
 	int	l_j;
 	int	l_e;
+	int	lastfd;
 }	t_inc;
 
 typedef struct s_f_str
@@ -89,6 +94,8 @@ int			form_tab(t_commands **com, t_f_str f_str, int np);
 int			form_tab2(t_commands **com, t_f_str f_str, int np);
 int			correct_tab(t_commands **com, t_f_str f_str, int np);
 int			reform_tab(t_commands **com, int np);
+int			create_fd(t_commands **cmd, int np);
+int			form_heredoc(t_commands **c, int nb_pipes);
 
 //exec
 int			exec_main(t_commands *commands, int nb_pipes, char **envp);
@@ -119,6 +126,7 @@ void		ft_increment(char const *s, char c, size_t *i, t_f_str f_str);
 char		**ft_split_v2(char *s, char c, t_f_str *f_str);
 char		**ft_split_v2old(char const *s, char c, t_f_str f_str);
 int			ft_del_str_from_i(char *str, int i);
+void		close_tab_fd(int *fd, int i);
 
 //free
 void		free_command_line(t_commands *commands, char *line, int nb_pipes);
@@ -131,6 +139,8 @@ void		ft_free_tab(char **tab);
 t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs);
 void		init_inc(t_inc *inc);
 int			exec_init(t_exec *exec, t_commands *commands, int nb_comm, char **envp);
+int			*init_tab_fd(int nb_file);
+void		init_command_tab(t_commands **commands, int nb_pipes);
 
 //error
 int			error_handler(int argc, char **argv);

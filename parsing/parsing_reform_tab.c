@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:46:21 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/25 15:02:41 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/28 16:15:42 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int	reform_tab(t_commands **com, int np)
 		}
 		oldtab = (*com)[i.i].sgl_cmd;
 		(*com)[i.i].sgl_cmd = reform_tab2((*com)[i.i].sgl_cmd, i.n);
-		if ((*com)[i.i].sgl_cmd == NULL)
-			return (-1);
 		ft_free_tab(oldtab);
+		if ((*com)[i.i].sgl_cmd == NULL)
+			return (1);
 		i.i++;
 	}
 	return (0);
