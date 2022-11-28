@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:44:31 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/26 19:18:14 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/28 12:52:54 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,11 @@ int	form_tab2(t_commands **com, t_f_str f_str, int np)
 			if (forming_tab2(com, &f_str, &i) == 1)
 				return (1);
 		}
-		if ((*com)[i.i].nb_outfile == 0 && f_str.quotes[i.k] != '\0')
-			i.k += ft_strlen((*com)[i.i].sgl_cmd[i.j]);
-		else if ((*com)[i.i].sgl_cmd[i.j] != 0)
+		while(f_str.sp_chars[i.k] != '\0')
 		{
-			while(f_str.sp_chars[i.k] != '\0')
-			{
-				if (f_str.sp_chars[i.k] == '5' && is_in_quotes(f_str, i.k) == 0)
-					break;
-				i.k += 1;
-			}
-		}
-		else if (f_str.quotes[i.k] != '\0')
-		{
-			i.k+= 1;
+			if (f_str.sp_chars[i.k] == '5' && is_in_quotes(f_str, i.k) == 0)
+				break;
+			i.k += 1;
 		}
 		i.i += 1;
 	}
@@ -109,20 +100,11 @@ int	form_tab(t_commands **com, t_f_str f_str, int np)
 			if (forming_tab(com, &f_str, &i) == 1)
 				return (1);
 		}
-		if ((*com)[i.i].nb_infile == 0 && f_str.quotes[i.k] != '\0')
-			i.k += ft_strlen((*com)[i.i].sgl_cmd[i.j]);
-		else if ((*com)[i.i].sgl_cmd[i.j] != 0)
+		while(f_str.sp_chars[i.k] != '\0')
 		{
-			while(f_str.sp_chars[i.k] != '\0')
-			{
-				if (f_str.sp_chars[i.k] == '5' && is_in_quotes(f_str, i.k) == 0)
-					break;
-				i.k += 1;
-			}
-		}
-		else if (f_str.quotes[i.k] != '\0')
-		{
-			i.k+=1;
+			if (f_str.sp_chars[i.k] == '5' && is_in_quotes(f_str, i.k) == 0)
+				break;
+			i.k += 1;
 		}
 		i.i += 1;
 	}
