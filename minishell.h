@@ -19,6 +19,10 @@
 # include "libft/ft_printf.h"
 # include "libft/get_next_line.h"
 
+# define TRUE 1
+# define FALSE 0
+# define ERR -1
+
 typedef struct s_commands
 {
 	int		nb_args_in_command;
@@ -65,7 +69,7 @@ typedef struct s_exec
 	pid_t	*cpid;
 	int		**fd;
 	int		comm_i;
-	char	**envp;
+	char	**env_tmp;
 	int		status;
 	int		temp;
 }	t_exec;
@@ -75,6 +79,9 @@ typedef struct s_envcpy
 	int				equal;
 	char			*var;
 	char			*val;
+	int				env_;
+	int				is_oldpwd;
+	char			**oldpwd;
 	struct s_envcpy	*next;
 }	t_envlist;
 
@@ -98,23 +105,33 @@ int			create_fd(t_commands **cmd, int np);
 int			form_heredoc(t_commands **c, int nb_pipes);
 
 //exec
-int			exec_main(t_commands *commands, int nb_pipes, char **envp);
+int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
 int			pipe_error_case(int nb_comm, t_exec exec);
 void		wait_all_cpid(pid_t *cpid, int status, int i);
 int			**tab_fd_mall(int nb_comm);
 void		close_fd(int **fd, int i);
-void		child_process(t_commands *commands, t_exec exec, int nb_comm);
+void		child_process(t_commands *commands, t_exec exec, int nb_comm, t_envlist **envc);
 int			ft_echo(char **tab, int nb_comm);
-int			is_builtins(char **cmds, int nb_comm);
-int			ft_strcmp(char *cmd, char *str);
+int			is_builtins(char **cmds, int nb_comm, t_envlist **envc);
+int			strcmp_tof(char *cmd, char *str);
 int			ft_echo_n(char *str);
 int			ft_echo_next_n(char *str);
 int			ft_pwd(int nb_comm);
-int			ft_cd(char **tab, int nb_comm);
+int			ft_cd(char **tab, int nb_comm, t_envlist **envc);
 void		dup_fd(t_exec exec, int nb_comm);
 int			is_it_builtin(char *cmd);
 t_envlist	*envcpy(char **envp);
 t_commands	*commands_path(t_commands *comm, int nb_comm);
+int			get_tmp_env(t_envlist **envc, t_exec *exec);
+int			ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc);
+int			ft_export(char **comm, int nb_comm, t_envlist **envc);
+int			ft_strcmp(char *s1, char *s2);
+int			valid_id(char *var, char *cmd);
+void		ft_lstadd_back_env(t_envlist **alst, t_envlist *new);
+t_envlist	*ft_lstnew_env(char **envp, int line);
+int			ft_env(char **cmds, int nb_comm, t_envlist *envc);
+void		ft_exit(char **cmd, int nb_comm);
+void		rm_var(char *var, t_envlist **envc);
 
 //exec utils
 
