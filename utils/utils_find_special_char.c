@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 19:33:24 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/19 15:12:20 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/26 15:24:15 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	find_special_char(char c, t_f_str f_str, t_inc *inc, char *s_c)
 		i = inc->l_e;
 	else
 	{
-		if (inc->l_i != 0)
-			inc->k = inc->k - inc->l_e;
+//		if (inc->l_i != 0)
+//			inc->k = inc->k - inc->l_e;
 		inc->l_j = inc->j;
 		i = 0;
 	}
@@ -29,11 +29,8 @@ int	find_special_char(char c, t_f_str f_str, t_inc *inc, char *s_c)
 	{
 		if (f_str.sp_chars[inc->k] == c && f_str.quotes[inc->k] == '0')
 		{
-			if (f_str.sp_chars[inc->k + 1] != c)
-			{
 				inc->l_i = i;
 				return (i);
-			}
 		}
 		inc->k += 1;
 		i++;

@@ -3,6 +3,7 @@ NAME	= minishell
 SRCS	=	main.c prompt.c							\
 			signal_sig_handler.c					\
 			free_free_command_line.c				\
+			free_ft_free_tab.c						\
 			error_error_handler.c					\
 													\
 			commands_path.c							\
@@ -12,6 +13,8 @@ SRCS	=	main.c prompt.c							\
 													\
 			init_init_commands.c					\
 			init_init_inc.c							\
+			init_init_tab_fd.c						\
+			init_init_command_tab.c					\
 													\
 			utils/utils_correct_line.c				\
 			utils/utils_count_arguments.c			\
@@ -20,6 +23,8 @@ SRCS	=	main.c prompt.c							\
 			utils/utils_ft_increment.c				\
 			utils/utils_find_special_char.c			\
 			utils/utils_ft_splitv2old.c				\
+			utils/utils_ft_del_str_from_i.c			\
+			utils/utils_close_tab_fd.c				\
 													\
 			exec/exec.c								\
 			exec/exec_init.c						\
@@ -41,6 +46,15 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_quotes_flags.c			\
 			parsing/parsing_special_char_flags.c	\
 			parsing/parsing_find_end_redirection.c	\
+			parsing/parsing_count_redirections.c	\
+			parsing/parsing_malloc_tab_files.c		\
+			parsing/parsing_form_tab.c				\
+			parsing/parsing_manage_infile.c			\
+			parsing/parsing_manage_outfile.c		\
+			parsing/parsing_reform_tab.c			\
+			parsing/parsing_correct_tab.c			\
+			parsing/parsing_create_fd.c				\
+			parsing/parsing_form_heredoc.c			\
 
 HEADER_FILES = minishell.h
 

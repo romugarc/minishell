@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:22:01 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/19 15:06:51 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/29 16:22:39 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs)
 	full_command_line = ft_split_v2old(line, '|', *fs);
 	commands = malloc(sizeof(t_commands) * nb_pipes);
 	if (!commands)
-		return (0);
+		return (NULL);
 	i = 0;
 	while (full_command_line[i] != 0)
 	{
 		commands[i].sgl_cmd = ft_split_v2(full_command_line[i], ' ', fs);
+		if (!commands[i].sgl_cmd)
+			return (NULL);
 		while (fs->sp_chars[fs->i.k] == '5' && fs->quotes[fs->i.k] == '0')
 		{
 			fs->i.i += 1;

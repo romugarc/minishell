@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_init_inc.c                                    :+:      :+:    :+:   */
+/*   init_init_tab_fd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 17:09:05 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/23 17:07:54 by rgarcia          ###   ########lyon.fr   */
+/*   Created: 2022/11/28 16:07:56 by rgarcia           #+#    #+#             */
+/*   Updated: 2022/11/28 17:21:54 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_inc(t_inc *inc)
+int	*init_tab_fd(int nb_file)
 {
-	inc->i = 0;
-	inc->j = 0;
-	inc->k = 0;
-	inc->n = 0;
-	inc->l_i = 0;
-	inc->l_j = 0;
-	inc->l_e = 0;
+	int	i;
+	int	*tab_fd;
+
+	tab_fd = malloc(sizeof(int) * nb_file);
+	if (!tab_fd)
+		return (NULL);
+	i = 0;
+	if (nb_file > 0)
+	{
+		while (i < nb_file)
+		{
+			tab_fd[i] = -1;
+			i++;
+		}
+	}
+	else
+		tab_fd = NULL;
+	return (tab_fd);
 }

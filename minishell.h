@@ -28,13 +28,19 @@ typedef struct s_commands
 	int		nb_args_in_command;
 	int		nb_infile;
 	int		nb_outfile;
+	int		nb_hd;
 	int		fdin;
 	int		fdout;
 	int		builtin;
 	int		heredoc;
 	int		append;
+	int		*tab_fdin;
+	int		*tab_fdout;
 	char	**tab_infile;
 	char	**tab_outfile;
+	char	**tab_hd;
+	char	*flag_in;
+	char	*flag_out;
 	char	**sgl_cmd;
 }	t_commands;
 
@@ -47,14 +53,13 @@ typedef struct s_inc
 	int l_i;
 	int	l_j;
 	int	l_e;
+	int	lastfd;
 }	t_inc;
 
 typedef struct s_f_str
 {
 	char	*sp_chars;
 	char	*quotes;
-	char	**tab_sp_chars;
-	char	**tab_quotes;
 	t_inc	i;
 }	t_f_str;
 
@@ -87,6 +92,17 @@ int			quotes_flags(t_f_str *f_str, char *line);
 int			special_char_flags(t_f_str *f_str, char *line);
 int			find_end_redirection(t_f_str f_str, int *k);
 int			find_special_char(char c, t_f_str f_str, t_inc *i, char *s_c);
+int			malloc_tab_files(t_commands **c, int nb_pipes);
+void		count_redirections(t_commands **commands, int np, t_f_str f_str);
+int			form_tab(t_commands **com, t_f_str f_str, int np);
+int			manage_infile(t_commands **com, t_f_str *f_str, t_inc *i, int *start);
+int			manage_outfile(t_commands **com, t_f_str *f_str, t_inc *i, int *start);
+int			form_tab(t_commands **com, t_f_str f_str, int np);
+int			form_tab2(t_commands **com, t_f_str f_str, int np);
+int			correct_tab(t_commands **com, t_f_str f_str, int np);
+int			reform_tab(t_commands **com, int np);
+int			create_fd(t_commands **cmd, int np);
+int			form_heredoc(t_commands **c, int nb_pipes);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
@@ -122,27 +138,7 @@ void		rm_var(char *var, t_envlist **envc);
 //exec utils
 
 //parsing utils
-void		prompt(void);
-int			count_arguments(char *line, char c, t_f_str *f_str);
-int			is_in_quotes(t_f_str f_str, int i);
-void		ft_increment(char const *s, char c, size_t *i, t_f_str f_str);
-char		**ft_split_v2(char *s, char c, t_f_str *f_str);
-char		**ft_split_v2old(char const *s, char c, t_f_str f_str);
-
-//free
-void		free_command_line(t_commands *commands, char *line, int nb_pipes);
-void		free_tab(int **tab, int i);
-int			free_all(t_exec exec, int nb_comm);
-void		free_char_tab(char **tab);
-int			free_char_tab_ret(t_exec exec);
-
-//init
-t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs);
-void		init_inc(t_inc *inc);
-int			exec_init(t_exec *exec, int nb_comm);
-
-//error
-int			error_handler(int argc, char **argv);
+void		prmai_handler(int argc, char **argv);
 
 //signal
 void		sig_handler(int signum);

@@ -8,6 +8,8 @@ void	free_flag_string(t_f_str flag_string)
 
 int	main(int argc, char **argv, char **envp)
 {
+	int	i;
+	int	j;
 	char			*line;
 	int				nb_commands;
 	t_commands		*commands;
@@ -24,17 +26,6 @@ int	main(int argc, char **argv, char **envp)
 		parsing(&commands, &flag_string, &nb_commands, &line);	
 		commands = commands_path(commands, nb_commands);
 		exec_main(commands, nb_commands, &envc);
-/*		i = 0;
-		while (i < nb_commands)
-		{
-			j = 0;
-			while (commands[i].sgl_cmd[j] != 0)
-			{
-				printf("%s.%d\n", commands[i].sgl_cmd[j], i);
-				j++;
-			}
-			i++;
-		}*/
 		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_commands);
 		prompt();
@@ -117,5 +108,59 @@ int	main(int argc, char **argv, char **envp)
 				printf("%s\n", commands[i].single_command[j]);
 				j++;
 			}
+			i++;
+		}*/
+//debug tab_files
+/*		i = 0;
+		while (i < nb_commands)
+		{
+			j = 0;
+			while (j < commands[i].nb_infile)
+			{
+				printf("%s\t%din\n", commands[i].tab_infile[j], i);
+				j++;
+			}
+			if (commands[i].nb_infile > 0)
+				printf("%s\tf_in\n", commands[i].flag_in);
+			i++;
+		}
+		i = 0;
+		while (i < nb_commands)
+		{
+			j = 0;
+			while (j < commands[i].nb_outfile)
+			{
+				printf("%s\t%dout\n", commands[i].tab_outfile[j], i);
+				j++;
+			}
+			if (commands[i].nb_outfile > 0)
+				printf("%s\tf_out\n", commands[i].flag_out);
+			i++;
+		}*/
+/*		i = 0;
+		while (i < nb_commands)
+		{
+			j = 0;
+			while (commands[i].sgl_cmd[j] != 0)
+			{
+				printf("%s.%d\n", commands[i].sgl_cmd[j], i);
+				j++;
+			}
+			j = 0;
+			while (commands[i].nb_infile > 0 && j < commands[i].nb_infile)
+			{
+				printf("%s.%d.infile\n", commands[i].tab_infile[j], i);
+				j++;
+			}
+			if (commands[i].nb_infile > 0)
+				printf("%s.%dfin\n", commands[i].flag_in, i);
+			j = 0;
+			while (commands[i].nb_outfile > 0 && j < commands[i].nb_outfile)
+			{
+				printf("%s.%d.outfile\n", commands[i].tab_outfile[j], i);
+				j++;
+			}
+			if (commands[i].nb_outfile > 0)
+				printf("%s.%dfout\n", commands[i].flag_out, i);
 			i++;
 		}*/
