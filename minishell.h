@@ -50,6 +50,7 @@ typedef struct s_inc
 	int	j;
 	int	k;
 	int	n;
+	int	m;
 	int l_i;
 	int	l_j;
 	int	l_e;
