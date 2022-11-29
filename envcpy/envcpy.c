@@ -6,11 +6,23 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:42:52 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/15 19:16:14 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/28 14:03:58 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_envlist	*ft_lstlast_env(t_envlist *lst)
+{
+	t_envlist	*cpy;
+
+	if (!lst)
+		return (NULL);
+	cpy = lst;
+	while (cpy->next)
+		cpy = cpy->next;
+	return (cpy);
+}
 
 int	strlen_until(char *str, char *until)
 {
@@ -50,6 +62,8 @@ int	strlen_from(char *str, char *from)
 		if (count >= -1)
 			count++;
 	}
+	if (count == -2)
+		return (0);
 	return (count);
 }
 
@@ -84,8 +98,9 @@ char	*valuestr(char **envp, int line)
 		exit(EXIT_FAILURE);
 	while (envp[line][i] != '=' && envp[line][i])
 		i++;
-	i++;
-	while (envp[line][i] )
+	if (envp[line][i] == '=')
+		i++;
+	while (envp[line][i])
 	{
 		value[v] = envp[line][i];
 		i++;
@@ -114,24 +129,9 @@ t_envlist	*ft_lstnew_env(char **envp, int line)
 	return (lst);
 }
 
-
-t_envlist	*ft_lstlast_env(t_envlist *lst)
-{
-	t_envlist	*cpy;
-
-	if (!lst)
-		return (NULL);
-	cpy = lst;
-	while (cpy->next)
-		cpy = cpy->next;
-	return (cpy);
-}
-
-
 void	ft_lstadd_back_env(t_envlist **alst, t_envlist *new)
 {
 	t_envlist	*cpy;
-
 	if (alst)
 	{
 		if (*alst)
@@ -157,5 +157,8 @@ t_envlist	*envcpy(char **envp)
 	line = 0;
 	while (envp[line])
 		ft_lstadd_back_env(&tmp, ft_lstnew_env(envp, line++));
+	tmp->env_ = 0;
+	tmp->is_oldpwd = 0;
+	rm_var("OLDPWD", &tmp);
 	return (tmp);
 }

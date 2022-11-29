@@ -11,7 +11,7 @@ int	main(int argc, char **argv, char **envp)
 	char			*line;
 	int				nb_commands;
 	t_commands		*commands;
-	t_f_str	flag_string;
+	t_f_str			flag_string;
 	t_envlist		*envc;
 
 	envc = NULL;
@@ -21,9 +21,20 @@ int	main(int argc, char **argv, char **envp)
 	prompt();
 	while (1)
 	{
-		parsing(&commands, &flag_string, &nb_commands, &line);
+		parsing(&commands, &flag_string, &nb_commands, &line);	
 		commands = commands_path(commands, nb_commands);
-		exec_main(commands, nb_commands, envp);
+		exec_main(commands, nb_commands, &envc);
+/*		i = 0;
+		while (i < nb_commands)
+		{
+			j = 0;
+			while (commands[i].sgl_cmd[j] != 0)
+			{
+				printf("%s.%d\n", commands[i].sgl_cmd[j], i);
+				j++;
+			}
+			i++;
+		}*/
 		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_commands);
 		prompt();

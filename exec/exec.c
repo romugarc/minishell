@@ -6,11 +6,30 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/19 16:43:43 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:29:11 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	error_type(t_commands *comm, int line)
+{
+	int	i;
+
+	i = 0;
+	while (comm[line].sgl_cmd[0][i])
+	{
+		if (comm[line].sgl_cmd[0][i] == '/')
+		{
+			printf("minishell: %s: No such file or directory\n", comm[line].sgl_cmd[0]);
+			return (-1);
+		}
+		i++;
+	}
+	printf("minishell: %s: command not found\n",
+	comm[line].sgl_cmd[0]);
+	return (-1);
+}
 
 int	check_access(t_commands *comm, int nb_comm)
 {
@@ -19,17 +38,19 @@ int	check_access(t_commands *comm, int nb_comm)
 	i = 0;
 	while (i < nb_comm)
 	{
-		if (access(comm[i].sgl_cmd[0], F_OK) == -1)
+		if (access(comm[i].sgl_cmd[0], F_OK) == -1
+			&& strcmp_tof(comm[i].sgl_cmd[0], "export") != 1
+			&& strcmp_tof(comm[i].sgl_cmd[0], "unset") != 1
+			&& strcmp_tof(comm[i].sgl_cmd[0], "exit") != 1)
 		{
 			if (errno == 2)
-			{
-				printf("minishell: %s: command not found\n",
-					comm[i].sgl_cmd[0]);
-				return (-1);
-			}
+				return (error_type(comm, i));
 			return (-1);
 		}
-		if (access(comm[i].sgl_cmd[0], X_OK) == -1)
+		if (access(comm[i].sgl_cmd[0], X_OK) == -1
+			&& strcmp_tof(comm[i].sgl_cmd[0], "unset") != 1
+			&& strcmp_tof(comm[i].sgl_cmd[0], "export") != 1
+			&& strcmp_tof(comm[i].sgl_cmd[0], "exit") != 1)
 			return (-1);
 		i++;
 	}
@@ -54,20 +75,26 @@ int	pipe_error_case(int nb_comm, t_exec exec)
 	if (nb_comm > 1)
 		close_fd(exec.fd, exec.comm_i);
 	free(exec.cpid);
+	free_char_tab_ret(exec);
 	free_tab(exec.fd, exec.comm_i);
-	return (1);
+	return (-1);
 }
 
-int	exec_main(t_commands *commands, int nb_comm, char **envp)
+int	exec_main(t_commands *commands, int nb_comm, t_envlist **envc)
 {
 	t_exec		exec;
 
+	if (nb_comm < 1)
+		return (-1);
 	if (check_access(commands, nb_comm) == -1)
 		return (-1);
-	if (exec_init(&exec, commands, nb_comm, envp) == 1)
-		return (1);
+	if (get_tmp_env(envc, &exec) == -1)
+		return (free_char_tab_ret(exec));
+	if (exec_init(&exec, nb_comm) == -1)
+		return (free_char_tab_ret(exec));
 	if (nb_comm == 1)
-		is_builtins(commands[exec.comm_i].sgl_cmd, nb_comm);
+		is_builtins(commands[exec.comm_i].sgl_cmd, nb_comm, envc);
+	(*envc)->env_ = 1;
 	while (exec.temp > 0 && (nb_comm > 1
 			|| is_it_builtin(commands[0].sgl_cmd[0]) != 1))
 	{
@@ -76,12 +103,13 @@ int	exec_main(t_commands *commands, int nb_comm, char **envp)
 				return (pipe_error_case(nb_comm, exec));
 		exec.cpid[exec.comm_i] = fork();
 		if (exec.cpid[exec.comm_i] == 0)
-			child_process(commands, exec, nb_comm);
+			child_process(commands, exec, nb_comm, envc);
 		exec.comm_i++;
 		exec.temp--;
 	}
 	if (nb_comm > 1)
 		close_fd(exec.fd, exec.comm_i - 1);
+	free_char_tab_ret(exec);
 	wait_all_cpid(exec.cpid, exec.status, exec.comm_i);
 	free_all(exec, nb_comm);
 	return (0);

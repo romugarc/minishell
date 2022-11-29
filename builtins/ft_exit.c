@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 16:07:01 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/28 20:04:22 by fsariogl         ###   ########.fr       */
+/*   Created: 2022/11/27 17:42:20 by fsariogl          #+#    #+#             */
+/*   Updated: 2022/11/27 18:09:31 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_pwd(int nb_comm)
+void	ft_exit(char **cmd, int nb_comm)
 {
-	char	*path;
-
-	path = malloc(sizeof(char) * 10000000);
-	if (!path)
-		return (-1);
-	path = getcwd(path, 10000000);
-	ft_putstr_fd(path, 1);
-	ft_putchar_fd('\n', 1);
-	free(path);
-	if (nb_comm != 1)
-		exit(EXIT_SUCCESS);
-	return (1);
+	if (cmd[1])
+	{
+		printf("exit\nminishell: exit: %s: numeric argument required\n", cmd[1]);
+		exit(EXIT_FAILURE);
+	}
+	if (nb_comm == 1)
+		printf("exit\n");
+	exit(EXIT_SUCCESS);
 }
