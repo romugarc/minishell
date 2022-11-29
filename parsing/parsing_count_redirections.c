@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 17:14:54 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/26 17:14:55 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/29 16:12:20 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	count_redirections(t_commands **commands, int np, t_f_str f_str)
 	k = 0;
 	while (++i < np)
 	{
-		(*commands)[i].nb_outfile = 0;
-		(*commands)[i].nb_infile = 0;
 		j = 0;
 		while ((*commands)[i].sgl_cmd[j] != 0)
 		{

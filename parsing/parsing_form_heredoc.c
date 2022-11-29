@@ -6,17 +6,16 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:08:18 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/28 19:32:40 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/29 16:55:54 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	form_heredoc(t_commands **c, int nb_pipes)
+static void	count_nb_heredoc(t_commands **c, int nb_pipes)
 {
 	int	i;
 	int	j;
-	int	k;
 
 	i = 0;
 	while (i < nb_pipes)
@@ -30,26 +29,63 @@ int	form_heredoc(t_commands **c, int nb_pipes)
 					(*c)[i].nb_hd += 1;
 				j++;
 			}
-			if ((*c)[i].nb_hd > 0)
-			{
-				(*c)[i].tab_hd = malloc(sizeof(char *) * ((*c)[i].nb_hd + 1));
-				if (!(*c)[i].tab_hd)
-					return (1);
-				j = 0;
-				k = 0;
-				while ((*c)[i].tab_fdin[j] != '\0')
-				{
-					if ((*c)[i].tab_fdin[j] == '1')
-					{
-						(*c)[i].tab_hd[k] = ft_strdup((*c)[i].tab_infile[j]);
-						k++;
-					}
-					j++;
-				}
-			}
+		}
+		i++;
+	}
+}
+
+static int	malloc_tab_hd(t_commands **c, int nb_pipes)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_pipes)
+	{
+		if ((*c)[i].nb_hd > 0)
+		{
+			(*c)[i].tab_hd = malloc(sizeof(char *) * ((*c)[i].nb_hd + 1));
+			if (!(*c)[i].tab_hd)
+				return (1);
 		}
 		i++;
 	}
 	return (0);
 }
-//gerer les free et malloc correctement en faisant nb_infile - nb_heredoc dans malloc_tab_files (y aura ptet un souci la, regarder si c'est pas mieux de malloc apres reform tab)
+
+static void	forming_heredoc(t_commands **c, int i)
+{
+	int	j;
+	int	k;
+
+	if ((*c)[i].nb_hd > 0)
+	{
+		j = 0;
+		k = 0;
+		while ((*c)[i].tab_fdin[j] != '\0')
+		{
+			if ((*c)[i].tab_fdin[j] == '1')
+			{
+				(*c)[i].tab_hd[k] = ft_strdup((*c)[i].tab_infile[j]);
+				k++;
+			}
+			j++;
+		}
+		(*c)[i].tab_hd[k] = NULL;
+	}
+}
+
+int	form_heredoc(t_commands **c, int nb_pipes)
+{
+	int	i;
+
+	count_nb_heredoc(c, nb_pipes);
+	if (malloc_tab_hd(c, nb_pipes) == 1)
+		return (1);
+	i = -1;
+	while (++i < nb_pipes)
+	{
+		forming_heredoc(c, i);
+		i++;
+	}
+	return (0);
+}

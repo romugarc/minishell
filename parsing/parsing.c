@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/28 19:30:48 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/29 16:56:38 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
 	correct_tab(commands, *f_str, *nb_pipes);
 	if (reform_tab(commands, *nb_pipes) == 1)
 		return (1);
-//	if (form_heredoc(commands, *nb_pipes) == 1)
-//		return (1);
+	if (form_heredoc(commands, *nb_pipes) == 1)
+		return (1);
 	if (create_fd(commands, *nb_pipes) == 1)
 		return (1);
 	return (0);

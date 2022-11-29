@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 16:44:20 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/26 16:47:04 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/11/29 16:02:45 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ void	ft_free_tab(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[i] != NULL)
+	if (tab != NULL)
 	{
-		free(tab[i]);
-		i++;
+		while (tab[i] != NULL)
+		{
+			free(tab[i]);
+			i++;
+		}
 	}
 	free(tab);
 }
