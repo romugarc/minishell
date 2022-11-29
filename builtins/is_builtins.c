@@ -6,13 +6,13 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 14:20:47 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/19 16:45:26 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:57:40 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strcmp(char *cmd, char *str)
+int	strcmp_tof(char *cmd, char *str)
 {
 	int	i;
 
@@ -28,34 +28,38 @@ int	ft_strcmp(char *cmd, char *str)
 
 int	is_it_builtin(char *cmd)
 {
-	if (ft_strcmp(cmd, "/bin/echo") == 1)
+	if (strcmp_tof(cmd, "/bin/echo") == 1)
 		return (1);
-	else if (ft_strcmp(cmd, "/usr/bin/cd") == 1)
+	else if (strcmp_tof(cmd, "/usr/bin/cd") == 1)
 		return (1);
-	else if (ft_strcmp(cmd, "/bin/pwd") == 1)
+	else if (strcmp_tof(cmd, "/bin/pwd") == 1)
 		return (1);
-//	else if (ft_strcmp(cmd, "export") == 1)
-//		return (1);
-//	else if (ft_strcmp(cmd, "unset") == 1)
-//		return (1);
-//	else if (ft_strcmp(cmd, "env") == 1 || ft_strcmp(cmd, "/usr/bin/env") == 1)
-//		return (1);
-//	else if (ft_strcmp(cmd, "exit") == 1)
-//		return (1);
+	else if (strcmp_tof(cmd, "export") == 1)
+		return (1);
+	else if (strcmp_tof(cmd, "unset") == 1)
+		return (1);
+	else if (strcmp_tof(cmd, "/usr/bin/env") == 1)
+		return (1);
+	else if (strcmp_tof(cmd, "exit") == 1)
+		return (1);
 	return (0);
 }
 
-int	is_builtins(char **cmds, int nb_comm)
+int	is_builtins(char **cmds, int nb_comm, t_envlist **envc)
 {
-	if (ft_strcmp(cmds[0], "/bin/echo") == 1)
+	if (strcmp_tof(cmds[0], "/bin/echo") == 1)
 		return (ft_echo(cmds, nb_comm));
-	else if (ft_strcmp(cmds[0], "/usr/bin/cd") == 1)
-		return (ft_cd(cmds, nb_comm));
-	else if (ft_strcmp(cmds[0], "/bin/pwd") == 1)
+	else if (strcmp_tof(cmds[0], "/usr/bin/cd") == 1)
+		return (ft_cd(cmds, nb_comm, envc));
+	else if (strcmp_tof(cmds[0], "/bin/pwd") == 1)
 		return (ft_pwd(nb_comm));
-//	else if (ft_strcmp(comm.sgl_cmd, "export") == 1)
-//	else if (ft_strcmp(comm.sgl_cmd, "unset") == 1)
-//	else if (ft_strcmp(comm.sgl_cmd, "env") == 1)
-//	else if (ft_strcmp(comm.sgl_cmd, exit) == 1)
+	else if (strcmp_tof(cmds[0], "export") == 1)
+		ft_export(cmds, nb_comm, envc);
+	else if (strcmp_tof(cmds[0], "unset") == 1)
+		return (ft_unset(cmds, nb_comm, envc));
+	else if (strcmp_tof(cmds[0], "/usr/bin/env") == 1)
+		return (ft_env(cmds, nb_comm, (*envc)));
+	else if (strcmp_tof(cmds[0], "exit") == 1)
+		ft_exit(cmds, nb_comm);
 	return (0);
 }

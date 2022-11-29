@@ -13,7 +13,7 @@ int	main(int argc, char **argv, char **envp)
 	char			*line;
 	int				nb_commands;
 	t_commands		*commands;
-	t_f_str	flag_string;
+	t_f_str			flag_string;
 	t_envlist		*envc;
 
 	envc = NULL;
@@ -23,8 +23,9 @@ int	main(int argc, char **argv, char **envp)
 	prompt();
 	while (1)
 	{
-		parsing(&commands, &flag_string, &nb_commands, &line);
-//		exec_main(commands, nb_commands, envp);
+		parsing(&commands, &flag_string, &nb_commands, &line);	
+		commands = commands_path(commands, nb_commands);
+		exec_main(commands, nb_commands, &envc);
 		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_commands);
 		prompt();

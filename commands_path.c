@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:59:49 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/19 16:44:01 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/11/23 15:30:05 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_commands	*commands_path(t_commands *comm, int nb_comm)
 	free(str);
 	while (i < nb_comm)
 	{
-		comm[i] = check_comm(comm[i], allpath);
+		if (is_it_builtin(comm[i].sgl_cmd[0]) != 1)
+			comm[i] = check_comm(comm[i], allpath);
 		i++;
 	}
 	free_char_tab(allpath);

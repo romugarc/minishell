@@ -7,7 +7,9 @@ SRCS	=	main.c prompt.c							\
 			error_error_handler.c					\
 													\
 			commands_path.c							\
+													\
 			envcpy/envcpy.c							\
+			envcpy/tmp_env.c						\
 													\
 			init_init_commands.c					\
 			init_init_inc.c							\
@@ -35,6 +37,10 @@ SRCS	=	main.c prompt.c							\
 			builtins/ft_echo.c						\
 			builtins/ft_pwd.c						\
 			builtins/ft_cd.c						\
+			builtins/ft_unset.c						\
+			builtins/ft_export.c					\
+			builtins/ft_env.c						\
+			builtins/ft_exit.c						\
 													\
 			parsing/parsing.c						\
 			parsing/parsing_quotes_flags.c			\
@@ -57,7 +63,7 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra -g #-fsanitize=address #-Werror #-g #-fsanitize=address
+CFLAGS	=	-Wall -Wextra #-fsanitize=address #-Werror  #-g
 
 all:		${NAME}
 
@@ -68,13 +74,13 @@ $(NAME):	${OBJS}
 			@$(MAKE) -C ./libft
 			@${CC} ${CFLAGS} ${OBJS} ./libft/libft.a -o minishell
 
-clean:
+c:
 			${RM} ${OBJS}
 
-fclean:		clean
+fclean:		c
 			${RM} minishell
 			${MAKE} -C ./libft fclean
 
 re:			fclean all
 
-.PHONY:		all clean fclean re minishell
+.PHONY:		all c fclean re minishell

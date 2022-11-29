@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 16:07:01 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/28 20:04:22 by fsariogl         ###   ########.fr       */
+/*   Created: 2022/11/27 17:14:53 by fsariogl          #+#    #+#             */
+/*   Updated: 2022/11/27 17:31:54 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_pwd(int nb_comm)
+int	ft_env(char **cmds, int nb_comm, t_envlist *envc)
 {
-	char	*path;
+	t_envlist	*tmp;
 
-	path = malloc(sizeof(char) * 10000000);
-	if (!path)
-		return (-1);
-	path = getcwd(path, 10000000);
-	ft_putstr_fd(path, 1);
-	ft_putchar_fd('\n', 1);
-	free(path);
-	if (nb_comm != 1)
+	tmp = envc;
+	if (cmds[1])
+	{
+		printf("env: %s: No such file or directory\n", cmds[1]);
+		return (0);
+	}
+	while (tmp)
+	{
+		if (tmp->equal == 1)
+		{
+			printf("%s=", tmp->var);
+			if (tmp->val)
+				printf("%s\n", tmp->val);
+			else
+				printf("\n");
+		}
+		tmp = tmp->next;
+	}
+	if (nb_comm > 1)
 		exit(EXIT_SUCCESS);
-	return (1);
+	return (0);
 }
