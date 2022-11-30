@@ -80,8 +80,8 @@ typedef struct s_envcpy
 	char			*var;
 	char			*val;
 	int				env_;
-	int				is_oldpwd;
 	char			**oldpwd;
+	int				is_oldpwd;
 	struct s_envcpy	*next;
 }	t_envlist;
 
@@ -151,11 +151,13 @@ void		free_tab(int **tab, int i);
 int			free_all(t_exec exec, int nb_comm);
 void		free_char_tab(char **tab);
 void		ft_free_tab(char **tab);
+int			free_char_tab_ret(t_exec exec);
+
 
 //init
 t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs);
 void		init_inc(t_inc *inc);
-int			exec_init(t_exec *exec, t_commands *commands, int nb_comm, char **envp);
+int			exec_init(t_exec *exec, int nb_comm);
 int			*init_tab_fd(int nb_file);
 void		init_command_tab(t_commands **commands, int nb_pipes);
 
