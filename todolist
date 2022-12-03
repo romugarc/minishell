@@ -1,4 +1,5 @@
 choses a faire;
+- dans create_fd, il faut executer les heredocs avant de reporter la moindre erreur, donc il faudra surement stocker les erreurs quelque part
 - faire le parsing d'expand de variables
 - une fois qu'il sera fini, l'integrer aux heredocs (au moment ou il faut entrer des trucs)
 - enlever les quotes (mais attention, il faut concatener la string quand on enleve les quotes au lieu de mettre des espaces)
