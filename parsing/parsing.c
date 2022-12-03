@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/29 16:56:38 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/03 18:50:06 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
 {
-	*line = get_next_line(0);
-	*line = correct_line(*line);
+//	*line = get_next_line(0);
+//	*line = correct_line(*line);
+	int	i;
+	int	j;
+	*line = readline("minishell$ ");
 	if (special_char_flags(f_str, *line) != 0)
 		return (1);
 	if (quotes_flags(f_str, *line) != 0)
@@ -24,6 +27,8 @@ int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
 	*nb_pipes = count_arguments(*line, '|', f_str);
 	f_str->i.k = 0;
 	*commands = init_commands(*line, *nb_pipes, f_str);
+	if (*commands == NULL)
+		return (1);
 	init_command_tab(commands, *nb_pipes);
 	count_redirections(commands, *nb_pipes, *f_str);
 	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
@@ -35,8 +40,6 @@ int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
 		return (1);
 	correct_tab(commands, *f_str, *nb_pipes);
 	if (reform_tab(commands, *nb_pipes) == 1)
-		return (1);
-	if (form_heredoc(commands, *nb_pipes) == 1)
 		return (1);
 	if (create_fd(commands, *nb_pipes) == 1)
 		return (1);

@@ -6,57 +6,56 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 18:13:21 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/30 18:25:07 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/03 18:49:27 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
-static int	heredoc_prompting(t_commands **cmd, int i, int j, int *lastfd)
+static int	heredoc_routine(t_commands **cmd, t_inc inc, t_heredoc *hd)
 {
-	int	*pipefd;
-	int	cpid;
-	int	status;
+	int		breaking;
 	char	*lineh;
 
-	pipefd = malloc(sizeof(int) * 2);
+	breaking = 0;
 	lineh = NULL;
-	if (pipe(*pipefd) == -1)
-		return (1);
-	*cpid = fork();
-	if (*cpid == -1)
+	lineh = readline("> ");
+	if (ft_strrcmp(lineh, (*cmd)[inc.i].tab_infile[inc.j]) == 0)
 	{
-		close(*pipefd[0]);
-		close(*pipefd[1]);
-		free(*pipefd);
-		return (1);
-	}
-	else if (cpid == 0)
-	{
-		close(pipefd[1]);
-		while (1)
-		{
-			lineh = readline("> ");
-			if (ft_strrcmp(lineh, (*cmd)[i].tab_infile[j]) == 0)
-			{
-				//leaks dans le heredoc (qui viennent de ce child)
-				free(lineh);
-				break;
-			}
-			free(lineh);
-		}
-		close(pipefd[0]);
-		exit(EXIT_SUCCESS);
+		free(lineh);
+		breaking = 1;
 	}
 	else
 	{
-		close(pipefd[0]);
-		*lastfd = pipefd[1];
-		(*cmd)[i].tab_fdin[j] = *lastfd;
-		waitpid(cpid, &status, 0);
-		(*cmd)[i].heredoc = 1;
-		free(pipefd);
+		ft_putstr_fd(lineh, hd->pipefd[1]);
+		ft_putchar_fd('\n', hd->pipefd[1]);
+		free(lineh);
 	}
+	return (breaking);
+}
+
+static int	heredoc_prompting(t_commands **cmd, int i, int j, int *lastfd)
+{
+	t_heredoc hd;
+	t_inc	inc;
+	int		fdsave;
+
+	inc.i = i;
+	inc.j = j;
+	fdsave = dup(0);
+	hd.pipefd = malloc(sizeof(int) * 2);
+	if (pipe(hd.pipefd) == -1)
+		return (1);
+	while (1)
+	{
+		if(heredoc_routine(cmd, inc, &hd) == 1)
+			break;
+	}
+	dup2(hd.pipefd[0], fdsave);
+	*lastfd = hd.pipefd[1];
+	(*cmd)[inc.i].tab_fdin[inc.j] = *lastfd;
+	(*cmd)[inc.i].heredoc = 1;
+	free(hd.pipefd);
 	return (0);
 }
 
@@ -72,7 +71,7 @@ static int	create_fdin2(t_commands **cmd, int i, int j, int *lastfd)
 	return (0);
 }
 
-int	create_fdinnnnn(t_commands **cmd, int i, int j, int *lastfd)
+int	create_fdin(t_commands **cmd, int i, int j, int *lastfd)
 {
 	if ((*cmd)[i].flag_in[j] == '0' && (*cmd)[i].tab_fdin != NULL)
 	{

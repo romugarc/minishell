@@ -1,0 +1,10 @@
+choses a faire;
+- faire le parsing d'expand de variables
+- une fois qu'il sera fini, l'integrer aux heredocs (au moment ou il faut entrer des trucs)
+- enlever les quotes (mais attention, il faut concatener la string quand on enleve les quotes au lieu de mettre des espaces)
+- faire le parsing d'erreur en entree (si on a une commande vide entre des pipes, si on a rien entre 2 redirections, si on redirige sur rien, si on pipe sur rien, si y a trop de caracteres speciaux a la suite, si y a des quotes pas fermees)
+- faire le fix du command not found dans exec (y a un commentaire quelque part dans le code exec)
+- ajouter l'historique et l'integrer dans les heredocs
+- ajouter la gestion de signaux et l'integrer dans les childs et dans les heredocs
+- faire la gestion d'erreur
+- faire le $?

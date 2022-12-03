@@ -6,21 +6,21 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:06:47 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/30 18:11:32 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/02 18:20:52 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strrcmp(char *s1, char *s2)
+/*int	ft_strrcmp(char *s1, char *s2)
 {
 	int	i;
 
 	i = 0;
 	if (s1 == NULL && s2 == NULL)
 		return (0);
-	else if (s1 == NULL || s2 == NULL)
-		return (1);
+	else if (s1 == NULL && s2 != NULL)
+		return (0);
 	while (s1[i] || s2[i])
 	{
 		if (s1[i] != s2[i])
@@ -28,57 +28,40 @@ int	ft_strrcmp(char *s1, char *s2)
 		i++;
 	}
 	return (0);
-}
+}*/
 
-int	heredoc_prompting(t_commands **cmd, int i, int j, int *lastfd)
+/*int	heredoc_prompting(t_commands **cmd, int i, int j, int *lastfd)
 {
 	int	*pipefd;
-	int	cpid;
-	int	status;
+	int	fdsave;
 	char	*lineh;
 
-	pipefd = malloc(sizeof(int) * 2);
+	fdsave = dup(0);
+	pipefd = malloc(sizeof(int) * 200000);
 	lineh = NULL;
 	if (pipe(pipefd) == -1)
 		return (1);
-	cpid = fork();
-	if (cpid == -1)
+	while (1)
 	{
-		close(pipefd[0]);
-		close(pipefd[1]);
-		free(pipefd);
-		return (1);
-	}
-	else if (cpid == 0)
-	{
-		close(pipefd[1]);
-		while (1)
+		lineh = readline("> ");
+		if (ft_strrcmp(lineh, (*cmd)[i].tab_infile[j]) == 0)
 		{
-			lineh = readline("> ");
-			if (ft_strrcmp(lineh, (*cmd)[i].tab_infile[j]) == 0)
-			{
-				//leaks dans le heredoc (qui viennent de ce child)
-				free(lineh);
-				break;
-			}
 			free(lineh);
+			break;
 		}
-		close(pipefd[0]);
-		exit(EXIT_SUCCESS);
+		ft_putstr_fd(lineh, pipefd[1]);
+		ft_putchar_fd('\n', pipefd[1]);
+		free(lineh);
 	}
-	else
-	{
-		close(pipefd[0]);
-		*lastfd = pipefd[1];
-		(*cmd)[i].tab_fdin[j] = *lastfd;
-		waitpid(cpid, &status, 0);
-		(*cmd)[i].heredoc = 1;
-		free(pipefd);
-	}
+	dup2(pipefd[0], fdsave);
+	*lastfd = pipefd[1];
+	(*cmd)[i].tab_fdin[j] = *lastfd;
+	(*cmd)[i].heredoc = 1;
+	free(pipefd);
 	return (0);
-}
+}*/
 
-static int	create_fdin(t_commands **cmd, int i, int j, int *lastfd)
+/*static int	create_fdin(t_commands **cmd, int i, int j, int *lastfd)
 {
 	if ((*cmd)[i].flag_in[j] == '0' && (*cmd)[i].tab_fdin != NULL)
 	{
@@ -108,7 +91,7 @@ static int	create_fdin(t_commands **cmd, int i, int j, int *lastfd)
 	else if ((*cmd)[i].tab_fdin == NULL)
 		return (1);
 	return (0);
-}
+}*/
 
 static int	create_fdout2(t_commands **cmd, int i, int j, int *lastfd)
 {

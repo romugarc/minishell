@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:44:31 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/28 18:26:45 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/03 19:18:18 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	forming_tab2(t_commands **com, t_f_str *f_str, t_inc *i)
 	if (((*com)[i->i].sgl_cmd[i->j] != 0 
 			&& (*com)[i->i].sgl_cmd[i->j][i->l_e] == '\0') || start == -1)
 		i->j += 1;
+	else
+		i->l_j = i->j;
 	return (0);
 }
 
@@ -78,6 +80,8 @@ static int	forming_tab(t_commands **com, t_f_str *f_str, t_inc *i)
 	if (((*com)[i->i].sgl_cmd[i->j] != 0 
 			&& (*com)[i->i].sgl_cmd[i->j][i->l_e] == '\0') || start == -1)
 		i->j += 1;
+	else
+		i->l_j = i->j;
 	return (0);
 }
 
