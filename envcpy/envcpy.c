@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:42:52 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/28 14:03:58 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/01 15:39:18 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ t_envlist	*ft_lstnew_env(char **envp, int line)
 	return (lst);
 }
 
-void	ft_lstadd_back_env(t_envlist **alst, t_envlist *new)
+void	ft_lstadd_back_env(t_envlist **alst, t_envlist *new_lst)
 {
 	t_envlist	*cpy;
 	if (alst)
@@ -137,19 +137,20 @@ void	ft_lstadd_back_env(t_envlist **alst, t_envlist *new)
 		if (*alst)
 		{
 			cpy = ft_lstlast_env(*alst);
-			cpy->next = new;
+			cpy->next = new_lst;
 		}
 		else
-			*alst = new;
+			*alst = new_lst;
 	}
 	else
-		alst = &new;
+		alst = &new_lst;
 }
 
 t_envlist	*envcpy(char **envp)
 {
 	int			line;
 	t_envlist	*tmp;
+	static int	first_time = 1;
 
 	if (!envp)
 		return (NULL);
@@ -157,8 +158,7 @@ t_envlist	*envcpy(char **envp)
 	line = 0;
 	while (envp[line])
 		ft_lstadd_back_env(&tmp, ft_lstnew_env(envp, line++));
-	tmp->env_ = 0;
-	tmp->is_oldpwd = 0;
-	rm_var("OLDPWD", &tmp);
+	if (first_time == 1)
+		rm_val("OLDPWD", &tmp, &first_time);
 	return (tmp);
 }

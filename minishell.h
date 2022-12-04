@@ -110,9 +110,9 @@ int			pipe_error_case(int nb_comm, t_exec exec);
 void		wait_all_cpid(pid_t *cpid, int status, int i);
 int			**tab_fd_mall(int nb_comm);
 void		close_fd(int **fd, int i);
-void		child_process(t_commands *commands, t_exec exec, int nb_comm, t_envlist **envc);
+void		child_process(t_commands *commands, t_exec exec, t_envlist **envc, int *oldp_stat);
 int			ft_echo(char **tab, int nb_comm);
-int			is_builtins(char **cmds, int nb_comm, t_envlist **envc);
+int			is_builtins(char **cmds, int nb_comm, t_envlist **envc, int *oldp_stat);
 int			strcmp_tof(char *cmd, char *str);
 int			ft_echo_n(char *str);
 int			ft_echo_next_n(char *str);
@@ -121,17 +121,18 @@ int			ft_cd(char **tab, int nb_comm, t_envlist **envc);
 void		dup_fd(t_exec exec, int nb_comm);
 int			is_it_builtin(char *cmd);
 t_envlist	*envcpy(char **envp);
-t_commands	*commands_path(t_commands *comm, int nb_comm);
+t_commands	*commands_path(t_commands *comm, int nb_comm, t_envlist *envc);
 int			get_tmp_env(t_envlist **envc, t_exec *exec);
-int			ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc);
-int			ft_export(char **comm, int nb_comm, t_envlist **envc);
+int			ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc, int *oldp_stat);
+int			ft_export(char **comm, int nb_comm, t_envlist **envc, int oldp_stat);
 int			ft_strcmp(char *s1, char *s2);
 int			valid_id(char *var, char *cmd);
-void		ft_lstadd_back_env(t_envlist **alst, t_envlist *new);
+void		ft_lstadd_back_env(t_envlist **alst, t_envlist *new_lst);
 t_envlist	*ft_lstnew_env(char **envp, int line);
-int			ft_env(char **cmds, int nb_comm, t_envlist *envc);
+int			ft_env(char **cmds, int nb_comm, t_envlist *envc, int oldp_stat);
 void		ft_exit(char **cmd, int nb_comm);
 void		rm_var(char *var, t_envlist **envc);
+void		rm_val(char *str, t_envlist **envc, int *first_time);
 
 //exec utils
 

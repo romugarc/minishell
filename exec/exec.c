@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/27 18:29:11 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/04 15:17:16 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,23 @@ int	check_access(t_commands *comm, int nb_comm)
 	i = 0;
 	while (i < nb_comm)
 	{
-		if (access(comm[i].sgl_cmd[0], F_OK) == -1
-			&& strcmp_tof(comm[i].sgl_cmd[0], "export") != 1
-			&& strcmp_tof(comm[i].sgl_cmd[0], "unset") != 1
-			&& strcmp_tof(comm[i].sgl_cmd[0], "exit") != 1)
+		if (comm[i].sgl_cmd[0][0] != '\0')
 		{
-			if (errno == 2)
-				return (error_type(comm, i));
-			return (-1);
+			if (access(comm[i].sgl_cmd[0], F_OK) == -1
+				&& strcmp_tof(comm[i].sgl_cmd[0], "export") != 1
+				&& strcmp_tof(comm[i].sgl_cmd[0], "unset") != 1
+				&& strcmp_tof(comm[i].sgl_cmd[0], "exit") != 1)
+			{
+				if (errno == 2)
+					return (error_type(comm, i));
+				return (-1);
+			}
+			if (access(comm[i].sgl_cmd[0], X_OK) == -1
+				&& strcmp_tof(comm[i].sgl_cmd[0], "unset") != 1
+				&& strcmp_tof(comm[i].sgl_cmd[0], "export") != 1
+				&& strcmp_tof(comm[i].sgl_cmd[0], "exit") != 1)
+				return (-1);
 		}
-		if (access(comm[i].sgl_cmd[0], X_OK) == -1
-			&& strcmp_tof(comm[i].sgl_cmd[0], "unset") != 1
-			&& strcmp_tof(comm[i].sgl_cmd[0], "export") != 1
-			&& strcmp_tof(comm[i].sgl_cmd[0], "exit") != 1)
-			return (-1);
 		i++;
 	}
 	return (0);
@@ -80,20 +83,25 @@ int	pipe_error_case(int nb_comm, t_exec exec)
 	return (-1);
 }
 
+// rm -rf ../../../a
+// SHLVL
+
 int	exec_main(t_commands *commands, int nb_comm, t_envlist **envc)
 {
 	t_exec		exec;
+	static int	oldp_stat = 0;
 
 	if (nb_comm < 1)
 		return (-1);
-	if (check_access(commands, nb_comm) == -1)
-		return (-1);
+//	if (check_access(commands, nb_comm) == -1)
+//		return (-1);
 	if (get_tmp_env(envc, &exec) == -1)
 		return (free_char_tab_ret(exec));
 	if (exec_init(&exec, nb_comm) == -1)
 		return (free_char_tab_ret(exec));
 	if (nb_comm == 1)
-		is_builtins(commands[exec.comm_i].sgl_cmd, nb_comm, envc);
+		is_builtins(commands[exec.comm_i].sgl_cmd, nb_comm, envc, &oldp_stat);
+	exec.nb_comm = nb_comm;
 	(*envc)->env_ = 1;
 	while (exec.temp > 0 && (nb_comm > 1
 			|| is_it_builtin(commands[0].sgl_cmd[0]) != 1))
@@ -103,7 +111,7 @@ int	exec_main(t_commands *commands, int nb_comm, t_envlist **envc)
 				return (pipe_error_case(nb_comm, exec));
 		exec.cpid[exec.comm_i] = fork();
 		if (exec.cpid[exec.comm_i] == 0)
-			child_process(commands, exec, nb_comm, envc);
+			child_process(commands, exec, envc, &oldp_stat);
 		exec.comm_i++;
 		exec.temp--;
 	}

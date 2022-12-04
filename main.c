@@ -8,8 +8,6 @@ void	free_flag_string(t_f_str flag_string)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	i;
-	int	j;
 	char			*line;
 	int				nb_commands;
 	t_commands		*commands;
@@ -23,8 +21,8 @@ int	main(int argc, char **argv, char **envp)
 	prompt();
 	while (1)
 	{
-		parsing(&commands, &flag_string, &nb_commands, &line);	
-		commands = commands_path(commands, nb_commands);
+		parsing(&commands, &flag_string, &nb_commands, &line);
+		commands = commands_path(commands, nb_commands, envc);
 		exec_main(commands, nb_commands, &envc);
 		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_commands);

@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 14:20:47 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/28 17:57:40 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/03 12:29:50 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	is_it_builtin(char *cmd)
 	return (0);
 }
 
-int	is_builtins(char **cmds, int nb_comm, t_envlist **envc)
+int	is_builtins(char **cmds, int nb_comm, t_envlist **envc, int *oldp_stat)
 {
 	if (strcmp_tof(cmds[0], "/bin/echo") == 1)
 		return (ft_echo(cmds, nb_comm));
@@ -54,11 +54,11 @@ int	is_builtins(char **cmds, int nb_comm, t_envlist **envc)
 	else if (strcmp_tof(cmds[0], "/bin/pwd") == 1)
 		return (ft_pwd(nb_comm));
 	else if (strcmp_tof(cmds[0], "export") == 1)
-		ft_export(cmds, nb_comm, envc);
+		ft_export(cmds, nb_comm, envc, (*oldp_stat));
 	else if (strcmp_tof(cmds[0], "unset") == 1)
-		return (ft_unset(cmds, nb_comm, envc));
+		return (ft_unset(cmds, nb_comm, envc, oldp_stat));
 	else if (strcmp_tof(cmds[0], "/usr/bin/env") == 1)
-		return (ft_env(cmds, nb_comm, (*envc)));
+		return (ft_env(cmds, nb_comm, (*envc), (*oldp_stat)));
 	else if (strcmp_tof(cmds[0], "exit") == 1)
 		ft_exit(cmds, nb_comm);
 	return (0);

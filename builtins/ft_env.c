@@ -6,13 +6,13 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:14:53 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/27 17:31:54 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/01 17:24:31 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_env(char **cmds, int nb_comm, t_envlist *envc)
+int	ft_env(char **cmds, int nb_comm, t_envlist *envc, int oldp_stat)
 {
 	t_envlist	*tmp;
 
@@ -24,6 +24,8 @@ int	ft_env(char **cmds, int nb_comm, t_envlist *envc)
 	}
 	while (tmp)
 	{
+		if (strcmp_tof(tmp->var, "PWD") == 1 && oldp_stat == -1)
+			tmp = tmp->next;
 		if (tmp->equal == 1)
 		{
 			printf("%s=", tmp->var);

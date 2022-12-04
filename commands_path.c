@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:59:49 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/11/23 15:30:05 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/04 14:42:50 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,57 @@ t_commands	check_comm(t_commands comm, char **allpath)
 	return (comm);
 }
 
-t_commands	*commands_path(t_commands *comm, int nb_comm)
+char	*get_slash(char *str)
 {
 	int		i;
-	char	*str;
-	char	**allpath;
+	int		j;
+	char	*new_str;
 
 	i = 0;
-	str = ft_strjoin("/usr/local/bin/:/usr/bin/:/bin/:/usr/sbin/:/sbin/:",
-		"/usr/local/munki/:/opt/X11/bin/");
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == ':')
+			j++;
+		i++;
+	}
+	new_str = malloc(sizeof(char) * (i + j + 1));
+	if (!new_str)
+		return (str);
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == ':')
+			new_str[j++] = '/';
+		new_str[j] = str[i];
+		i++;
+		j++;
+	}
+	new_str[j] = '\0';
+	free(str);
+	return (new_str);
+}
+
+t_commands	*commands_path(t_commands *comm, int nb_comm, t_envlist *envcpy)
+{
+	int			i;
+	char		*str;
+	char		**allpath;
+	t_envlist	*cpy;
+
+	i = 0;
+	cpy = envcpy;
+	while (cpy)
+	{
+		if (strcmp_tof(cpy->var, "PATH") == 1)
+			break;
+		cpy = cpy->next;
+	}
+	if (!cpy)
+		return (comm);
+	str = ft_strjoin(cpy->val, "/");
+	str = get_slash(str);
 	allpath = ft_split(str, ':');
 	free(str);
 	while (i < nb_comm)
