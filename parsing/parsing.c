@@ -16,8 +16,6 @@ int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
 {
 //	*line = get_next_line(0);
 //	*line = correct_line(*line);
-	int	i;
-	int	j;
 	*line = readline("minishell$ ");
 	if (special_char_flags(f_str, *line) != 0)
 		return (1);
