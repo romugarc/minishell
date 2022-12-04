@@ -44,6 +44,13 @@ typedef struct s_commands
 	char	**sgl_cmd;
 }	t_commands;
 
+typedef struct s_heredoc
+{
+	int	*pipefd;
+	int	cpid;
+	int	status;
+}	t_heredoc;
+
 typedef struct s_inc
 {
 	int	i;
@@ -54,6 +61,7 @@ typedef struct s_inc
 	int	l_j;
 	int	l_e;
 	int	lastfd;
+	int	start;
 }	t_inc;
 
 typedef struct s_f_str
@@ -103,6 +111,7 @@ int			correct_tab(t_commands **com, t_f_str f_str, int np);
 int			reform_tab(t_commands **com, int np);
 int			create_fd(t_commands **cmd, int np);
 int			form_heredoc(t_commands **c, int nb_pipes);
+int			create_fdin(t_commands **cmd, int i, int j, int *lastfd);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
@@ -145,6 +154,7 @@ char		**ft_split_v2(char *s, char c, t_f_str *f_str);
 char		**ft_split_v2old(char const *s, char c, t_f_str f_str);
 int			ft_del_str_from_i(char *str, int i);
 void		close_tab_fd(int *fd, int i);
+int			ft_strrcmp(char *s1, char *s2);
 
 //free
 void		free_command_line(t_commands *commands, char *line, int nb_pipes);

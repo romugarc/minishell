@@ -25,6 +25,7 @@ SRCS	=	main.c prompt.c							\
 			utils/utils_ft_splitv2old.c				\
 			utils/utils_ft_del_str_from_i.c			\
 			utils/utils_close_tab_fd.c				\
+			utils/utils_ft_strrcmp.c				\
 													\
 			exec/exec.c								\
 			exec/exec_init.c						\
@@ -55,6 +56,7 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_correct_tab.c			\
 			parsing/parsing_create_fd.c				\
 			parsing/parsing_form_heredoc.c			\
+			parsing/parsing_create_fd_in.c			\
 
 HEADER_FILES = minishell.h
 
@@ -63,7 +65,7 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra -g #-fsanitize=address #-Werror  #-g
+CFLAGS	=	-Wall -Wextra -lreadline -g #-fsanitize=address #-Werror  #-g
 
 all:		${NAME}
 

@@ -6,19 +6,23 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:48:37 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/25 15:58:10 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/03 13:53:25 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	update_k(char *str, int i, int ik, t_f_str f_str)
+static int	update_k(char *str, t_inc inc, int *del_f, t_f_str f_str)
 {
+	int	i;
 	int	k;
 
-	k = ik;
+	i = inc.start;
+	k = inc.k;
 	while (str[i] != '\0' && f_str.quotes[k] != '\0')
 	{
+		if (str[i] == '>' || str[i] == '<')
+			*del_f = 1;
 		i++;
 		k++;
 	}
@@ -54,29 +58,42 @@ static int	set_del_flag(char *str)
 		return (1);
 	else if ((str[i] == '>' || str[i] == '<') && str[i + 1] == '\0')
 		return (1);
+	else
+	{
+		while (str[i])
+			i++;
+		if ((str[i - 1] == '>' || str[i - 1] == '<') && str[i] == '\0')
+			return (1);
+	}
 	return (0);
 }
 
 static void	correct_tab2(t_commands **com, t_f_str *f_str, t_inc *i, int *del_f)
 {
-	int	start;
-
 	while ((f_str->sp_chars[i->k] == '5' \
 			|| f_str->sp_chars[i->k] == '9') \
 			&& f_str->quotes[i->k] == '0')
 		i->k += 1;
-	start = find_start_char(*f_str, i, (*com)[i->i].sgl_cmd[i->j]);
-	if (start > -1 || *del_f == 1)
+	i->start = find_start_char(*f_str, i, (*com)[i->i].sgl_cmd[i->j]);
+	if (i->start > -1 || *del_f == 1)
 	{
 		if (*del_f == 0)
 			*del_f = set_del_flag((*com)[i->i].sgl_cmd[i->j]);
+		else if (i->start == -1)
+		{
+			i->start = 0;
+			*del_f = 0;
+			i->k = update_k((*com)[i->i].sgl_cmd[i->j], *i, del_f, *f_str);
+		}
 		else
 		{
-			start = 0;
 			*del_f = 0;
+			i->k = update_k((*com)[i->i].sgl_cmd[i->j], *i, del_f, *f_str);
+			i->start = 0;
 		}
-		i->k = update_k((*com)[i->i].sgl_cmd[i->j], start, i->k, *f_str);
-		ft_del_str_from_i((*com)[i->i].sgl_cmd[i->j], start);
+		if (f_str->sp_chars[i->k - 1] == '7' || f_str->sp_chars[i->k - 1] == '6')
+			*del_f = 1;
+		ft_del_str_from_i((*com)[i->i].sgl_cmd[i->j], i->start);
 	}
 	i->j += 1;
 }
