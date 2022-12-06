@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_create_fd_in.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 18:13:21 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/03 18:49:27 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/06 17:11:24 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ static int	heredoc_prompting(t_commands **cmd, int i, int j, int *lastfd)
 		if(heredoc_routine(cmd, inc, &hd) == 1)
 			break;
 	}
-	dup2(hd.pipefd[0], fdsave);
-	*lastfd = hd.pipefd[1];
+	dup2(hd.pipefd[1], fdsave);
+	close(hd.pipefd[1]);
+	close(fdsave);
+	*lastfd = hd.pipefd[0];
 	(*cmd)[inc.i].tab_fdin[inc.j] = *lastfd;
 	(*cmd)[inc.i].heredoc = 1;
 	free(hd.pipefd);
