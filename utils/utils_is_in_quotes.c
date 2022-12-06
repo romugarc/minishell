@@ -14,7 +14,9 @@
 
 int	is_in_quotes(t_f_str flag_string, int i)
 {
-	if (flag_string.quotes[i] == '2' || flag_string.quotes[i] == '1')
+	if (flag_string.quotes[i] == '2')
+		return (2);
+	else if (flag_string.quotes[i] == '1')
 		return (1);
 	return (0);
 }
