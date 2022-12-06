@@ -57,6 +57,7 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_create_fd.c				\
 			parsing/parsing_form_heredoc.c			\
 			parsing/parsing_create_fd_in.c			\
+			parsing/parsing_expand_variable.c		\
 
 HEADER_FILES = minishell.h
 

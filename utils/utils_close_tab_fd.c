@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:55:54 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/28 19:02:29 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/06 19:01:53 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	close_tab_fd(int *tab_fd, int nb_file)
 	{
 		while (i < nb_file)
 		{
-			close(tab_fd[i]);
+			if (tab_fd[i] >= 3)
+				close(tab_fd[i]);
 			i++;
 		}
 	}

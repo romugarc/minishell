@@ -6,40 +6,42 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/06 15:56:05 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/06 19:32:15 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line)
+int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc)
 {
 //	*line = get_next_line(0);
 //	*line = correct_line(*line);
-	*line = readline("minishell$ ");
-	if (special_char_flags(f_str, *line) != 0)
+	misc->line = readline("minishell$ ");
+	if (special_char_flags(f_str, misc->line) != 0)
 		return (1);
-	if (quotes_flags(f_str, *line) != 0)
+	if (quotes_flags(f_str, misc->line) != 0)
 		return (1);
 	init_inc(&f_str->i);
-	*nb_pipes = count_arguments(*line, '|', f_str);
+	misc->nb_commands = count_arguments(misc->line, '|', f_str);
 	f_str->i.k = 0;
-	*commands = init_commands(*line, *nb_pipes, f_str);
+	*commands = init_commands(misc->line, misc->nb_commands, f_str);
 	if (*commands == NULL)
 		return (1);
-	init_command_tab(commands, *nb_pipes);
-	count_redirections(commands, *nb_pipes, *f_str);
+	init_command_tab(commands, misc->nb_commands);
+	count_redirections(commands, misc->nb_commands, *f_str);
 	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
-	if(malloc_tab_files(commands, *nb_pipes) == 1)
+	if(malloc_tab_files(commands, misc->nb_commands) == 1)
 		return (1);
-	if (form_tab(commands, *f_str, *nb_pipes) == 1)
+	if (form_tab(commands, *f_str, misc->nb_commands) == 1)
 		return (1);
-	if (form_tab2(commands, *f_str, *nb_pipes) == 1)
+	if (form_tab2(commands, *f_str, misc->nb_commands) == 1)
 		return (1);
-	correct_tab(commands, *nb_pipes);
-	if (reform_tab(commands, *nb_pipes) == 1)
+	correct_tab(commands, misc->nb_commands);
+	if (reform_tab(commands, misc->nb_commands) == 1)
 		return (1);
-	if (create_fd(commands, *nb_pipes) == 1)
+//	if (expand_variable(commands, misc->nb_commands, envc) == 1)
+//		return (1);
+	if (create_fd(commands, misc->nb_commands) == 1)
 		return (1);
 	return (0);
 }

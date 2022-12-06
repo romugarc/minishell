@@ -71,6 +71,12 @@ typedef struct s_f_str
 	t_inc	i;
 }	t_f_str;
 
+typedef struct	s_misc
+{
+	int		nb_commands;
+	char	*line;
+}	t_misc;
+
 typedef struct s_exec
 {
 	int		nb_comm;
@@ -94,7 +100,7 @@ typedef struct s_envcpy
 }	t_envlist;
 
 //parsing
-int			parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line);
+int			parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc);
 char		*correct_line(char *line);
 int			quotes_flags(t_f_str *f_str, char *line);
 int			special_char_flags(t_f_str *f_str, char *line);
@@ -112,13 +118,14 @@ int			reform_tab(t_commands **com, int np);
 int			create_fd(t_commands **cmd, int np);
 int			form_heredoc(t_commands **c, int nb_pipes);
 int			create_fdin(t_commands **cmd, int i, int j, int *lastfd);
+int			expand_variable(t_commands **cmd, int np, t_envlist *envc);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
-int			pipe_error_case(int nb_comm, t_exec exec, t_commands *cmd);
+int			pipe_error_case(int nb_comm, t_exec exec);
 void		wait_all_cpid(pid_t *cpid, int status, int i);
 int			**tab_fd_mall(int nb_comm);
-void		close_fd(int **fd, int i, t_commands *cmd);
+void		close_fd(int **fd, int i);
 void		child_process(t_commands *commands, t_exec exec, t_envlist **envc, int *oldp_stat);
 int			ft_echo(char **tab, int nb_comm);
 int			is_builtins(char **cmds, int nb_comm, t_envlist **envc, int *oldp_stat);
@@ -127,7 +134,7 @@ int			ft_echo_n(char *str);
 int			ft_echo_next_n(char *str);
 int			ft_pwd(int nb_comm);
 int			ft_cd(char **tab, int nb_comm, t_envlist **envc);
-void		dup_fd(t_exec exec, int nb_comm, t_commands *cmd);
+void		dup_fd(t_exec exec, int nb_comm);
 int			is_it_builtin(char *cmd);
 t_envlist	*envcpy(char **envp);
 t_commands	*commands_path(t_commands *comm, int nb_comm, t_envlist *envc);
