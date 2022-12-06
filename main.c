@@ -8,8 +8,7 @@ void	free_flag_string(t_f_str flag_string)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char			*line;
-	int				nb_commands;
+	t_misc			misc;
 	t_commands		*commands;
 	t_f_str			flag_string;
 	t_envlist		*envc;
@@ -20,11 +19,11 @@ int	main(int argc, char **argv, char **envp)
 	envc = envcpy(envp);
 	while (1)
 	{
-		parsing(&commands, &flag_string, &nb_commands, &line);
-		commands = commands_path(commands, nb_commands, envc);
-		exec_main(commands, nb_commands, &envc);
+		parsing(&commands, &flag_string, &misc, envc);
+		commands = commands_path(commands, misc.nb_commands, envc);
+		exec_main(commands, misc.nb_commands, &envc);
 		free_flag_string(flag_string);
-		free_command_line(commands, line, nb_commands);
+		free_command_line(commands, misc.line, misc.nb_commands);
 	}
 	return (0);
 }
