@@ -115,10 +115,10 @@ int			create_fdin(t_commands **cmd, int i, int j, int *lastfd);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
-int			pipe_error_case(int nb_comm, t_exec exec);
+int			pipe_error_case(int nb_comm, t_exec exec, t_commands *cmd);
 void		wait_all_cpid(pid_t *cpid, int status, int i);
 int			**tab_fd_mall(int nb_comm);
-void		close_fd(int **fd, int i);
+void		close_fd(int **fd, int i, t_commands *cmd);
 void		child_process(t_commands *commands, t_exec exec, t_envlist **envc, int *oldp_stat);
 int			ft_echo(char **tab, int nb_comm);
 int			is_builtins(char **cmds, int nb_comm, t_envlist **envc, int *oldp_stat);
@@ -127,7 +127,7 @@ int			ft_echo_n(char *str);
 int			ft_echo_next_n(char *str);
 int			ft_pwd(int nb_comm);
 int			ft_cd(char **tab, int nb_comm, t_envlist **envc);
-void		dup_fd(t_exec exec, int nb_comm);
+void		dup_fd(t_exec exec, int nb_comm, t_commands *cmd);
 int			is_it_builtin(char *cmd);
 t_envlist	*envcpy(char **envp);
 t_commands	*commands_path(t_commands *comm, int nb_comm, t_envlist *envc);
@@ -142,6 +142,8 @@ int			ft_env(char **cmds, int nb_comm, t_envlist *envc, int oldp_stat);
 void		ft_exit(char **cmd, int nb_comm);
 void		rm_var(char *var, t_envlist **envc);
 void		rm_val(char *str, t_envlist **envc, int *first_time);
+int			check_pwd(void);
+
 
 //exec utils
 

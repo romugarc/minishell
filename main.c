@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 	if (error_handler(argc, argv) == 1)
 			return (0);
 	envc = envcpy(envp);
-	prompt();
+	//prompt();
 	while (1)
 	{
 		parsing(&commands, &flag_string, &nb_commands, &line);
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 		exec_main(commands, nb_commands, &envc);
 		free_flag_string(flag_string);
 		free_command_line(commands, line, nb_commands);
-		prompt();
+	//	prompt();
 	}
 	return (0);
 }
