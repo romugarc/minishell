@@ -107,7 +107,7 @@ int			manage_infile(t_commands **com, t_f_str *f_str, t_inc *i, int *start);
 int			manage_outfile(t_commands **com, t_f_str *f_str, t_inc *i, int *start);
 int			form_tab(t_commands **com, t_f_str f_str, int np);
 int			form_tab2(t_commands **com, t_f_str f_str, int np);
-int			correct_tab(t_commands **com, t_f_str f_str, int np);
+int			correct_tab(t_commands **com, int np);
 int			reform_tab(t_commands **com, int np);
 int			create_fd(t_commands **cmd, int np);
 int			form_heredoc(t_commands **c, int nb_pipes);
