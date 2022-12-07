@@ -62,7 +62,8 @@ static int	search_expand(char **line, t_envlist *envc)
 				i.l_e++;
 				i.i++;
 			}
-			ex_var = ft_strdup_s_to_e(*line, i.start, i.l_e);
+			//if (i.l_e == i.start + 1) ne pas faire lignes suivantes
+			ex_var = ft_strdup_s_to_e(*line, i.start + 1, i.l_e - 1);
 			if (ex_var == NULL)
 				return (1);
 			while (tmp != NULL && i.l_j == 0)
