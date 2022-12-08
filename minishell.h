@@ -119,6 +119,7 @@ int			create_fd(t_commands **cmd, int np);
 int			form_heredoc(t_commands **c, int nb_pipes);
 int			create_fdin(t_commands **cmd, int i, int j, int *lastfd);
 int			expand_variable(t_commands **cmd, int np, t_envlist *envc);
+int			copy_var(char *line, t_inc *i, t_envlist *envc, char **new_line);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
@@ -164,6 +165,8 @@ char		**ft_split_v2old(char const *s, char c, t_f_str f_str);
 int			ft_del_str_from_i(char *str, int i);
 void		close_tab_fd(int *fd, int i);
 int			ft_strrcmp(char *s1, char *s2);
+int			ft_isenvarc(char c);
+char		*ft_strdup_s_to_e(char const *src, size_t n, size_t index);
 
 //free
 void		free_command_line(t_commands *commands, char *line, int nb_pipes);
@@ -172,6 +175,7 @@ int			free_all(t_exec exec, int nb_comm);
 void		free_char_tab(char **tab);
 void		ft_free_tab(char **tab);
 int			free_char_tab_ret(t_exec exec);
+int			free_expand(char *a, char *b, char *c, char *d);
 
 
 //init

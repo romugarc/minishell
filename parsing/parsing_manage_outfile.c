@@ -6,30 +6,11 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:30:19 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/25 19:16:01 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/08 15:23:52 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static char	*ft_strdup_s_to_e(char const *src, size_t n, size_t index)
-{
-	size_t	i;
-	char	*dest;
-
-	dest = malloc(sizeof(char) * ((index - n) + 1));
-	if (!dest)
-		return (NULL);
-	i = 0;
-	while (src[n] && n < index)
-	{
-		dest[i] = src[n];
-		n++;
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
 
 static int	manage_outfile3(t_commands **com, t_f_str *f_str, t_inc *i, int *start)
 {
