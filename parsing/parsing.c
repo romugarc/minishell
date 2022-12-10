@@ -14,8 +14,8 @@
 
 int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc)
 {
-//	*line = get_next_line(0);
-//	*line = correct_line(*line);
+//	misc->line = get_next_line(0);
+//	misc->line = correct_line(misc->line);
 	misc->line = readline("minishell$ ");
 	if (special_char_flags(f_str, misc->line) != 0)
 		return (1);
@@ -32,9 +32,9 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc
 	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
 	if(malloc_tab_files(commands, misc->nb_commands) == 1)
 		return (1);
-	if (form_tab(commands, *f_str, misc->nb_commands) == 1)
+	if (form_tab(commands, misc->nb_commands) == 1)
 		return (1);
-	if (form_tab2(commands, *f_str, misc->nb_commands) == 1)
+	if (form_tab2(commands, misc->nb_commands) == 1)
 		return (1);
 	correct_tab(commands, misc->nb_commands);
 	if (reform_tab(commands, misc->nb_commands) == 1)

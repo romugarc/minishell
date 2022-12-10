@@ -108,11 +108,10 @@ int			find_end_redirection(t_f_str f_str, int *k);
 int			find_special_char(char c, t_f_str f_str, t_inc *i, char *s_c);
 int			malloc_tab_files(t_commands **c, int nb_pipes);
 void		count_redirections(t_commands **commands, int np, t_f_str f_str);
-int			form_tab(t_commands **com, t_f_str f_str, int np);
-int			manage_infile(t_commands **com, t_f_str *f_str, t_inc *i, int *start);
-int			manage_outfile(t_commands **com, t_f_str *f_str, t_inc *i, int *start);
-int			form_tab(t_commands **com, t_f_str f_str, int np);
-int			form_tab2(t_commands **com, t_f_str f_str, int np);
+int			manage_infile(t_commands **com, t_f_str f_str, t_inc *i, int *start);
+int			manage_outfile(t_commands **com, t_f_str f_str, t_inc *i, int *start);
+int			form_tab(t_commands **com, int np);
+int			form_tab2(t_commands **com, int np);
 int			correct_tab(t_commands **com, int np);
 int			reform_tab(t_commands **com, int np);
 int			create_fd(t_commands **cmd, int np);
@@ -167,6 +166,7 @@ void		close_tab_fd(int *fd, int i);
 int			ft_strrcmp(char *s1, char *s2);
 int			ft_isenvarc(char c);
 char		*ft_strdup_s_to_e(char const *src, size_t n, size_t index);
+int			free_flags(t_f_str f_str, int mode);
 
 //free
 void		free_command_line(t_commands *commands, char *line, int nb_pipes);
