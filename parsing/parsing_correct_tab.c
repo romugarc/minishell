@@ -70,7 +70,7 @@ static void	correcting_tab(char	**tab, t_f_str *f_str, int *del_f)
 	}
 }
 
-static int	free_flags(t_f_str f_str, int mode)
+int	free_flags(t_f_str f_str, int mode)
 {
 	if (mode == 1)
 		free(f_str.quotes);

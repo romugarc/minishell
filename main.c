@@ -27,8 +27,7 @@ void	ft_termios_handler(int end)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char			*line;
-	int				nb_commands;
+	t_misc			misc;
 	t_commands		*commands;
 	t_f_str			flag_string;
 	t_envlist		*envc;
@@ -46,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 		commands = commands_path(commands, nb_commands, envc);
 		exec_main(commands, nb_commands, &envc);
 		free_flag_string(flag_string);
-		free_command_line(commands, line, nb_commands);
+		free_command_line(commands, misc.line, misc.nb_commands);
 	}
 	return (0);
 }

@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_close_tab_fd.c                               :+:      :+:    :+:   */
+/*   utils_ft_strdup_s_to_e.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 15:55:54 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/06 19:01:53 by rgarcia          ###   ########lyon.fr   */
+/*   Created: 2022/12/08 15:19:26 by rgarcia           #+#    #+#             */
+/*   Updated: 2022/12/08 15:19:58 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	close_tab_fd(int *tab_fd, int nb_file)
+char	*ft_strdup_s_to_e(char const *src, size_t n, size_t index)
 {
-	int	i;
+	size_t	i;
+	char	*dest;
 
+	dest = malloc(sizeof(char) * ((index - n) + 1));
+	if (!dest)
+		return (NULL);
 	i = 0;
-	if (tab_fd != NULL)
+	while (src[n] && n < index)
 	{
-		while (i < nb_file)
-		{
-			if (tab_fd[i] >= 3)
-				close(tab_fd[i]);
-			i++;
-		}
+		dest[i] = src[n];
+		n++;
+		i++;
 	}
+	dest[i] = '\0';
+	return (dest);
 }

@@ -22,17 +22,16 @@ int	find_special_char(char c, t_f_str f_str, t_inc *inc, char *s_c)
 	{
 		inc->l_j = inc->j;
 		i = 0;
+		inc->k = 0; //enlever cette ligne si le rework est mauvais
 	}
 	while (f_str.sp_chars[inc->k] != '\0' && s_c[i] != '\0')
 	{
 		if (f_str.sp_chars[inc->k] == c && f_str.quotes[inc->k] == '0')
 		{
-				inc->l_i = i;
 				return (i);
 		}
 		inc->k += 1;
 		i++;
 	}
-	inc->l_i = 0;
 	return (-1);
 }

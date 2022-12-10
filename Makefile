@@ -4,6 +4,7 @@ SRCS	=	main.c prompt.c							\
 			signal_sig_handler.c					\
 			free_free_command_line.c				\
 			free_ft_free_tab.c						\
+			free_free_expand.c						\
 			error_error_handler.c					\
 													\
 			commands_path.c							\
@@ -26,6 +27,8 @@ SRCS	=	main.c prompt.c							\
 			utils/utils_ft_del_str_from_i.c			\
 			utils/utils_close_tab_fd.c				\
 			utils/utils_ft_strrcmp.c				\
+			utils/utils_ft_isenvarc.c				\
+			utils/utils_ft_strdup_s_to_e.c			\
 													\
 			exec/exec.c								\
 			exec/exec_init.c						\
@@ -57,6 +60,8 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_create_fd.c				\
 			parsing/parsing_form_heredoc.c			\
 			parsing/parsing_create_fd_in.c			\
+			parsing/parsing_expand_variable.c		\
+			parsing/parsing_copy_var.c				\
 
 RL_INC	:=	-I ~/opt/readline/include
 RL_LIB	:=	-L ~/opt/readline/lib

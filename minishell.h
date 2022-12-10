@@ -74,6 +74,12 @@ typedef struct s_f_str
 	t_inc	i;
 }	t_f_str;
 
+typedef struct	s_misc
+{
+	int		nb_commands;
+	char	*line;
+}	t_misc;
+
 typedef struct s_exec
 {
 	int		nb_comm;
@@ -97,7 +103,7 @@ typedef struct s_envcpy
 }	t_envlist;
 
 //parsing
-int			parsing(t_commands **commands, t_f_str *f_str, int *nb_pipes, char **line);
+int			parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc);
 char		*correct_line(char *line);
 int			quotes_flags(t_f_str *f_str, char *line);
 int			special_char_flags(t_f_str *f_str, char *line);
@@ -105,23 +111,24 @@ int			find_end_redirection(t_f_str f_str, int *k);
 int			find_special_char(char c, t_f_str f_str, t_inc *i, char *s_c);
 int			malloc_tab_files(t_commands **c, int nb_pipes);
 void		count_redirections(t_commands **commands, int np, t_f_str f_str);
-int			form_tab(t_commands **com, t_f_str f_str, int np);
-int			manage_infile(t_commands **com, t_f_str *f_str, t_inc *i, int *start);
-int			manage_outfile(t_commands **com, t_f_str *f_str, t_inc *i, int *start);
-int			form_tab(t_commands **com, t_f_str f_str, int np);
-int			form_tab2(t_commands **com, t_f_str f_str, int np);
+int			manage_infile(t_commands **com, t_f_str f_str, t_inc *i, int *start);
+int			manage_outfile(t_commands **com, t_f_str f_str, t_inc *i, int *start);
+int			form_tab(t_commands **com, int np);
+int			form_tab2(t_commands **com, int np);
 int			correct_tab(t_commands **com, int np);
 int			reform_tab(t_commands **com, int np);
 int			create_fd(t_commands **cmd, int np);
 int			form_heredoc(t_commands **c, int nb_pipes);
 int			create_fdin(t_commands **cmd, int i, int j, int *lastfd);
+int			expand_variable(t_commands **cmd, int np, t_envlist *envc);
+int			copy_var(char *line, t_inc *i, t_envlist *envc, char **new_line);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
-int			pipe_error_case(int nb_comm, t_exec exec, t_commands *cmd);
+int			pipe_error_case(int nb_comm, t_exec exec);
 void		wait_all_cpid(pid_t *cpid, int status, int i);
 int			**tab_fd_mall(int nb_comm);
-void		close_fd(int **fd, int i, t_commands *cmd);
+void		close_fd(int **fd, int i);
 void		child_process(t_commands *commands, t_exec exec, t_envlist **envc, int *oldp_stat);
 int			ft_echo(char **tab, t_exec exec, t_commands cmd);
 int			is_builtins(t_commands cmd, t_exec exec, t_envlist **envc, int *oldp_stat);
@@ -130,7 +137,7 @@ int			ft_echo_n(char *str);
 int			ft_echo_next_n(char *str);
 int			ft_pwd(int nb_comm, t_commands cmd, t_exec exec);
 int			ft_cd(char **tab, int nb_comm, t_envlist **envc);
-void		dup_fd(t_exec exec, int nb_comm, t_commands *cmd);
+void		dup_fd(t_exec exec, int nb_comm);
 int			is_it_builtin(char *cmd);
 t_envlist	*envcpy(char **envp);
 t_commands	*commands_path(t_commands *comm, int nb_comm, t_envlist *envc);
@@ -160,6 +167,9 @@ char		**ft_split_v2old(char const *s, char c, t_f_str f_str);
 int			ft_del_str_from_i(char *str, int i);
 void		close_tab_fd(int *fd, int i);
 int			ft_strrcmp(char *s1, char *s2);
+int			ft_isenvarc(char c);
+char		*ft_strdup_s_to_e(char const *src, size_t n, size_t index);
+int			free_flags(t_f_str f_str, int mode);
 
 //free
 void		free_command_line(t_commands *commands, char *line, int nb_pipes);
@@ -168,6 +178,7 @@ int			free_all(t_exec exec, int nb_comm);
 void		free_char_tab(char **tab);
 void		ft_free_tab(char **tab);
 int			free_char_tab_ret(t_exec exec);
+int			free_expand(char *a, char *b, char *c, char *d);
 
 
 //init
