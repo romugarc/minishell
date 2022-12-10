@@ -6,20 +6,27 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:14:53 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/01 17:24:31 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/08 17:50:06 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_env(char **cmds, int nb_comm, t_envlist *envc, int oldp_stat)
+int	ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat)
 {
 	t_envlist	*tmp;
+	int			out;
 
 	tmp = envc;
-	if (cmds[1])
+	if (exec.nb_comm == 1)
+		out = cmd.fdout;
+	else
+		out = 1;
+	if (cmd.sgl_cmd[1])
 	{
-		printf("env: %s: No such file or directory\n", cmds[1]);
+		ft_putstr_fd("env: ", 2);
+		ft_putstr_fd(cmd.sgl_cmd[1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		return (0);
 	}
 	while (tmp)
@@ -28,15 +35,19 @@ int	ft_env(char **cmds, int nb_comm, t_envlist *envc, int oldp_stat)
 			tmp = tmp->next;
 		if (tmp->equal == 1)
 		{
-			printf("%s=", tmp->var);
+			ft_putstr_fd(tmp->var, out);
+			ft_putchar_fd('=', out);
 			if (tmp->val)
-				printf("%s\n", tmp->val);
+			{
+				ft_putstr_fd(tmp->val, out);
+				ft_putchar_fd('\n', out);
+			}
 			else
-				printf("\n");
+				ft_putchar_fd('\n', out);
 		}
 		tmp = tmp->next;
 	}
-	if (nb_comm > 1)
+	if (exec.nb_comm > 1)
 		exit(EXIT_SUCCESS);
 	return (0);
 }

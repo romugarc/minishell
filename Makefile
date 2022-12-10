@@ -58,6 +58,9 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_form_heredoc.c			\
 			parsing/parsing_create_fd_in.c			\
 
+RL_INC	:=	-I ~/opt/readline/include
+RL_LIB	:=	-L ~/opt/readline/lib
+
 HEADER_FILES = minishell.h
 
 OBJS	=	${SRCS:.c=.o}
@@ -65,7 +68,7 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra -lreadline -g #-fsanitize=address #-Werror  #-g
+CFLAGS	=	-Werror -Wall -Wextra -g #-fsanitize=address #
 
 all:		${NAME}
 
@@ -74,7 +77,7 @@ all:		${NAME}
 
 $(NAME):	${OBJS}
 			@$(MAKE) -C ./libft
-			@${CC} ${CFLAGS} ${OBJS} ./libft/libft.a -o minishell
+			@${CC} ${CFLAGS} ${OBJS} -lreadline ./libft/libft.a -o minishell 
 
 c:
 			${RM} ${OBJS}

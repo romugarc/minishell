@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:42:52 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/01 15:39:18 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/05 16:52:52 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,53 @@ void	ft_lstadd_back_env(t_envlist **alst, t_envlist *new_lst)
 		alst = &new_lst;
 }
 
+t_envlist	*new_shlvl(void)
+{
+	t_envlist	*new;
+
+	new = malloc(sizeof(t_envlist));
+	if (!new)
+		return (NULL);
+	new->equal = 1;
+	new->var = ft_strdup("SHLVL");
+	new->val = ft_strdup("1");
+	new->next = NULL;
+	if (!new->var || !new->val)
+		return (NULL);
+	return (new);
+}
+
+void	get_shlvl(t_envlist **envc)
+{
+	char		*tmp;
+	t_envlist	*cpy;
+
+	cpy = (*envc);
+	while (cpy)
+	{
+		if (strcmp_tof(cpy->var, "SHLVL") == 1)
+			break;
+		cpy = cpy->next;
+	}
+	if (cpy)
+	{
+		if (cpy->val)
+		{
+			cpy->equal = 1;
+			tmp = cpy->val;
+			cpy->val = ft_itoa(ft_atoi(cpy->val) + 1);
+			free(tmp);
+		}
+		else
+		{
+			cpy->equal = 1;
+			cpy->val = ft_strdup("1");
+		}
+	}
+	else
+		ft_lstadd_back_env(envc, new_shlvl());
+}
+
 t_envlist	*envcpy(char **envp)
 {
 	int			line;
@@ -160,5 +207,6 @@ t_envlist	*envcpy(char **envp)
 		ft_lstadd_back_env(&tmp, ft_lstnew_env(envp, line++));
 	if (first_time == 1)
 		rm_val("OLDPWD", &tmp, &first_time);
+	get_shlvl(&tmp);
 	return (tmp);
 }

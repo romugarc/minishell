@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:06:54 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/03 19:59:09 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/09 14:49:52 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_lstlen(t_envlist *lst)
 	return (i);
 }
 
-void	print_export(t_envlist *envc, int oldp_stat)
+void	print_export(t_envlist *envc, int oldp_stat, int out)
 {
 	int			nbr;
 	t_envlist	*ref;
@@ -82,13 +82,18 @@ void	print_export(t_envlist *envc, int oldp_stat)
 		{
 			if (!(strcmp_tof(ref->var, "PWD") == 1 && oldp_stat == -1))
 			{
-				printf("declare -x %s", ref->var);
+				ft_putstr_fd("declare -x ", out);
+				ft_putstr_fd(ref->var, out);
 				if (ref->equal == 0)
-					printf("\n");
+					ft_putchar_fd('\n', out);
 				else if (ref->equal == 1 && !ref->val)
-					printf("=\"\"\n");
+					ft_putstr_fd("=\"\"\n", out);
 				else
-					printf("=\"%s\"\n", ref->val);
+				{
+					ft_putstr_fd("=\"", out);
+					ft_putstr_fd(ref->val, out);
+					ft_putstr_fd("\"\n", out);
+				}
 			}
 		}
 		ref = max_limit;
@@ -187,7 +192,7 @@ int	ft_lstnew_export(t_envlist **new_lst, char *new_var, char c)
 }
 
 
-int	valid_id_exp(char *var, char *cmd)
+int	valid_id_exp(char *var, char *cmd, int *oldp_stat)
 {
 	int	i;
 
@@ -205,13 +210,19 @@ int	valid_id_exp(char *var, char *cmd)
 	if (var[i] == '+')
 	{
 		if (var[i + 1] == '=')
+		{
+			if (strcmp_tof(var, "PWD") == 1)
+				(*oldp_stat) = 0;
 			return (2);
+		}
 		else
 		{
 			printf("minishell: %s: `%s': not a valid identifier\n", cmd, var);
 			return (0);
 		}
 	}
+	if (strcmp_tof(var, "PWD") == 1)
+		(*oldp_stat) = 0;
 	return (1);
 }
 
@@ -362,29 +373,34 @@ int	add_export(t_envlist **envc, char *new_var, char c)
 	return (0);
 }
 
-int	ft_export(char **comm, int nb_comm, t_envlist **envc, int oldp_stat)
+int	ft_export(t_commands cmd, t_exec exec, t_envlist **envc, int *oldp_stat)
 {
 	int		i;
 	int		ret;
+	int		out;
 
 	i = 1;
-	if (!comm)
+	if (exec.nb_comm == 1)
+		out = cmd.fdout;
+	else
+		out = 1;
+	if (!cmd.sgl_cmd)
 		return (-1);
-	if (!comm[1])
-		print_export((*envc), oldp_stat);
+	if (!cmd.sgl_cmd[1])
+		print_export((*envc), (*oldp_stat), out);
 	else
 	{
-		while (comm[i])
+		while (cmd.sgl_cmd[i])
 		{
-			ret = valid_id_exp(comm[i], "export");
+			ret = valid_id_exp(cmd.sgl_cmd[i], "export", oldp_stat);
 			if (ret == 1)
-				add_export(envc, comm[i], '=');
+				add_export(envc, cmd.sgl_cmd[i], '=');
 			else if (ret == 2)
-				add_export(envc, comm[i], '+');
+				add_export(envc, cmd.sgl_cmd[i], '+');
 			i++;
 		}
 	}
-	if (nb_comm > 1)
+	if (exec.nb_comm > 1)
 		exit(EXIT_SUCCESS);
 	return (0);
 }

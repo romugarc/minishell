@@ -6,6 +6,25 @@ void	free_flag_string(t_f_str flag_string)
 	free(flag_string.quotes);
 }
 
+void	ft_termios_handler(int end)
+{
+	struct termios			termios_p;
+	static struct termios	termios_before;
+	int						fd_term;
+
+	fd_term = ttyslot();
+	if (end == 1)
+	{
+		tcsetattr(fd_term, TCSANOW, &termios_before);
+		return ;
+	}
+	tcgetattr(fd_term, &termios_before);
+	termios_p = termios_before;
+	termios_p.c_cc[VQUIT] = 0;
+	termios_p.c_lflag &= ~ECHOCTL;
+	tcsetattr(fd_term, TCSANOW, &termios_p);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char			*line;
@@ -18,8 +37,11 @@ int	main(int argc, char **argv, char **envp)
 	if (error_handler(argc, argv) == 1)
 			return (0);
 	envc = envcpy(envp);
+//	ft_termios_handler(0);
 	while (1)
 	{
+	//	signal(SIGINT, sighandler);		//CTRL-C
+	//	signal(SIGQUIT, SIG_IGN);		//CTRL-\ */	
 		parsing(&commands, &flag_string, &nb_commands, &line);
 		commands = commands_path(commands, nb_commands, envc);
 		exec_main(commands, nb_commands, &envc);

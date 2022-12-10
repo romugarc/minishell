@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:56:42 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/01 17:15:19 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/05 15:23:46 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	refresh_oldp(t_envlist **envc)
 	return (0);
 }
 
-int	oldp_first_time(t_envlist **envc)
+void	oldp_first_time(t_envlist **envc)
 {
 	t_envlist	*cpy;
 
@@ -95,20 +95,22 @@ int	oldp_first_time(t_envlist **envc)
 		}
 		cpy = cpy->next;
 	}
-	return (0);
 }
 
 int	ft_cd(char **tab, int nb_comm, t_envlist **envc)
 {
-	if (chdir(tab[1]) != -1)
+	char	*path;
+	
+	path = getcwd(NULL, 0);
+	if (chdir(tab[1]) != -1 && path != NULL)
 	{
-		if (oldp_first_time(envc) == -1)
-			return (-1);
+		oldp_first_time(envc);
 		refresh_oldp(envc);
 		refresh_pwd(envc);
 	}
 	else
 		perror(tab[1]);
+	free(path);
 	if (nb_comm != 1)
 		exit(EXIT_SUCCESS);
 	return (1);
