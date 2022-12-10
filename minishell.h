@@ -122,13 +122,16 @@ int			form_heredoc(t_commands **c, int nb_pipes);
 int			create_fdin(t_commands **cmd, int i, int j, int *lastfd);
 int			expand_variable(t_commands **cmd, int np, t_envlist *envc);
 int			copy_var(char *line, t_inc *i, t_envlist *envc, char **new_line);
+int			expand_search(char *str, t_f_str f_str);
+int			cat_ex_var(char *line, t_inc *i, t_envlist *envc, char **new_line);
+int			cat_ex_varnf(char *line, t_inc *i, char **new_line);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
-int			pipe_error_case(int nb_comm, t_exec exec);
+int			pipe_error_case(int nb_comm, t_exec exec, t_commands *cmd);
 void		wait_all_cpid(pid_t *cpid, int status, int i);
 int			**tab_fd_mall(int nb_comm);
-void		close_fd(int **fd, int i);
+void		close_fd(int **fd, int i, t_commands *cmd);
 void		child_process(t_commands *commands, t_exec exec, t_envlist **envc, int *oldp_stat);
 int			ft_echo(char **tab, t_exec exec, t_commands cmd);
 int			is_builtins(t_commands cmd, t_exec exec, t_envlist **envc, int *oldp_stat);
@@ -137,7 +140,7 @@ int			ft_echo_n(char *str);
 int			ft_echo_next_n(char *str);
 int			ft_pwd(int nb_comm, t_commands cmd, t_exec exec);
 int			ft_cd(char **tab, int nb_comm, t_envlist **envc);
-void		dup_fd(t_exec exec, int nb_comm);
+void		dup_fd(t_exec exec, int nb_comm, t_commands *cmd);
 int			is_it_builtin(char *cmd);
 t_envlist	*envcpy(char **envp);
 t_commands	*commands_path(t_commands *comm, int nb_comm, t_envlist *envc);

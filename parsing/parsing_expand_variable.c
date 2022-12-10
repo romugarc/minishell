@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:24 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/08 17:08:44 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/10 19:33:22 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	searching_expand(char *line, t_inc *i, t_f_str f_str)
 {
 	i->start = i->i;
 	i->i += 1;
-	i->l_e = i->i;;
+	i->l_e = i->i;
 	while (is_in_quotes(f_str, i->i) == i->n \
 		&& ft_isenvarc(line[i->l_e]) == 1 && line[i->l_e] != '\0')
 	{
@@ -59,6 +59,7 @@ static int	search_expand(char **line, t_envlist *envc)
 			if (copy_var(*line, &i, envc, &new_line) == 1)
 				return (1);
 			i.l_i = i.l_e;
+			break;
 		}
 		i.i++;
 	}
@@ -95,21 +96,25 @@ static int	expand_var_tab(t_commands **cmd, t_envlist *envc, t_inc i)
 	return (0);
 }
 
-int expand_variable(t_commands **cmd, int np, t_envlist *envc)
+int expand_variable(t_commands **c, int np, t_envlist *envc)
 {
 	t_inc	i;
+	t_f_str	f_str;
 
 	init_inc(&i);
 	while (i.i < np)
 	{
 		i.j = 0;
-		while ((*cmd)[i.i].sgl_cmd[i.j] != NULL)
+		while ((*c)[i.i].sgl_cmd[i.j] != NULL)
 		{
-			if (search_expand(&(*cmd)[i.i].sgl_cmd[i.j], envc) == 1)
+			if (search_expand(&(*c)[i.i].sgl_cmd[i.j], envc) == 1)
 				return (1);
-			i.j++;
+			quotes_flags(&f_str, (*c)[i.i].sgl_cmd[i.j]);
+			if (expand_search((*c)[i.i].sgl_cmd[i.j], f_str) == 1)
+				i.j++;
+			free(f_str.quotes);
 		}
-		if (expand_var_tab(cmd, envc, i) == 1)
+		if (expand_var_tab(c, envc, i) == 1)
 			return (1);
 		i.i++;
 	}
