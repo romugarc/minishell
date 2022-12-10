@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 	if (error_handler(argc, argv) == 1)
 			return (0);
 	envc = envcpy(envp);
-	ft_termios_handler(0);
+//	ft_termios_handler(0);
 	while (1)
 	{
 	//	signal(SIGINT, sighandler);		//CTRL-C
