@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:30:19 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/08 15:23:56 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/10 17:22:52 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	manage_infile(t_commands **com, t_f_str f_str, t_inc *i, int *cpy_f)
 		i->k += 1;
 		i->start += 1;
 	}
-	else
+	else if (f_str.sp_chars[i->k] == '7')
 		(*com)[i->i].flag_in[i->n] = '0';
 	if ((f_str.sp_chars[i->k] == '7' && f_str.sp_chars[i->k + 1] != '\0') || f_str.sp_chars[i->k] != '7')
 	{
