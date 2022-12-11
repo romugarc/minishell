@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_expand_variable.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:24 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/10 19:33:22 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/11 12:59:02 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	searching_expand(char *line, t_inc *i, t_f_str f_str)
 	i->i += 1;
 	i->l_e = i->i;
 	while (is_in_quotes(f_str, i->i) == i->n \
-		&& ft_isenvarc(line[i->l_e]) == 1 && line[i->l_e] != '\0')
+		&& ft_isenvarc(line[i->l_e], 0) == 1 && line[i->l_e] != '\0')
 	{
 		i->l_e++;
 		i->i++;

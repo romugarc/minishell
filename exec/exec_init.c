@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 13:01:41 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/08 15:59:43 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/10 18:01:41 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	exec_init(t_exec *exec, int nb_comm)
 	(*exec).status = 0;
 	(*exec).temp = nb_comm;
 	(*exec).nb_comm = nb_comm;
+	(*exec).error = 0;
 	(*exec).cpid = malloc(sizeof(int) * (nb_comm + 1));
 	(*exec).fd = tab_fd_mall(nb_comm);
 	if (!(*exec).cpid || !(*exec).fd)

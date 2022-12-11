@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:52:15 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/04 15:23:28 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/11 16:02:24 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ int	valid_id(char *var, char *cmd)
 	i = 0;
 	while (var[i] && var[i] != '=')
 	{
-		if (!((var[i] >= 'A' && var[i] <= 'Z') || (var[i] >= 'a' && var[i] <= 'z')
-			|| var[i] == '_'))
+		if (ft_isenvarc(var[0], 1) == 1 && ft_isenvarc(var[i], 0) == 1)
 		{
 			printf("minishell: %s: `%s': not a valid identifier\n", cmd, var);
 			return (0);

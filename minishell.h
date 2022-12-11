@@ -89,6 +89,7 @@ typedef struct s_exec
 	char	**env_tmp;
 	int		status;
 	int		temp;
+	int		error;
 }	t_exec;
 
 typedef struct s_envcpy
@@ -129,19 +130,19 @@ int			cat_ex_varnf(char *line, t_inc *i, char **new_line);
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
 int			pipe_error_case(int nb_comm, t_exec exec, t_commands *cmd);
-void		wait_all_cpid(pid_t *cpid, int status, int i);
+void		wait_all_cpid(pid_t *cpid, int status, int i, t_exec *exec);
 int			**tab_fd_mall(int nb_comm);
 void		close_fd(int **fd, int i, t_commands *cmd);
-void		child_process(t_commands *commands, t_exec exec, t_envlist **envc, int *oldp_stat);
+void		child_process(t_commands *commands, t_exec *exec, t_envlist **envc, int *oldp_stat);
 int			ft_echo(char **tab, t_exec exec, t_commands cmd);
-int			is_builtins(t_commands cmd, t_exec exec, t_envlist **envc, int *oldp_stat);
+int			is_builtins(t_commands cmd, t_exec *exec, t_envlist **envc, int *oldp_stat);
 int			strcmp_tof(char *cmd, char *str);
 int			ft_echo_n(char *str);
 int			ft_echo_next_n(char *str);
 int			ft_pwd(int nb_comm, t_commands cmd, t_exec exec);
 int			ft_cd(char **tab, int nb_comm, t_envlist **envc);
 void		dup_fd(t_exec exec, int nb_comm, t_commands *cmd);
-int			is_it_builtin(char *cmd);
+int			is_it_builtin(char *cmd, t_exec *exec);
 t_envlist	*envcpy(char **envp);
 t_commands	*commands_path(t_commands *comm, int nb_comm, t_envlist *envc);
 int			get_tmp_env(t_envlist **envc, t_exec *exec);
@@ -156,6 +157,7 @@ void		ft_exit(char **cmd, int nb_comm);
 void		rm_var(char *var, t_envlist **envc);
 void		rm_val(char *str, t_envlist **envc, int *first_time);
 int			check_pwd(void);
+int			check_cmd_fd(t_commands cmd);
 
 
 //exec utils
@@ -170,7 +172,7 @@ char		**ft_split_v2old(char const *s, char c, t_f_str f_str);
 int			ft_del_str_from_i(char *str, int i);
 void		close_tab_fd(int *fd, int i);
 int			ft_strrcmp(char *s1, char *s2);
-int			ft_isenvarc(char c);
+int			ft_isenvarc(char c, int mode);
 char		*ft_strdup_s_to_e(char const *src, size_t n, size_t index);
 int			free_flags(t_f_str f_str, int mode);
 

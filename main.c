@@ -41,9 +41,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 	//	signal(SIGINT, sighandler);		//CTRL-C
 	//	signal(SIGQUIT, SIG_IGN);		//CTRL-\ */	
-		parsing(&commands, &flag_string, &nb_commands, &line);
-		commands = commands_path(commands, nb_commands, envc);
-		exec_main(commands, nb_commands, &envc);
+		parsing(&commands, &flag_string, &misc, envc);
+		commands = commands_path(commands, misc.nb_commands, envc);
+		exec_main(commands, misc.nb_commands, &envc);
 		free_flag_string(flag_string);
 		free_command_line(commands, misc.line, misc.nb_commands);
 	}

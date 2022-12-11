@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:14:53 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/08 17:50:06 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/11 11:32:01 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat)
 {
-	t_envlist	*tmp;
+	int			i;
 	int			out;
+	t_envlist	*tmp;
 
 	tmp = envc;
 	if (exec.nb_comm == 1)
@@ -24,9 +25,26 @@ int	ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat)
 		out = 1;
 	if (cmd.sgl_cmd[1])
 	{
+		i = 0;
+		if (cmd.sgl_cmd[1][0] == '-')
+		{
+			while (cmd.sgl_cmd[1][i] == '-' && cmd.sgl_cmd[1][i])
+				i++;
+			if (cmd.sgl_cmd[1][i] == '\0')
+			{
+				g_errno = 0;
+				return (0);
+			}
+			ft_putstr_fd("env: illegal option -- ", 2);
+			ft_putchar_fd(cmd.sgl_cmd[1][i], 2);
+			ft_putchar_fd('\n', 2);
+			g_errno = 1;
+			return (0);
+		}
 		ft_putstr_fd("env: ", 2);
-		ft_putstr_fd(cmd.sgl_cmd[1], 2);
+		ft_putchar_fd(cmd.sgl_cmd[1][1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
+		g_errno = 127;
 		return (0);
 	}
 	while (tmp)
@@ -47,6 +65,7 @@ int	ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat)
 		}
 		tmp = tmp->next;
 	}
+	g_errno = 0;
 	if (exec.nb_comm > 1)
 		exit(EXIT_SUCCESS);
 	return (0);

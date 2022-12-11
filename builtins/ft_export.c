@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:06:54 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/09 14:49:52 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/11 16:02:07 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,7 @@ int	valid_id_exp(char *var, char *cmd, int *oldp_stat)
 	i = 0;
 	while (var[i] && var[i] != '=' && var[i] != '+')
 	{
-		if (!((var[i] >= 'A' && var[i] <= 'Z') || (var[i] >= 'a' && var[i] <= 'z')
-			|| strcmp_tof(var, "_") == 1))
+		if (ft_isenvarc(var[0], 1) == 1 && ft_isenvarc(var[i], 0) == 1)
 		{
 			printf("minishell: %s: `%s': not a valid identifier\n", cmd, var);
 			return (0);
@@ -380,6 +379,7 @@ int	ft_export(t_commands cmd, t_exec exec, t_envlist **envc, int *oldp_stat)
 	int		out;
 
 	i = 1;
+	g_errno = 0;
 	if (exec.nb_comm == 1)
 		out = cmd.fdout;
 	else
@@ -393,6 +393,8 @@ int	ft_export(t_commands cmd, t_exec exec, t_envlist **envc, int *oldp_stat)
 		while (cmd.sgl_cmd[i])
 		{
 			ret = valid_id_exp(cmd.sgl_cmd[i], "export", oldp_stat);
+			if (ret == 0)
+				g_errno = 1;
 			if (ret == 1)
 				add_export(envc, cmd.sgl_cmd[i], '=');
 			else if (ret == 2)

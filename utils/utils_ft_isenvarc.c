@@ -3,18 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   utils_ft_isenvarc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 14:40:28 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/08 15:06:08 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/11 12:10:37 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_isenvarc(char c)
+int	ft_isenvarc(char c, int mode)
 {
-	if (c == '_' || ft_isalpha(c) != 0)
-		return (1);
+	if (mode == 1)
+	{
+		if (c == '_' || ft_isalpha(c) != 0)
+			return (1);
+	}
+	else if (mode == 0)
+	{
+		if (c == '_' || ft_isalnum(c) != 0)
+			return (1);
+	}
 	return (0);
 }

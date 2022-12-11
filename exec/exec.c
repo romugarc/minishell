@@ -6,25 +6,17 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/10 16:14:40 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/11 15:15:08 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	check_cmd_fd(t_commands *cmd, int nb_comm)
+int	check_cmd_fd(t_commands cmd)
 {
-	int	i;
-
-	i = 0;
-	while (i < nb_comm)
-	{
-	if (cmd[i].fdin == -1)
-		cmd[i].fdin = 1;
-	if (cmd[i].fdout == -1)
-		cmd[i].fdout = 1;	
-		i++;
-	}
+	if (cmd.fdin < 0 || cmd.fdout < 0)
+		return (-1);
+	return (0);
 }
 
 int	error_type(t_commands *comm, int line, t_envlist **envc)
@@ -107,7 +99,7 @@ int	check_access(t_commands *comm, int nb_comm, t_envlist **envc)
 	return (0);
 }
 
-void	wait_all_cpid(pid_t *cpid, int status, int i)
+void	wait_all_cpid(pid_t *cpid, int status, int i, t_exec *exec)
 {
 	int	temp;
 
@@ -118,7 +110,9 @@ void	wait_all_cpid(pid_t *cpid, int status, int i)
 		waitpid(cpid[temp], &status, 0);
 		temp++;
 	}
-	g_errno = status;
+	if ((*exec).error == 0)
+		g_errno = status / 256;
+	(*exec).error = 0;
 }
 
 int	pipe_error_case(int nb_comm, t_exec exec, t_commands *cmd)
@@ -131,7 +125,8 @@ int	pipe_error_case(int nb_comm, t_exec exec, t_commands *cmd)
 	return (-1);
 }
 
-// cd -
+//	cd -
+//	cmd <     ou     cmd |
 
 int	exec_main(t_commands *commands, int nb_comm, t_envlist **envc)
 {
@@ -140,33 +135,36 @@ int	exec_main(t_commands *commands, int nb_comm, t_envlist **envc)
 
 	if (nb_comm < 1)
 		return (-1);
+	if (nb_comm == 1)
+		if (check_cmd_fd(commands[0]) == -1)
+			return (-1);
 //	if (check_access(commands, nb_comm, envc) == -1)
 //		return (-1);
 	if (get_tmp_env(envc, &exec) == -1)
 		return (free_char_tab_ret(exec));
 	if (exec_init(&exec, nb_comm) == -1)
 		return (free_char_tab_ret(exec));
-	check_cmd_fd(commands, nb_comm);
+	//int	i = 0;
 	if (nb_comm == 1)
-		is_builtins(commands[exec.comm_i], exec, envc, &oldp_stat);
+		is_builtins(commands[exec.comm_i], &exec, envc, &oldp_stat);
 	(*envc)->env_ = 1;
 	while (exec.temp > 0 && (nb_comm > 1
-			|| is_it_builtin(commands[exec.comm_i].sgl_cmd[0]) != 1))
+			|| is_it_builtin(commands[exec.comm_i].sgl_cmd[0], &exec) != 1))
 	{
 		if (exec.temp > 1)
 			if (pipe(exec.fd[exec.comm_i]) == -1)
 				return (pipe_error_case(nb_comm, exec, commands));
 		exec.cpid[exec.comm_i] = fork();
 		if (exec.cpid[exec.comm_i] == 0)
-			child_process(commands, exec, envc, &oldp_stat);
+			child_process(commands, &exec, envc, &oldp_stat);
 		exec.comm_i++;
 		exec.temp--;
 	}
 	if (nb_comm > 1)
 		close_fd(exec.fd, exec.comm_i - 1, commands);
 	free_char_tab_ret(exec);
-	wait_all_cpid(exec.cpid, exec.status, exec.comm_i);
-	dprintf(1, "%d\n", errno);
+	wait_all_cpid(exec.cpid, exec.status, exec.comm_i, &exec);
+	dprintf(1, "%d\n", g_errno);
 	free_all(exec, nb_comm);
 	return (0);
 }

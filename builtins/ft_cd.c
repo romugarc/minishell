@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:56:42 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/05 15:23:46 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/10 18:53:19 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,13 @@ int	ft_cd(char **tab, int nb_comm, t_envlist **envc)
 		oldp_first_time(envc);
 		refresh_oldp(envc);
 		refresh_pwd(envc);
+		g_errno = 0;
 	}
 	else
+	{
+		g_errno = 1;
 		perror(tab[1]);
+	}
 	free(path);
 	if (nb_comm != 1)
 		exit(EXIT_SUCCESS);
