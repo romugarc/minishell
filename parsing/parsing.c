@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/11 15:57:04 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/11 18:17:15 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc
 //	misc->line = get_next_line(0);
 //	misc->line = correct_line(misc->line);
 	misc->line = readline("minishell$ ");
+	add_history(misc->line);
 	if (special_char_flags(f_str, misc->line) != 0)
 		return (1);
 	if (quotes_flags(f_str, misc->line) != 0)
@@ -42,6 +43,8 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc
 	if (reform_tab(commands, misc->nb_commands) == 1)
 		return (1);
 	if (expand_variable(commands, misc->nb_commands, envc) == 1)
+		return (1);
+	if (remove_quotes(commands, misc->nb_commands) == 1)
 		return (1);
 	if (create_fd(commands, misc->nb_commands, envc) == 1)
 		return (1);

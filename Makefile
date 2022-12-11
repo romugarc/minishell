@@ -64,6 +64,7 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_copy_var.c				\
 			parsing/parsing_expand_variable_misc.c	\
 			parsing/parsing_check_fd.c				\
+			parsing/parsing_remove_quotes.c			\
 
 RL_INC	:=	-I ~/opt/readline/include
 RL_LIB	:=	-L/usr/local/lib

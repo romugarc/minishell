@@ -129,6 +129,7 @@ int			cat_ex_varnf(char *line, t_inc *i, char **new_line);
 int			search_expand(char **line, t_envlist *envc);
 int			expand_heredoc(char **str, t_envlist *envc);
 int			check_fd(t_commands **cmd, int np);
+int			remove_quotes(t_commands **cmd, int np);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
