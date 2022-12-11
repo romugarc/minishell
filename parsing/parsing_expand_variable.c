@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:24 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/11 12:59:02 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/11 16:15:26 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	swap_free(char **line, char *new_line)
 	return (0);
 }
 
-static int	search_expand(char **line, t_envlist *envc)
+int	search_expand(char **line, t_envlist *envc)
 {
 	t_inc	i;
 	t_f_str	f_str;
@@ -109,7 +109,8 @@ int expand_variable(t_commands **c, int np, t_envlist *envc)
 		{
 			if (search_expand(&(*c)[i.i].sgl_cmd[i.j], envc) == 1)
 				return (1);
-			quotes_flags(&f_str, (*c)[i.i].sgl_cmd[i.j]);
+			if (quotes_flags(&f_str, (*c)[i.i].sgl_cmd[i.j]) == 1)
+				return (1);
 			if (expand_search((*c)[i.i].sgl_cmd[i.j], f_str) == 1)
 				i.j++;
 			free(f_str.quotes);

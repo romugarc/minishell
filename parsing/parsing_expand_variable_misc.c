@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 18:32:44 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/10 19:34:16 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/11 11:44:37 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,25 @@ int	copy_var2(char *line, t_inc *i, t_envlist *tmp, char **new_line)
 	{
 		if (cat_ex_varnf(line, i, new_line) == 1)
 			return (1);
+	}
+	return (0);
+}
+
+int	expand_heredoc(char **str, t_envlist *envc)
+{
+	t_f_str	f_str;
+	int	flag;
+
+	flag = 0;
+	while (flag == 0)
+	{
+		if (search_expand(str, envc) == 1)
+			return (1);
+		if (quotes_flags(&f_str, *str) == 1)
+			return (1);
+		if (expand_search(*str, f_str) == 1)
+			flag = 1;
+		free (f_str.quotes);
 	}
 	return (0);
 }
