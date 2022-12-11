@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/11 11:48:57 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/11 15:57:04 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc
 		return (1);
 	if (create_fd(commands, misc->nb_commands, envc) == 1)
 		return (1);
+	check_fd(commands, misc->nb_commands);
 	return (0);
 }
 

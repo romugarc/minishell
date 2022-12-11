@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 18:13:21 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/11 11:46:52 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/11 15:47:32 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,6 @@ int	create_fdin(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc)
 		{
 			if (access((*cmd)[inc.i].tab_infile[inc.j], R_OK) == 0)
 				*lastfd = open((*cmd)[inc.i].tab_infile[inc.j], O_RDONLY);
-			else
-			{
-				printf("minishell: %s: Permission denied\n", (*cmd)[inc.i].tab_infile[inc.j]);
-				return (1);
-			}
-		}
-		else
-		{
-			printf("minishell: %s: No such file or directory\n", (*cmd)[inc.i].tab_infile[inc.j]);
-			return (1);
 		}
 		(*cmd)[inc.i].tab_fdin[inc.j] = *lastfd;
 	}

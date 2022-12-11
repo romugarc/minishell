@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:06:47 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/11 11:28:45 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/11 15:46:59 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@ static int	create_fdout2(t_commands **cmd, int i, int j, int *lastfd)
 	{
 		if (access((*cmd)[i].tab_outfile[j], W_OK) == 0)
 			*lastfd = open((*cmd)[i].tab_outfile[j], O_WRONLY | O_APPEND);
-		else
-		{
-			printf("minishell: %s: Permission denied\n", (*cmd)[i].tab_outfile[j]);
-			return (1);
-		}
 	}
 	else
 		*lastfd = open((*cmd)[i].tab_outfile[j], O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -38,11 +33,6 @@ static int	create_fdout(t_commands **cmd, int i, int j, int *lastfd)
 		{
 			if (access((*cmd)[i].tab_outfile[j], W_OK) == 0)
 				*lastfd = open((*cmd)[i].tab_outfile[j], O_WRONLY | O_TRUNC);
-			else
-			{
-				printf("minishell: %s: Permission denied\n", (*cmd)[i].tab_outfile[j]);
-				return (1);
-			}
 		}
 		else
 			*lastfd = open((*cmd)[i].tab_outfile[j], O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -94,7 +84,7 @@ int	create_fd(t_commands **cmd, int np, t_envlist *envc)
 	inc.i = -1;
 	while (++inc.i < np)
 	{
-		inc.lastfd = -1;
+		inc.lastfd = 1;
 		if ((*cmd)[inc.i].nb_infile > 0)
 		{
 			if (create_fdnorm(cmd, &inc, 1, envc) == 1)
@@ -103,7 +93,7 @@ int	create_fd(t_commands **cmd, int np, t_envlist *envc)
 		else
 			(*cmd)[inc.i].tab_fdin = NULL;
 		(*cmd)[inc.i].fdin = inc.lastfd;
-		inc.lastfd = -1;
+		inc.lastfd = 1;
 		if ((*cmd)[inc.i].nb_outfile > 0)
 		{
 			if (create_fdnorm(cmd, &inc, 0, envc) == 1)

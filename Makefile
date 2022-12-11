@@ -63,6 +63,7 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_expand_variable.c		\
 			parsing/parsing_copy_var.c				\
 			parsing/parsing_expand_variable_misc.c	\
+			parsing/parsing_check_fd.c				\
 
 RL_INC	:=	-I ~/opt/readline/include
 RL_LIB	:=	-L/usr/local/lib
@@ -74,7 +75,7 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Werror -Wall -Wextra -g #-fsanitize=address #
+CFLAGS	=	-Wall -Wextra -g #-Werror #-fsanitize=address #
 
 all:		${NAME}
 
