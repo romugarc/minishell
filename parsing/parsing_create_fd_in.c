@@ -6,13 +6,22 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 18:13:21 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/06 17:11:24 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/11 11:46:52 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	heredoc_routine(t_commands **cmd, t_inc inc, t_heredoc *hd)
+static int	closefree_fdpipe(t_heredoc hd, int fdsave)
+{
+	dup2(hd.pipefd[1], fdsave);
+	close(hd.pipefd[1]);
+	close(hd.pipefd[0]);
+	free(hd.pipefd);
+	return (1);
+}
+
+static int	heredoc_routine(t_commands **cmd, t_inc inc, t_heredoc *hd, t_envlist *envc)
 {
 	int		breaking;
 	char	*lineh;
@@ -23,10 +32,15 @@ static int	heredoc_routine(t_commands **cmd, t_inc inc, t_heredoc *hd)
 	if (ft_strrcmp(lineh, (*cmd)[inc.i].tab_infile[inc.j]) == 0)
 	{
 		free(lineh);
-		breaking = 1;
+		breaking = 2;
 	}
 	else
 	{
+		if (expand_heredoc(&lineh, envc) == 1)
+		{
+			free(lineh);
+			return (1);
+		}
 		ft_putstr_fd(lineh, hd->pipefd[1]);
 		ft_putchar_fd('\n', hd->pipefd[1]);
 		free(lineh);
@@ -34,22 +48,23 @@ static int	heredoc_routine(t_commands **cmd, t_inc inc, t_heredoc *hd)
 	return (breaking);
 }
 
-static int	heredoc_prompting(t_commands **cmd, int i, int j, int *lastfd)
+static int	heredoc_prompting(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc)
 {
 	t_heredoc hd;
-	t_inc	inc;
 	int		fdsave;
+	int		ret;
 
-	inc.i = i;
-	inc.j = j;
 	fdsave = dup(0);
 	hd.pipefd = malloc(sizeof(int) * 2);
 	if (pipe(hd.pipefd) == -1)
 		return (1);
 	while (1)
 	{
-		if(heredoc_routine(cmd, inc, &hd) == 1)
-			break;
+		ret = heredoc_routine(cmd, inc, &hd, envc);
+		if (ret == 2)
+			break ;
+		else if (ret == 1)
+			return (closefree_fdpipe(hd, fdsave));
 	}
 	dup2(hd.pipefd[1], fdsave);
 	close(hd.pipefd[1]);
@@ -61,42 +76,42 @@ static int	heredoc_prompting(t_commands **cmd, int i, int j, int *lastfd)
 	return (0);
 }
 
-static int	create_fdin2(t_commands **cmd, int i, int j, int *lastfd)
+static int	create_fdin2(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc)
 {
-	if ((*cmd)[i].flag_in[j] == '1' && (*cmd)[i].tab_fdin != NULL)
+	if ((*cmd)[inc.i].flag_in[inc.j] == '1' && (*cmd)[inc.i].tab_fdin != NULL)
 	{
-		if (heredoc_prompting(cmd, i, j, lastfd) == 1)
+		if (heredoc_prompting(cmd, inc, lastfd, envc) == 1)
 			return (1);
 	}
-	else if ((*cmd)[i].tab_fdin == NULL)
+	else if ((*cmd)[inc.i].tab_fdin == NULL)
 		return (1);
 	return (0);
 }
 
-int	create_fdin(t_commands **cmd, int i, int j, int *lastfd)
+int	create_fdin(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc)
 {
-	if ((*cmd)[i].flag_in[j] == '0' && (*cmd)[i].tab_fdin != NULL)
+	if ((*cmd)[inc.i].flag_in[inc.j] == '0' && (*cmd)[inc.i].tab_fdin != NULL)
 	{
-		if (access((*cmd)[i].tab_infile[j], F_OK) == 0)
+		if (access((*cmd)[inc.i].tab_infile[inc.j], F_OK) == 0)
 		{
-			if (access((*cmd)[i].tab_infile[j], R_OK) == 0)
-				*lastfd = open((*cmd)[i].tab_infile[j], O_RDONLY);
+			if (access((*cmd)[inc.i].tab_infile[inc.j], R_OK) == 0)
+				*lastfd = open((*cmd)[inc.i].tab_infile[inc.j], O_RDONLY);
 			else
 			{
-				printf("minishell: %s: Permission denied\n", (*cmd)[i].tab_infile[j]);
+				printf("minishell: %s: Permission denied\n", (*cmd)[inc.i].tab_infile[inc.j]);
 				return (1);
 			}
 		}
 		else
 		{
-			printf("minishell: %s: No such file or directory\n", (*cmd)[i].tab_infile[j]);
+			printf("minishell: %s: No such file or directory\n", (*cmd)[inc.i].tab_infile[inc.j]);
 			return (1);
 		}
-		(*cmd)[i].tab_fdin[j] = *lastfd;
+		(*cmd)[inc.i].tab_fdin[inc.j] = *lastfd;
 	}
 	else
 	{
-		if(create_fdin2(cmd, i, j, lastfd) == 1)
+		if(create_fdin2(cmd, inc, lastfd, envc) == 1)
 			return (1);
 	}
 	return (0);

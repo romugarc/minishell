@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:44:31 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/03 19:18:18 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/11 11:52:32 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	form_tab2(t_commands **com, int np)
 				return (free_flags(f_str, 0));
 			if (forming_tab2(com, f_str, &i, &cpy_flag) == 1)
 				return (1);
+			free(f_str.quotes);
+			free(f_str.sp_chars);
 		}
 		i.i++;
 	}
@@ -108,6 +110,8 @@ int	form_tab(t_commands **com, int np)
 				return (free_flags(f_str, 0));
 			if (forming_tab(com, f_str, &i, &cpy_flag) == 1)
 				return (1);
+			free(f_str.quotes);
+			free(f_str.sp_chars);
 		}
 		i.i++;
 	}
