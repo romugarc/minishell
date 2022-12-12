@@ -6,23 +6,12 @@ void	free_flag_string(t_f_str flag_string)
 	free(flag_string.quotes);
 }
 
-void	ft_termios_handler(int end)
+void	print_parsing_err(int errnb)
 {
-	struct termios			termios_p;
-	static struct termios	termios_before;
-	int						fd_term;
-
-	fd_term = ttyslot();
-	if (end == 1)
-	{
-		tcsetattr(fd_term, TCSANOW, &termios_before);
-		return ;
-	}
-	tcgetattr(fd_term, &termios_before);
-	termios_p = termios_before;
-	termios_p.c_cc[VQUIT] = 0;
-	termios_p.c_lflag &= ~ECHOCTL;
-	tcsetattr(fd_term, TCSANOW, &termios_p);
+	if (errnb == 134)
+		ft_putstr_fd("minishell: malloc error\n", 2);
+	else if (errnb == 258)
+		ft_putstr_fd("minishell: syntax error\n", 2);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -36,14 +25,18 @@ int	main(int argc, char **argv, char **envp)
 	if (error_handler(argc, argv) == 1)
 			return (0);
 	envc = envcpy(envp);
-//	ft_termios_handler(0);
 	while (1)
 	{
-	//	signal(SIGINT, sighandler);		//CTRL-C
+	//	signal(SIGINT, sig_handler);		//CTRL-C
 	//	signal(SIGQUIT, SIG_IGN);		//CTRL-\ */	
-		parsing(&commands, &flag_string, &misc, envc);
-		commands = commands_path(commands, misc.nb_commands, envc);
-		exec_main(commands, misc.nb_commands, &envc);
+		g_errno = parsing(&commands, &flag_string, &misc, envc);
+		if (g_errno == 0)
+		{
+			commands = commands_path(commands, misc.nb_commands, envc);
+			exec_main(commands, misc.nb_commands, &envc);
+		}
+		else
+			print_parsing_err(g_errno);
 		free_flag_string(flag_string);
 		free_command_line(commands, misc.line, misc.nb_commands);
 	}

@@ -65,9 +65,10 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_expand_variable_misc.c	\
 			parsing/parsing_check_fd.c				\
 			parsing/parsing_remove_quotes.c			\
+			parsing/parsing_parse_error.c			\
 
-RL_INC	:=	-I ~/opt/readline/include
-RL_LIB	:=	-L/usr/local/lib
+RL_INC	:=	-I /usr/local/include
+RL_LIB	:=	-L /usr/local/lib
 
 HEADER_FILES = minishell.h
 
@@ -85,7 +86,7 @@ all:		${NAME}
 
 $(NAME):	${OBJS}
 			@$(MAKE) -C ./libft
-			@${CC} ${CFLAGS} ${OBJS} ${RL_LIB} -lreadline ./libft/libft.a -o minishell 
+			@${CC} ${CFLAGS} ${OBJS}  -lreadline ./libft/libft.a -o minishell ${RL_LIB} ${RL_INC} 
 
 c:
 			${RM} ${OBJS}

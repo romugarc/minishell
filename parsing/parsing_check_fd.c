@@ -6,13 +6,13 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 14:37:13 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/11 15:51:39 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/12 17:55:32 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	print_err_fd(char *str, int mode)
+static int	print_err_fd(t_commands **cmd, int i, char *str, int mode)
 {
 	if (mode == 1)
 	{
@@ -26,6 +26,8 @@ static int	print_err_fd(char *str, int mode)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 	}
+	(*cmd)[i].fdin = -1;
+	(*cmd)[i].fdout = -1;
 	return (1);
 }
 
@@ -36,47 +38,35 @@ static int	check_fdout(t_commands **cmd, int i, int j)
 		if (access((*cmd)[i].tab_outfile[j], F_OK) == 0)
 		{
 			if (access((*cmd)[i].tab_outfile[j], W_OK) != 0)
-			{
-				print_err_fd((*cmd)[i].tab_outfile[j], 1);
-				(*cmd)[i].fdout = -1;
-				return (1);
-			}
+				return (print_err_fd(cmd, i, (*cmd)[i].tab_outfile[j], 1));
 		}
+		else if ((*cmd)[i].tab_outfile[j][0] == '\0')
+			return (print_err_fd(cmd, i, (*cmd)[i].tab_outfile[j], 2));
 	}
 	else if ((*cmd)[i].flag_out[j] == '1' && (*cmd)[i].tab_fdout != NULL)
-	{	
+	{
 		if (access((*cmd)[i].tab_outfile[j], F_OK) == 0)
 		{
 			if (access((*cmd)[i].tab_outfile[j], W_OK) != 0)
-			{
-				print_err_fd((*cmd)[i].tab_outfile[j], 1);
-				(*cmd)[i].fdout = -1;
-				return (1);
-			}
+				return (print_err_fd(cmd, i, (*cmd)[i].tab_outfile[j], 1));
 		}
+		else if ((*cmd)[i].tab_outfile[j][0] == '\0')
+			return (print_err_fd(cmd, i, (*cmd)[i].tab_outfile[j], 2));
 	}
 	return (0);
 }
 
-static int	check_fdin(t_commands **cmd, t_inc inc)
+static int	check_fdin(t_commands **cmd, t_inc i)
 {
-	if ((*cmd)[inc.i].flag_in[inc.j] == '0' && (*cmd)[inc.i].tab_fdin != NULL)
+	if ((*cmd)[i.i].flag_in[i.j] == '0' && (*cmd)[i.i].tab_fdin != NULL)
 	{
-		if (access((*cmd)[inc.i].tab_infile[inc.j], F_OK) == 0)
+		if (access((*cmd)[i.i].tab_infile[i.j], F_OK) == 0)
 		{
-			if (access((*cmd)[inc.i].tab_infile[inc.j], R_OK) != 0)
-			{
-				print_err_fd((*cmd)[inc.i].tab_infile[inc.j], 1);
-				(*cmd)[inc.i].fdin = -1;
-				return (1);
-			}
+			if (access((*cmd)[i.i].tab_infile[i.j], R_OK) != 0)
+				return (print_err_fd(cmd, i.i, (*cmd)[i.i].tab_infile[i.j], 1));
 		}
 		else
-		{
-			print_err_fd((*cmd)[inc.i].tab_infile[inc.j], 2);
-			(*cmd)[inc.i].fdin = -1;
-			return (1);
-		}
+			return (print_err_fd(cmd, i.i, (*cmd)[i.i].tab_infile[i.j], 2));
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 18:13:21 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/11 15:47:32 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/12 17:51:57 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	heredoc_prompting(t_commands **cmd, t_inc inc, int *lastfd, t_envlist
 	return (0);
 }
 
-static int	create_fdin2(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc)
+int	create_fdin2(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc)
 {
 	if ((*cmd)[inc.i].flag_in[inc.j] == '1' && (*cmd)[inc.i].tab_fdin != NULL)
 	{
@@ -88,7 +88,7 @@ static int	create_fdin2(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *env
 	return (0);
 }
 
-int	create_fdin(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc)
+int	create_fdin(t_commands **cmd, t_inc inc, int *lastfd)
 {
 	if ((*cmd)[inc.i].flag_in[inc.j] == '0' && (*cmd)[inc.i].tab_fdin != NULL)
 	{
@@ -96,13 +96,17 @@ int	create_fdin(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc)
 		{
 			if (access((*cmd)[inc.i].tab_infile[inc.j], R_OK) == 0)
 				*lastfd = open((*cmd)[inc.i].tab_infile[inc.j], O_RDONLY);
+			else
+				return (1);
+		}
+		else
+		{
+			(*cmd)[inc.i].tab_fdin[inc.j] = *lastfd;
+			return (1);
 		}
 		(*cmd)[inc.i].tab_fdin[inc.j] = *lastfd;
 	}
-	else
-	{
-		if(create_fdin2(cmd, inc, lastfd, envc) == 1)
-			return (1);
-	}
+	else if ((*cmd)[inc.i].tab_fdin == NULL)
+		return (1);
 	return (0);
 }
