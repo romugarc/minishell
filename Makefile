@@ -29,6 +29,7 @@ SRCS	=	main.c prompt.c							\
 			utils/utils_ft_strrcmp.c				\
 			utils/utils_ft_isenvarc.c				\
 			utils/utils_ft_strdup_s_to_e.c			\
+			utils/utils_is_sp_char.c				\
 													\
 			exec/exec.c								\
 			exec/exec_init.c						\

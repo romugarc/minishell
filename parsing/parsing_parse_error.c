@@ -12,13 +12,7 @@
 
 #include "../minishell.h"
 
-static int	is_sp_char(t_f_str f_str, int i)
-{
-	if (f_str.sp_chars[i] >= '3' && f_str.sp_chars[i] <= '9' \
-		&& f_str.quotes[i] == '0')
-		return (f_str.sp_chars[i] - '0');
-	return (0);
-}
+
 
 static int	parse_quote_error(t_f_str f_str, int *i)
 {
@@ -59,7 +53,7 @@ static int	parse_redirect_error(t_f_str f_str, int i)
 		nb = i;
 		while (f_str.sp_chars[nb] == redir)
 			nb++;
-		if (nb - i > 2 || f_str.sp_chars == '\0')
+		if (nb - i > 2 || f_str.sp_chars[nb] == '\0')
 			return (1);
 		nb = i + 1;
 		if (f_str.sp_chars[nb] == redir)
@@ -83,7 +77,7 @@ static int	parse_pipe_error(t_f_str f_str, int i)
 		nb = i;
 		while (f_str.sp_chars[nb] == '5')
 			nb++;
-		if (nb - i > 1 || f_str.sp_chars == '\0')
+		if (nb - i > 1 || f_str.sp_chars[nb] == '\0')
 			return (1);
 		nb = i + 1;
 		while (is_sp_char(f_str, nb) == 9 && f_str.sp_chars[nb] != '\0')

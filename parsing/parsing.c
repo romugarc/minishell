@@ -16,6 +16,8 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc
 {
 	int	ret;
 
+//	misc->line = get_next_line(0);
+//	misc->line = correct_line(misc->line);
 	misc->line = readline("minishell$ ");
 	add_history(misc->line);
 	if (special_char_flags(f_str, misc->line) != 0)
@@ -53,35 +55,6 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc
 			return (134);
 		check_fd(commands, misc->nb_commands);
 		return (0);
-	}
-	int	i;
-	int	j;
-	i = 0;
-	while (i < misc->nb_commands)
-	{
-		j = 0;
-		while ((*commands)[i].sgl_cmd[j] != 0)
-		{
-			printf("%s.%d\n", (*commands)[i].sgl_cmd[j], i);
-			j++;
-		}
-		j = 0;
-		while ((*commands)[i].nb_infile > 0 && j < (*commands)[i].nb_infile)
-		{
-			printf("%s.%d.infile\n", (*commands)[i].tab_infile[j], i);
-			j++;
-		}
-		if ((*commands)[i].nb_infile > 0)
-			printf("%s.%dfin\n", (*commands)[i].flag_in, i);
-		j = 0;
-		while ((*commands)[i].nb_outfile > 0 && j < (*commands)[i].nb_outfile)
-		{
-			printf("%s.%d.outfile\n", (*commands)[i].tab_outfile[j], i);
-			j++;
-		}
-		if ((*commands)[i].nb_outfile > 0)
-			printf("%s.%dfout\n", (*commands)[i].flag_out, i);
-		i++;
 	}
 	return (258);
 }

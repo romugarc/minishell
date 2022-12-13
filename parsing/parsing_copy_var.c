@@ -26,12 +26,12 @@ static int	cating_ex_varnf(char **n_line, char *b_ex, char *a_ex)
 	return (0);
 }
 
-static int	cating_ex_var(char **n_line, char *b_ex, char *a_ex, t_envlist *env)
+static int	cating_ex_var(char **n_line, char *b_ex, char *a_ex, char *envstr)
 {
 	char	*tmp_line;
 
 	tmp_line = *n_line;
-	*n_line = ft_strjoin(*n_line, env->val);
+	*n_line = ft_strjoin(*n_line, envstr);
 	if (*n_line == NULL)
 		return (free_expand(tmp_line, NULL, NULL, NULL));
 	free(tmp_line);
@@ -67,7 +67,7 @@ int	cat_ex_varnf(char *line, t_inc *i, char **new_line)
 	return (0);
 }
 
-int	cat_ex_var(char *line, t_inc *i, t_envlist *envc, char **new_line)
+int	cat_ex_var(char *line, t_inc *i, char *envstr, char **new_line)
 {
 	char	*bef_ex;
 	char	*aft_ex;
@@ -84,7 +84,7 @@ int	cat_ex_var(char *line, t_inc *i, t_envlist *envc, char **new_line)
 		*new_line = ft_strdup(bef_ex);
 	if (*new_line == NULL)
 		return (free_expand(bef_ex, aft_ex, NULL, NULL));
-	if (cating_ex_var(new_line, bef_ex, aft_ex, envc) == 1)
+	if (cating_ex_var(new_line, bef_ex, aft_ex, envstr) == 1)
 		return (free_expand(bef_ex, aft_ex, NULL, NULL));
 	return (0);
 }
@@ -111,10 +111,15 @@ int	copy_var(char *line, t_inc *i, t_envlist *envc, char **new_line)
 	}
 	if (i->l_j == 1)
 	{
-		if (cat_ex_var(line, i, tmp, new_line) == 1)
+		if (cat_ex_var(line, i, tmp->val, new_line) == 1)
 			return (free_expand(ex_var, NULL, NULL, NULL));
 	}
-	else
+	else if (line[i->start + 1] == '?')
+	{
+		if (cat_ex_var(line, i, ft_itoa(g_errno), new_line) == 1)
+			return (free_expand(ex_var, NULL, NULL, NULL));
+	}
+	else if (i->l_e > i->start + 1)
 	{
 		if (cat_ex_varnf(line, i, new_line) == 1)
 			return (free_expand(ex_var, NULL, NULL, NULL));
