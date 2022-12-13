@@ -132,6 +132,7 @@ int			expand_heredoc(char **str, t_envlist *envc);
 int			check_fd(t_commands **cmd, int np);
 int			remove_quotes(t_commands **cmd, int np);
 int			parse_error(char *line, t_f_str f_str);
+int			expand_variablee(char **line, t_envlist *envc);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);

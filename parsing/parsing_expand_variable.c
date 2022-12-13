@@ -142,3 +142,29 @@ int expand_variable(t_commands **c, int np, t_envlist *envc)
 	}
 	return (0);
 }
+
+int expand_variablee(char **line, t_envlist *envc)
+{
+	t_inc	i;
+	t_f_str	f_str;
+
+	init_inc(&i);
+//	while (i.i < np)
+//	{
+//		i.l_i = 0;
+//		i.j = 0;
+		while (*line[i.i] != '\0')
+		{
+			if (search_expand(line, &i, envc) == 1)
+				return (1);
+			if (quotes_flags(&f_str, *line) == 1)
+				return (1);
+			searching_expand(*line, &i, f_str);
+			free(f_str.quotes);
+		}
+//		if (expand_var_tab(line, envc, i) == 1)
+	//		return (1);
+//		i.i++;
+//	}
+	return (0);
+}

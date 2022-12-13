@@ -24,6 +24,12 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc
 		return (134);
 	if (quotes_flags(f_str, misc->line) != 0)
 		return (134);
+//	if (expand_variablee(&misc->line, envc) == 1)
+//		return (134);
+	if (special_char_flags(f_str, misc->line) != 0)
+		return (134);
+	if (quotes_flags(f_str, misc->line) != 0)
+		return (134);
 	ret = parse_error(misc->line, *f_str);
 	init_inc(&f_str->i);
 	misc->nb_commands = count_arguments(misc->line, '|', f_str);
