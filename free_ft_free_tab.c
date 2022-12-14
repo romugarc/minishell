@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free_ft_free_tab.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 16:44:20 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/29 16:02:45 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 17:48:18 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_tab(char **tab)
+int	ft_free_tab(char **tab)
 {
 	int	i;
 
@@ -26,4 +26,5 @@ void	ft_free_tab(char **tab)
 		}
 	}
 	free(tab);
+	return (-1);
 }

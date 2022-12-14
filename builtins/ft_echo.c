@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 14:02:54 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/08 16:03:01 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/14 20:52:36 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,15 @@ int	ft_echo(char **tab, t_exec exec, t_commands cmd)
 	int	out;
 
 	line = 1;
-	if (!tab[1])
-		return (1);
 	if (exec.nb_comm == 1)
 		out = cmd.fdout;
 	else
 		out = 1;
+	if (!tab[1])
+	{
+		ft_putchar_fd('\n', out);
+		return (1);
+	}
 	while (ft_echo_next_n(tab[line]) == 1)
 		line++;
 	while (tab[line])

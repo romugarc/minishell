@@ -5,6 +5,7 @@ SRCS	=	main.c prompt.c							\
 			free_free_command_line.c				\
 			free_ft_free_tab.c						\
 			free_free_expand.c						\
+			free_envc.c								\
 			error_error_handler.c					\
 													\
 			commands_path.c							\
@@ -78,7 +79,7 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra  -g #-Werror # #-fsanitize=address
+CFLAGS	=	-Wall -Wextra  #-fsanitize=address #-Werror
 
 all:		${NAME}
 

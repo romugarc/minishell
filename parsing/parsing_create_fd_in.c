@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 18:13:21 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/12 17:51:57 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 20:33:02 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,18 @@ static int	heredoc_routine(t_commands **cmd, t_inc inc, t_heredoc *hd, t_envlist
 	int		breaking;
 	char	*lineh;
 
+	signal(SIGINT, sig_heredoc);
+	signal(SIGQUIT, sig_heredoc);
 	breaking = 0;
 	lineh = NULL;
-	lineh = readline("> ");
-	if (ft_strrcmp(lineh, (*cmd)[inc.i].tab_infile[inc.j]) == 0)
+	if (g_errno != -42)
+		lineh = readline("> ");
+	if (ft_strrcmp(lineh, (*cmd)[inc.i].tab_infile[inc.j]) == 0 && g_errno != 42)
 	{
 		free(lineh);
 		breaking = 2;
 	}
-	else
+	else if (lineh != NULL && g_errno != -42)
 	{
 		if (expand_heredoc(&lineh, envc) == 1)
 		{
@@ -45,6 +48,8 @@ static int	heredoc_routine(t_commands **cmd, t_inc inc, t_heredoc *hd, t_envlist
 		ft_putchar_fd('\n', hd->pipefd[1]);
 		free(lineh);
 	}
+	if (lineh == NULL || g_errno == -42)
+		breaking = 2;
 	return (breaking);
 }
 
@@ -61,12 +66,17 @@ static int	heredoc_prompting(t_commands **cmd, t_inc inc, int *lastfd, t_envlist
 	while (1)
 	{
 		ret = heredoc_routine(cmd, inc, &hd, envc);
+		signal(SIGINT, sighandler);
+		signal(SIGQUIT, sighandler);
 		if (ret == 2)
 			break ;
 		else if (ret == 1)
 			return (closefree_fdpipe(hd, fdsave));
 	}
-	dup2(hd.pipefd[1], fdsave);
+	if (g_errno == -42)
+		dup2(fdsave, 0);
+	else
+		dup2(hd.pipefd[1], fdsave);
 	close(hd.pipefd[1]);
 	close(fdsave);
 	*lastfd = hd.pipefd[0];

@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:06:54 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/11 17:01:27 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:05:54 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,11 @@ int	valid_id_exp(char *var, char *cmd, int *oldp_stat)
 	{
 		if (ft_isenvarc(var[0], 1) == 0 || ft_isenvarc(var[i], 0) == 0)
 		{
-			printf("minishell: %s: `%s': not a valid identifier\n", cmd, var);
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": `", 2);
+			ft_putstr_fd(var, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			return (0);
 		}
 		i++;

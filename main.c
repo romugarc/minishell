@@ -10,7 +10,7 @@ void	sighandler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		errno = 1;
+		g_errno = 1;
 		ft_putstr_fd("\n", 0);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -57,6 +57,8 @@ int	main(int argc, char **argv, char **envp)
 		free_flag_string(flag_string);
 		free_command_line(commands, misc.line, misc.nb_commands, g_errno);
 	}
+	free_envc(envc);
+	//ft_lstclear_v2(&envc);
 	return (0);
 }
 

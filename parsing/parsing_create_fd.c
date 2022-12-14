@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_create_fd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:06:47 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/12 18:10:10 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 19:06:35 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static int	create_fdnormin(t_commands **cmd, t_inc *i, t_envlist *envc)
 	{
 		if (create_fdin2(cmd, inc, &(*i).lastfd, envc) == 1)
 			return (134);
+		if (g_errno == -42)
+			return (1);
 		inc.j++;
 	}
 	return (0);
@@ -87,9 +89,9 @@ static int	create_fdnorm(t_commands **cmd, t_inc *i, int mode, t_envlist *envc)
 	(*i).l_e = 0;
 	if (mode == 1)
 	{
-		(*i).l_e = create_fdnormin(cmd, i, envc);
-		if ((*i).l_e != 0)
-			return ((*i).l_e);
+		i->l_e = create_fdnormin(cmd, i, envc);
+		if (i->l_e != 0)
+			return (i->l_e);
 	}
 	else
 	{
@@ -119,6 +121,8 @@ int	create_fd(t_commands **cmd, int np, t_envlist *envc)
 		}
 		else
 			(*cmd)[inc.i].tab_fdin = NULL;
+		if (g_errno == -42)
+			return (-42);
 		(*cmd)[inc.i].fdin = inc.lastfd;
 		inc.lastfd = 1;
 		if ((*cmd)[inc.i].nb_outfile > 0)

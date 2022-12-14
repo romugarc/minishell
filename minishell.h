@@ -98,8 +98,6 @@ typedef struct s_envcpy
 	char			*var;
 	char			*val;
 	int				env_;
-	char			**oldpwd;
-	int				is_oldpwd;
 	struct s_envcpy	*next;
 }	t_envlist;
 
@@ -167,6 +165,9 @@ int			check_cmd_fd(t_commands cmd);
 int			check_access(t_commands comm, t_envlist **envc);
 void		sighandler(int sig);
 void		pipe_sighandler(int sig);
+t_commands	new_comm(t_commands comm, char *temp);
+char		*get_slash(char *str);
+void		free_envc(t_envlist *envc);
 
 
 
@@ -192,9 +193,10 @@ void		free_command_line(t_commands *commands, char *line, int nb_pipes, int g);
 void		free_tab(int **tab, int i);
 int			free_all(t_exec exec, int nb_comm);
 void		free_char_tab(char **tab);
-void		ft_free_tab(char **tab);
+int			ft_free_tab(char **tab);
 int			free_char_tab_ret(t_exec exec);
 int			free_expand(char *a, char *b, char *c, char *d);
+void		ft_lstclear_v2(t_envlist **lst);
 
 
 //init
@@ -209,5 +211,6 @@ int			error_handler(int argc, char **argv);
 
 //signal
 void		sig_handler(int signum);
+void		sig_heredoc(int signum);
 
 #endif
