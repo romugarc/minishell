@@ -120,15 +120,18 @@ int			correct_tab(t_commands **com, int np);
 int			reform_tab(t_commands **com, int np);
 int			create_fd(t_commands **cmd, int np, t_envlist *envc);
 int			form_heredoc(t_commands **c, int nb_pipes);
-int			create_fdin(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc);
+int			create_fdin(t_commands **cmd, t_inc inc, int *lastfd);
+int			create_fdin2(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc);
 int			expand_variable(t_commands **cmd, int np, t_envlist *envc);
 int			copy_var(char *line, t_inc *i, t_envlist *envc, char **new_line);
-int			expand_search(char *str, t_f_str f_str);
-int			cat_ex_var(char *line, t_inc *i, t_envlist *envc, char **new_line);
+int			expand_search(char *str, t_inc inc, t_f_str f_str);
+int			cat_ex_var(char *line, t_inc *i, char *envstr, char **new_line, int mode);
 int			cat_ex_varnf(char *line, t_inc *i, char **new_line);
 int			search_expand(char **line, t_envlist *envc);
 int			expand_heredoc(char **str, t_envlist *envc);
 int			check_fd(t_commands **cmd, int np);
+int			remove_quotes(t_commands **cmd, int np);
+int			parse_error(char *line, t_f_str f_str);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
@@ -182,6 +185,7 @@ int			ft_strrcmp(char *s1, char *s2);
 int			ft_isenvarc(char c, int mode);
 char		*ft_strdup_s_to_e(char const *src, size_t n, size_t index);
 int			free_flags(t_f_str f_str, int mode);
+int			is_sp_char(t_f_str f_str, int i);
 
 //free
 void		free_command_line(t_commands *commands, char *line, int nb_pipes);

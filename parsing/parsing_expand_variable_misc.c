@@ -6,17 +6,17 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 18:32:44 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/11 11:44:37 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 09:54:25 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	expand_search(char *str, t_f_str f_str)
+int	expand_search(char *str, t_inc inc, t_f_str f_str)
 {
 	int	k;
 
-	k = 0;
+	k = inc.l_i;
 	while (!(str[k] == '$' \
 		&& f_str.quotes[k] != '1') \
 		&& str[k] != '\0')
@@ -30,7 +30,7 @@ int	copy_var2(char *line, t_inc *i, t_envlist *tmp, char **new_line)
 {
 	if (i->l_j == 1)
 	{
-		if (cat_ex_var(line, i, tmp, new_line) == 1)
+		if (cat_ex_var(line, i, tmp->val, new_line, 0) == 1)
 			return (1);
 	}
 	else
@@ -43,19 +43,20 @@ int	copy_var2(char *line, t_inc *i, t_envlist *tmp, char **new_line)
 
 int	expand_heredoc(char **str, t_envlist *envc)
 {
-	t_f_str	f_str;
-	int	flag;
+//	t_f_str	f_str;
+//	t_inc	inc;
+//	int	flag;
 
-	flag = 0;
-	while (flag == 0)
-	{
+//	flag = 0;
+//	while (flag == 0)
+//	{
 		if (search_expand(str, envc) == 1)
 			return (1);
-		if (quotes_flags(&f_str, *str) == 1)
-			return (1);
-		if (expand_search(*str, f_str) == 1)
-			flag = 1;
-		free (f_str.quotes);
-	}
+//		if (quotes_flags(&f_str, *str) == 1)
+//			return (1);
+//		if (expand_search(*str, inc, f_str) == 1)
+//			flag = 1;
+//		free (f_str.quotes);
+//	}
 	return (0);
 }

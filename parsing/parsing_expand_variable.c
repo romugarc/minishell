@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:24 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/11 16:15:26 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/14 11:15:10 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ static int	searching_expand(char *line, t_inc *i, t_f_str f_str)
 	i->l_e = i->i;
 	while (is_in_quotes(f_str, i->i) == i->n \
 		&& ft_isenvarc(line[i->l_e], 0) == 1 && line[i->l_e] != '\0')
+	{
+		i->l_e++;
+		i->i++;
+	}
+	if (i->l_e == i->start + 1 && line[i->l_e] == '?')
 	{
 		i->l_e++;
 		i->i++;
@@ -46,25 +51,25 @@ int	search_expand(char **line, t_envlist *envc)
 	char	*new_line;
 
 	init_inc(&i);
-	quotes_flags(&f_str, *line);
-	special_char_flags(&f_str, *line);
 	new_line = NULL;
 	while ((*line)[i.i] != '\0')
 	{
+		quotes_flags(&f_str, *line);
+		special_char_flags(&f_str, *line);
 		i.l_j = 0;
 		i.n = is_in_quotes(f_str, i.i);
 		if ((*line)[i.i] == '$' && i.n != 1)
 		{
 			searching_expand(*line, &i, f_str);
 			if (copy_var(*line, &i, envc, &new_line) == 1)
-				return (1);
-			i.l_i = i.l_e;
-			break;
+				return (free_expand(f_str.quotes, f_str.sp_chars, NULL, NULL));
+			i.i = i.start;
+			swap_free(line, new_line);
 		}
 		i.i++;
+		free_expand(f_str.quotes, f_str.sp_chars, NULL, NULL);
 	}
-	swap_free(line, new_line);
-	free_expand(f_str.quotes, f_str.sp_chars, NULL, NULL);
+	(*line)[i.i] = '\0';
 	return (0);
 }
 
@@ -72,6 +77,7 @@ static int	expand_var_tab(t_commands **cmd, t_envlist *envc, t_inc i)
 {
 	if ((*cmd)[i.i].nb_infile > 0)
 	{
+		i.l_i = 0;
 		i.j = 0;
 		while ((*cmd)[i.i].tab_infile[i.j] != NULL)
 		{
@@ -79,12 +85,15 @@ static int	expand_var_tab(t_commands **cmd, t_envlist *envc, t_inc i)
 			{
 				if (search_expand(&(*cmd)[i.i].tab_infile[i.j], envc) == 1)
 					return (1);
+				i.j++;
 			}
-			i.j++;
+			else
+				i.j++;
 		}
 	}
 	if ((*cmd)[i.i].nb_outfile > 0)
 	{
+		i.l_i = 0;
 		i.j = 0;
 		while ((*cmd)[i.i].tab_outfile[i.j] != NULL)
 		{
@@ -99,21 +108,17 @@ static int	expand_var_tab(t_commands **cmd, t_envlist *envc, t_inc i)
 int expand_variable(t_commands **c, int np, t_envlist *envc)
 {
 	t_inc	i;
-	t_f_str	f_str;
 
 	init_inc(&i);
 	while (i.i < np)
 	{
+		i.l_i = 0;
 		i.j = 0;
 		while ((*c)[i.i].sgl_cmd[i.j] != NULL)
 		{
 			if (search_expand(&(*c)[i.i].sgl_cmd[i.j], envc) == 1)
 				return (1);
-			if (quotes_flags(&f_str, (*c)[i.i].sgl_cmd[i.j]) == 1)
-				return (1);
-			if (expand_search((*c)[i.i].sgl_cmd[i.j], f_str) == 1)
-				i.j++;
-			free(f_str.quotes);
+			i.j++;
 		}
 		if (expand_var_tab(c, envc, i) == 1)
 			return (1);

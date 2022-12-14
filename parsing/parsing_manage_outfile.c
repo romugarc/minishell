@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 15:30:19 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/10 17:23:32 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/13 18:55:23 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	manage_outfile3(t_commands **com, t_f_str f_str, t_inc *i)
 
 	end = i->start + 1;
 	i->k += 1;
-	while (((f_str.sp_chars[i->k] < '6' || f_str.sp_chars[i->k] == '9') \
+	while (((f_str.sp_chars[i->k] < '6' || f_str.sp_chars[i->k] >= '8') \
 		|| (f_str.sp_chars[i->k] >= '6' && f_str.quotes[i->k] != '0')) && f_str.sp_chars[i->k] != '\0')
 	{
 		end += 1;

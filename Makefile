@@ -29,6 +29,7 @@ SRCS	=	main.c prompt.c							\
 			utils/utils_ft_strrcmp.c				\
 			utils/utils_ft_isenvarc.c				\
 			utils/utils_ft_strdup_s_to_e.c			\
+			utils/utils_is_sp_char.c				\
 													\
 			exec/exec.c								\
 			exec/exec_init.c						\
@@ -64,6 +65,8 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_copy_var.c				\
 			parsing/parsing_expand_variable_misc.c	\
 			parsing/parsing_check_fd.c				\
+			parsing/parsing_remove_quotes.c			\
+			parsing/parsing_parse_error.c			\
 
 RL_LIB = -L$(shell brew --prefix readline)/lib
 RL_INC = -I$(shell brew --prefix readline)/include
