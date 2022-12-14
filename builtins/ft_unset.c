@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:52:15 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/11 16:02:24 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/11 17:09:37 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	valid_id(char *var, char *cmd)
 	i = 0;
 	while (var[i] && var[i] != '=')
 	{
-		if (ft_isenvarc(var[0], 1) == 1 && ft_isenvarc(var[i], 0) == 1)
+		if (ft_isenvarc(var[0], 1) == 0 || ft_isenvarc(var[i], 0) == 0)
 		{
 			printf("minishell: %s: `%s': not a valid identifier\n", cmd, var);
 			return (0);
@@ -99,14 +99,19 @@ void	rm_val(char *str, t_envlist **envc, int *first_time)
 
 int	ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc, int *oldp_stat)
 {
+	int	ret;
 	int	line;
 	int	for_rm_val;
 
 	line = 1;
 	for_rm_val = 0;
+	g_errno = 0;
 	while (sgl_cmd[line])
 	{
-		if (valid_id(sgl_cmd[line], "unset") == 1 && strcmp_tof(sgl_cmd[line], "_") == 0)
+		ret = valid_id(sgl_cmd[line], "unset");
+		if (g_errno == 0 && ret == 0)
+			g_errno = 1;
+		if (strcmp_tof(sgl_cmd[line], "_") == 0 && ret == 1)
 		{
 			if (strcmp_tof(sgl_cmd[line], "PWD") != 1)
 				rm_var(sgl_cmd[line], envc);

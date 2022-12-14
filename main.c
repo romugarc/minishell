@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	t_envlist		*envc;
 
 	envc = NULL;
-	if (argc != 1 || !isatty(1))
+	if (argc != 1 || argv[1] != NULL || !isatty(1))
 		return (0);
 	envc = envcpy(envp);
 	while (1)

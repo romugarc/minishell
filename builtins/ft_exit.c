@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:42:20 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/10 16:04:17 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/14 11:13:11 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	ft_exit(char **cmd, int nb_comm)
 				i++;
 			}
 			printf("exit\n");
-			exit(ft_atoi(cmd[1]));
+			if (cmd[1])
+				exit(ft_atoi(cmd[1]) % 256);
+			else
+				exit(EXIT_SUCCESS);
 		}
 		if (nb_comm == 1)
 			printf("exit\n");

@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 14:20:47 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/10 18:52:49 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/13 11:02:32 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	is_it_builtin(char *cmd, t_exec *exec)
 		return (1);
 	else if (strcmp_tof(cmd, "unset") == 1)
 		return (1);
-	else if (strcmp_tof(cmd, "/usr/bin/env"))
+	else if (strcmp_tof(cmd, "/usr/bin/env") || strcmp_tof(cmd, "env") == 1)
 		return (1);
 	else if (strcmp_tof(cmd, "exit") == 1)
 		return (1);
@@ -58,10 +58,10 @@ int	is_builtins(t_commands cmd, t_exec *exec, t_envlist **envc, int *oldp_stat)
 	else if (strcmp_tof(cmd.sgl_cmd[0], "/bin/pwd") == 1 || strcmp_tof(cmd.sgl_cmd[0], "pwd") == 1)
 		return (ft_pwd((*exec).temp, cmd, (*exec)));
 	else if (strcmp_tof(cmd.sgl_cmd[0], "export") == 1)
-		ft_export(cmd, (*exec), envc, oldp_stat);
+		return (ft_export(cmd, (*exec), envc, oldp_stat));
 	else if (strcmp_tof(cmd.sgl_cmd[0], "unset") == 1)
 		return (ft_unset(cmd.sgl_cmd, (*exec).temp, envc, oldp_stat));
-	else if (strcmp_tof(cmd.sgl_cmd[0], "/usr/bin/env"))
+	else if (strcmp_tof(cmd.sgl_cmd[0], "/usr/bin/env") || strcmp_tof(cmd.sgl_cmd[0], "env") == 1)
 		return (ft_env(cmd, (*exec), (*envc), (*oldp_stat)));
 	else if (strcmp_tof(cmd.sgl_cmd[0], "exit") == 1)
 		ft_exit(cmd.sgl_cmd, (*exec).temp);

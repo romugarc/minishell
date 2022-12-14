@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_init_commands.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:22:01 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/29 16:22:39 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/13 13:14:47 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs)
 	char		**full_command_line;
 
 	full_command_line = ft_split_v2old(line, '|', *fs);
-	commands = malloc(sizeof(t_commands) * nb_pipes);
+	commands = malloc(sizeof(t_commands) * (nb_pipes + 1));
 	if (!commands)
 		return (NULL);
 	i = 0;
@@ -35,6 +35,7 @@ t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs)
 		}
 		i++;
 	}
+	commands[i].sgl_cmd = NULL;
 	i = 0;
 	while (i < nb_pipes)
 	{

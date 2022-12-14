@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:42:52 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/05 16:52:52 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/13 19:44:57 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,10 @@ void	get_shlvl(t_envlist **envc)
 		{
 			cpy->equal = 1;
 			tmp = cpy->val;
-			cpy->val = ft_itoa(ft_atoi(cpy->val) + 1);
+			if (ft_atoi(cpy->val) < 0)
+				cpy->val = ft_itoa(0);
+			else
+				cpy->val = ft_itoa(ft_atoi(cpy->val) + 1);
 			free(tmp);
 		}
 		else
