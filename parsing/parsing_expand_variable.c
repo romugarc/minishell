@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:24 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/14 09:51:28 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 11:15:10 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ static int	expand_var_tab(t_commands **cmd, t_envlist *envc, t_inc i)
 int expand_variable(t_commands **c, int np, t_envlist *envc)
 {
 	t_inc	i;
-	t_f_str	f_str;
 
 	init_inc(&i);
 	while (i.i < np)
