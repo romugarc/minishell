@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:06:47 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/12 18:10:10 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 17:03:04 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,15 @@ static int	create_fdout(t_commands **cmd, int i, int j, int *lastfd)
 static int	create_fdnormin(t_commands **cmd, t_inc *i, t_envlist *envc)
 {
 	t_inc	inc;
+	int		ret;
 
 	inc.i = i->i;
 	inc.j = 0;
 	while ((*cmd)[inc.i].tab_infile[inc.j] != 0)
 	{
-		if (create_fdin(cmd, inc, &(*i).lastfd) == 1)
-			return (1);
+		ret = create_fdin(cmd, inc, &(*i).lastfd);
+		if (ret == 1)
+			break ;
 		inc.j++;
 	}
 	inc.j = 0;
@@ -76,6 +78,8 @@ static int	create_fdnormin(t_commands **cmd, t_inc *i, t_envlist *envc)
 			return (134);
 		inc.j++;
 	}
+	if (ret == 1)
+		return (1);
 	return (0);
 }
 
@@ -104,6 +108,34 @@ static int	create_fdnorm(t_commands **cmd, t_inc *i, int mode, t_envlist *envc)
 	return (0);
 }
 
+static int	get_lastfd(t_commands cmd, int mode)
+{
+	int	lastfd;
+	char	*cfd;
+
+	if (mode == 1)
+	{
+		if (cmd.tab_fdin != NULL && cmd.nb_infile > 0)
+		{
+			cfd = ft_itoa(cmd.tab_fdin[cmd.nb_infile - 1]);
+			lastfd = ft_atoi(cfd);
+			free(cfd);
+			return (lastfd);
+		}
+	}
+	if (mode == 2)
+	{
+		if (cmd.tab_fdout != NULL && cmd.nb_outfile > 0)
+		{
+			cfd = ft_itoa(cmd.tab_fdout[cmd.nb_outfile - 1]);
+			lastfd = ft_atoi(cfd);
+			free(cfd);
+			return (lastfd);
+		}
+	}
+	return (1);
+}
+
 int	create_fd(t_commands **cmd, int np, t_envlist *envc)
 {
 	t_inc	inc;
@@ -119,7 +151,7 @@ int	create_fd(t_commands **cmd, int np, t_envlist *envc)
 		}
 		else
 			(*cmd)[inc.i].tab_fdin = NULL;
-		(*cmd)[inc.i].fdin = inc.lastfd;
+		(*cmd)[inc.i].fdin = get_lastfd((*cmd)[inc.i], 1);
 		inc.lastfd = 1;
 		if ((*cmd)[inc.i].nb_outfile > 0)
 		{
@@ -128,7 +160,7 @@ int	create_fd(t_commands **cmd, int np, t_envlist *envc)
 		}
 		else
 			(*cmd)[inc.i].tab_fdout = NULL;
-		(*cmd)[inc.i].fdout = inc.lastfd;
+		(*cmd)[inc.i].fdout = get_lastfd((*cmd)[inc.i], 2);
 	}
 	return (0);
 }
