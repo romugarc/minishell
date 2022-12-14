@@ -6,23 +6,21 @@ void	free_flag_string(t_f_str flag_string)
 	free(flag_string.quotes);
 }
 
-void	ft_termios_handler(int end)
+void	sighandler(int sig)
 {
-	struct termios			termios_p;
-	static struct termios	termios_before;
-	int						fd_term;
-
-	fd_term = ttyslot();
-	if (end == 1)
+	if (sig == SIGINT)
 	{
-		tcsetattr(fd_term, TCSANOW, &termios_before);
-		return ;
+		errno = 1;
+		ft_putstr_fd("\n", 0);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	tcgetattr(fd_term, &termios_before);
-	termios_p = termios_before;
-	termios_p.c_cc[VQUIT] = 0;
-	termios_p.c_lflag &= ~ECHOCTL;
-	tcsetattr(fd_term, TCSANOW, &termios_p);
+	else if (sig == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -33,14 +31,13 @@ int	main(int argc, char **argv, char **envp)
 	t_envlist		*envc;
 
 	envc = NULL;
-	if (error_handler(argc, argv) == 1)
-			return (0);
+	if (argc != 1 || !isatty(1))
+		return (0);
 	envc = envcpy(envp);
-//	ft_termios_handler(0);
 	while (1)
 	{
-	//	signal(SIGINT, sighandler);		//CTRL-C
-	//	signal(SIGQUIT, SIG_IGN);		//CTRL-\ */	
+		signal(SIGINT, sighandler);
+		signal(SIGQUIT, sighandler);
 		parsing(&commands, &flag_string, &misc, envc);
 		commands = commands_path(commands, misc.nb_commands, envc);
 		exec_main(commands, misc.nb_commands, &envc);

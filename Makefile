@@ -65,8 +65,8 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_expand_variable_misc.c	\
 			parsing/parsing_check_fd.c				\
 
-RL_INC	:=	-I ~/opt/readline/include
-RL_LIB	:=	-L/usr/local/lib
+RL_LIB = -L$(shell brew --prefix readline)/lib
+RL_INC = -I$(shell brew --prefix readline)/include
 
 HEADER_FILES = minishell.h
 
@@ -75,16 +75,16 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra -g #-Werror #-fsanitize=address #
+CFLAGS	=	-Wall -Wextra  -g #-Werror # #-fsanitize=address
 
 all:		${NAME}
 
 %.o : %.c 	${HEADER_FILES}
-		${CC} -c ${CFLAGS} $< -o ${<:.c=.o}
+		${CC} ${CFLAGS} ${RL_INC} -c $< -o ${<:.c=.o} 
 
 $(NAME):	${OBJS}
 			@$(MAKE) -C ./libft
-			@${CC} ${CFLAGS} ${OBJS} ${RL_LIB} -lreadline ./libft/libft.a -o minishell 
+			@${CC} ${CFLAGS} ${OBJS} ${RL_LIB} ${RL_INC} -lreadline ./libft/libft.a -o minishell 
 
 c:
 			${RM} ${OBJS}

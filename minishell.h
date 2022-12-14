@@ -161,6 +161,10 @@ void		rm_var(char *var, t_envlist **envc);
 void		rm_val(char *str, t_envlist **envc, int *first_time);
 int			check_pwd(void);
 int			check_cmd_fd(t_commands cmd);
+int			check_access(t_commands comm, t_envlist **envc);
+void		sighandler(int sig);
+void		pipe_sighandler(int sig);
+
 
 
 //exec utils
