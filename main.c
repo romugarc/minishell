@@ -55,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 			print_parsing_err(g_errno);
 		free_flag_string(flag_string);
-		free_command_line(commands, misc.line, misc.nb_commands);
+		free_command_line(commands, misc.line, misc.nb_commands, g_errno);
 	}
 	return (0);
 }

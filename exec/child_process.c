@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:57:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/13 18:43:25 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/14 12:59:11 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	child_process(t_commands *cmd, t_exec *exec, t_envlist **envc, int *oldp_st
 	{
 		execve(cmd[(*exec).comm_i].sgl_cmd[0],
 			cmd[(*exec).comm_i].sgl_cmd, (*exec).env_tmp);
-		//gestion erreur command not found a la place de perror a mettre ici
 		perror(cmd[(*exec).comm_i].sgl_cmd[0]);
 		exit(127);
 	}

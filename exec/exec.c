@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/14 11:36:08 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/14 13:06:30 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,13 @@ int	check_access(t_commands comm, t_envlist **envc)
 	t_envlist	*cpy;
 
 	cpy = (*envc);
+	if (comm.sgl_cmd == NULL)
+		return (-1);
+	if (comm.sgl_cmd[0] == NULL)
+		return (-1);
 	if (comm.sgl_cmd[0][0])
 	{
-		ret = access(comm.sgl_cmd[0], F_OK);
+		ret = access(comm.sgl_cmd[0], F_OK | X_OK);
 		if (ret == -1 && whithout_builtins(comm) == 0)
 		{
 			while (cpy)
@@ -176,10 +180,13 @@ int	exec_main(t_commands *commands, int nb_comm, t_envlist **envc)
 
 	if (nb_comm < 1)
 		return (-1);
+	printf("%d\n", commands[0].fdin);
 	if (nb_comm == 1)
-		if ((check_cmd_fd(commands[0]) == -1 && check_access(commands[0], envc) == -1)
+	{		
+		if ((check_cmd_fd(commands[0]) == -1 || check_access(commands[0], envc) == -1)
 			|| !commands)
 			return (-1);
+	}
 	if (nb_comm == 1)
 		if (!commands[0].sgl_cmd[0])
 			return (-1);

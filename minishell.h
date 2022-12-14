@@ -188,7 +188,7 @@ int			free_flags(t_f_str f_str, int mode);
 int			is_sp_char(t_f_str f_str, int i);
 
 //free
-void		free_command_line(t_commands *commands, char *line, int nb_pipes);
+void		free_command_line(t_commands *commands, char *line, int nb_pipes, int g);
 void		free_tab(int **tab, int i);
 int			free_all(t_exec exec, int nb_comm);
 void		free_char_tab(char **tab);
