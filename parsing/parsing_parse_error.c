@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:52:50 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/14 11:10:28 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 14:55:02 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static int	parse_quote_error(t_f_str f_str, int *i)
 	mode = is_sp_char(f_str, *i);
 	if (mode == 3)
 	{
-//		printf("%s.q1\t%s.s1\n", f_str.quotes, f_str.sp_chars);
 		while (f_str.quotes[nb] == '1')
 			nb++;
 		if (f_str.sp_chars[nb] != '3')
@@ -31,7 +30,6 @@ static int	parse_quote_error(t_f_str f_str, int *i)
 	}
 	else if (mode == 4)
 	{
-//		printf("%s.q2\t%s.s2\n", f_str.quotes, f_str.sp_chars);
 		while (f_str.quotes[nb] == '2')
 			nb++;
 		if (f_str.sp_chars[nb] != '4')
