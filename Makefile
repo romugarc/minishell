@@ -79,7 +79,7 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra  #-fsanitize=address #-Werror
+CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address #-Werror
 
 all:		${NAME}
 
@@ -90,13 +90,13 @@ $(NAME):	${OBJS}
 			@$(MAKE) -C ./libft
 			@${CC} ${CFLAGS} ${OBJS} ${RL_LIB} ${RL_INC} -lreadline ./libft/libft.a -o minishell 
 
-c:
+clean:
 			${RM} ${OBJS}
 
-fclean:		c
+fclean:		clean
 			${RM} minishell
 			${MAKE} -C ./libft fclean
 
 re:			fclean all
 
-.PHONY:		all c fclean re minishell
+.PHONY:		all clean fclean re minishell
