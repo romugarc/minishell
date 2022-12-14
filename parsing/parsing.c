@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/12 19:03:04 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/13 19:11:55 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc)
 {
+	int	i;
+	int	j;
 	int	ret;
 
 //	misc->line = get_next_line(0);
@@ -26,10 +28,6 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc
 		return (134);
 //	if (expand_variablee(&misc->line, envc) == 1)
 //		return (134);
-	if (special_char_flags(f_str, misc->line) != 0)
-		return (134);
-	if (quotes_flags(f_str, misc->line) != 0)
-		return (134);
 	ret = parse_error(misc->line, *f_str);
 	init_inc(&f_str->i);
 	misc->nb_commands = count_arguments(misc->line, '|', f_str);
@@ -41,8 +39,6 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc
 	count_redirections(commands, misc->nb_commands, *f_str);
 	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
 	if(malloc_tab_files(commands, misc->nb_commands) == 1)
-		return (134);
-	if (expand_variable(commands, misc->nb_commands, envc) == 1)
 		return (134);
 	if (ret == 0)
 	{

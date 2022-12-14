@@ -125,14 +125,13 @@ int			create_fdin2(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc);
 int			expand_variable(t_commands **cmd, int np, t_envlist *envc);
 int			copy_var(char *line, t_inc *i, t_envlist *envc, char **new_line);
 int			expand_search(char *str, t_inc inc, t_f_str f_str);
-int			cat_ex_var(char *line, t_inc *i, char *envstr, char **new_line);
+int			cat_ex_var(char *line, t_inc *i, char *envstr, char **new_line, int mode);
 int			cat_ex_varnf(char *line, t_inc *i, char **new_line);
-int			search_expand(char **line, t_inc *i, t_envlist *envc);
+int			search_expand(char **line, t_envlist *envc);
 int			expand_heredoc(char **str, t_envlist *envc);
 int			check_fd(t_commands **cmd, int np);
 int			remove_quotes(t_commands **cmd, int np);
 int			parse_error(char *line, t_f_str f_str);
-int			expand_variablee(char **line, t_envlist *envc);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);

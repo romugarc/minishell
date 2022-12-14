@@ -37,10 +37,22 @@ static int	count_not_quotes(char *str, t_f_str f_str)
 	return (j);
 }
 
+static int	swap_free(char **line, char *new_line)
+{
+	char	*tmp_line;
+
+	if (new_line != NULL)
+	{
+		tmp_line = *line;
+		*line = new_line;
+		free(tmp_line);
+	}
+	return (0);
+}
+
 static int	removing_quotes(char **str)
 {
 	int		nb_nq;
-	char	*tmp_str;
 	char	*new_str;
 	t_f_str f_str;
 
@@ -50,9 +62,7 @@ static int	removing_quotes(char **str)
 	if (!new_str)
 		return (1);
 	form_new_str(&new_str, *str, f_str);
-	tmp_str = *str;
-	*str = new_str;
-	free(tmp_str);
+	swap_free(str, new_str);
 	free(f_str.quotes);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:49:32 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/19 14:49:16 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 11:05:15 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,16 @@ static char	what_quote(char *str, int i, int *flag)
 		else if (*flag == 1 && str[i] != 39)
 			return ('1');
 		else if (*flag == 0)
+		{
+			if (i > 0)
+			{
+				if (str[i - 1] == 39 && str[i] == 39)
+					*flag = 1;
+				if (str[i - 1] == '"' && str[i] == '"')
+					*flag = 2;
+			}
 			return ('0');
+		}
 	}
 	return ('\0');
 }
