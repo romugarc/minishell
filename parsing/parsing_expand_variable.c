@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:24 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/14 11:15:10 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/15 19:17:49 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ int	search_expand(char **line, t_envlist *envc)
 		}
 		i.i++;
 		free_expand(f_str.quotes, f_str.sp_chars, NULL, NULL);
+		if ((*line)[0] == '\0')
+			break ;
 	}
-	(*line)[i.i] = '\0';
+	if ((*line)[0] != '\0')
+		(*line)[i.i] = '\0';
 	return (0);
 }
 

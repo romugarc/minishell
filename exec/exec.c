@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 14:13:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/14 20:14:26 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/15 18:48:00 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,19 +180,20 @@ int	check_access(t_commands comm, t_envlist **envc)
 							ft_putstr_fd("minishell: ", 2);
 							ft_putstr_fd(comm.sgl_cmd[0], 2);
 							ft_putstr_fd(": command not found\n", 2);
+							g_errno = 127;
 							return (-1);
 						}
 					}
 				}
 			}
-			else
+			else if (access(comm.sgl_cmd[0], F_OK | X_OK) == -1)
 			{
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(comm.sgl_cmd[0], 2);
-				ft_putstr_fd(": No such file or directory\n", 2);
-				g_errno = 127;
-				return (-1);
-			}
+			  	ft_putstr_fd("minishell: ", 2);
+			  	ft_putstr_fd(comm.sgl_cmd[0], 2);
+			  	ft_putstr_fd(": No such file or directory\n", 2);
+			  	g_errno = 1;
+			  	return (-1);
+			 }
 		}
 	}
 	else
@@ -200,6 +201,7 @@ int	check_access(t_commands comm, t_envlist **envc)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(comm.sgl_cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
+		g_errno = 127;
 		return (-1);
 	}
 	return (0);
@@ -268,7 +270,8 @@ int	exec_main(t_commands *commands, int nb_comm, t_envlist **envc)
 		return (free_char_tab_ret(exec));
 	if (nb_comm == 1)
 		is_builtins(commands[exec.comm_i], &exec, envc, &oldp_stat);
-	(*envc)->env_ = 1;
+	if ((*envc))
+		(*envc)->env_ = 1;
 	while (exec.temp > 0 && (nb_comm > 1
 			|| is_it_builtin(commands[exec.comm_i].sgl_cmd[0], &exec) != 1))
 	{

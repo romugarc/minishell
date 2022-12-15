@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:52:15 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/11 17:09:37 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/15 18:16:30 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	rm_var(char *var, t_envlist **envc)
 	t_envlist *cpy;
 	t_envlist *sec_cpy;
 
-	if (!(*envc))
+	if (!(*envc) || !var)
 		return ;
 	cpy = (*envc);
 	if (strcmp_tof(var, cpy->var) == 1)
@@ -35,6 +35,8 @@ void	rm_var(char *var, t_envlist **envc)
 		cpy = sec_cpy;
 		(*envc) = cpy;
 	}
+	if (!cpy)
+		return ;
 	if (!cpy->next)
 		return ;
 	sec_cpy = NULL;
@@ -125,5 +127,7 @@ int	ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc, int *oldp_stat)
 	}
 	if (nb_comm > 1)
 		exit(EXIT_SUCCESS);
+	if ((*envc))
+		(*envc)->env_ = 1;
 	return (0);
 }

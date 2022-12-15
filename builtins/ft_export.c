@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:06:54 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/14 17:05:54 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/15 18:17:16 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,15 @@ int	strlen_after_c(char *new_var, char c)
 	i = 0;
 	while (new_var[i] && new_var[i] != c)
 		i++;
-	i++;
+	if (new_var[i] != '\0')
+		i++;
 	size = 0;
-	while (new_var[i++])
+	while (new_var[i])
+	{
 		size++;
-	return (0);
+		i++;
+	}
+	return (size);
 }
 
 char	*export_valstr(char *new_var)
@@ -167,11 +171,16 @@ char	*export_valstr(char *new_var)
 	str = malloc(sizeof(char) * strlen_after_c(new_var, '=') + 1);
 	if (!str)
 		return (NULL);
-	while (new_var[i_nv] && new_var[i_nv] != '=')
+	while (new_var[i_nv] != '\0' && new_var[i_nv] != '=')
 		i_nv++;
-	i_nv++;
-	while (new_var[i_nv])
-		str[i_str++] = new_var[i_nv++];
+	if (new_var[i_nv] != '\0')
+		i_nv++;
+	while (new_var[i_nv] != '\0')
+	{
+		str[i_str] = new_var[i_nv];
+		i_str++;
+		i_nv++;
+	}
 	str[i_str] = '\0';
 	return (str);
 }
@@ -210,6 +219,15 @@ int	valid_id_exp(char *var, char *cmd, int *oldp_stat)
 		}
 		i++;
 	}
+	if (var[0] == '\0' || var[0] == '+' || var[0] == '=')
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": `", 2);
+		ft_putstr_fd(var, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (0);
+	}
 	if (var[i] == '+')
 	{
 		if (var[i + 1] == '=')
@@ -220,7 +238,11 @@ int	valid_id_exp(char *var, char *cmd, int *oldp_stat)
 		}
 		else
 		{
-			printf("minishell: %s: `%s': not a valid identifier\n", cmd, var);
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": `", 2);
+			ft_putstr_fd(var, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			return (0);
 		}
 	}
@@ -260,7 +282,7 @@ int	strlen_from_c(char *str, char c)
 	size = 0;
 	if (!str)
 		return (0);
-	while (str && str[i] != c)
+	while (str[i] && str[i] != c)
 		i++;
 	if (str[i])
 		i++;
@@ -317,12 +339,16 @@ int	get_next_val(t_envlist **envc, char *new_var, char c)
 	tmp = malloc(sizeof(char) * strlen_from_c(new_var, '=') + 1);
 	if (!tmp)
 		return (-1);
-	while (new_var[i] && new_var[i - 1] != '=')
+	if (new_var[0] != '\0')
+	{
 		i++;
-	if (new_var[i - 1] == '=')
-		cpy->equal = 1;
-	if (new_var[i - 1] == '=' && c == '=')
-		free(cpy->val);
+		while (new_var[i] && new_var[i - 1] != '=')
+			i++;
+		if (new_var[i - 1] == '=')
+			cpy->equal = 1;
+		if (new_var[i - 1] == '=' && c == '=')
+			free(cpy->val);
+	}
 	while (new_var[i])
 		tmp[j++] = new_var[i++];
 	tmp[j] = '\0';
@@ -408,5 +434,7 @@ int	ft_export(t_commands cmd, t_exec exec, t_envlist **envc, int *oldp_stat)
 	}
 	if (exec.nb_comm > 1)
 		exit(EXIT_SUCCESS);
+	if ((*envc))
+		(*envc)->env_ = 1;
 	return (0);
 }

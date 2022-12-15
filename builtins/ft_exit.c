@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:42:20 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/14 19:11:18 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/15 16:08:26 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,40 @@
 void	ft_exit(char **cmd, int nb_comm)
 {
 	int	i;
+	int	caractere;
 
 	i = 0;
 	while (cmd[i])
 		i++;
-	if (i <= 2)
+	if (i == 2)
 	{
-		if (cmd[1])
+		caractere = 0;
+		while (cmd[1][caractere])
 		{
-			i = 0;
-			while (cmd[1][i])
+			if (ft_isdigit(cmd[1][caractere]) == 0)
 			{
-				if (ft_isdigit(cmd[1][i]) == 0)
-				{
-					ft_putstr_fd("exit\n", 2);
-					ft_putstr_fd("minishell: exit: ", 2);
-					ft_putstr_fd(cmd[1], 2);
-					ft_putstr_fd(": numeric argument required\n", 2);
-					exit(255);
-				}
-				i++;
+				ft_putstr_fd("exit\n", 2);
+				ft_putstr_fd("minishell: exit: ", 2);
+				ft_putstr_fd(cmd[1], 2);
+				ft_putstr_fd(": numeric argument required\n", 2);
+				exit(255);
 			}
-			ft_putstr_fd("exit\n", 1);
-			if (cmd[1])
-				exit(ft_atoi(cmd[1]) % 256);
-			else
-				exit(EXIT_SUCCESS);
+			caractere++;
 		}
-		if (nb_comm == 1)
-			ft_putstr_fd("exit\n", 1);
-		exit(EXIT_SUCCESS);
+		if (i <= 2)
+		{
+			ft_putstr_fd("exit\n", 2);	
+			exit(ft_atoi(cmd[1]) % 256);
+		}
 	}
-	ft_putstr_fd("exit\n", 2);
-	ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-	g_errno = 1;
+	if (i > 2)
+	{
+		ft_putstr_fd("exit\n", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		g_errno = 1;
+		return ;
+	}
+	if (nb_comm == 1)
+		ft_putstr_fd("exit\n", 1);
+	exit(EXIT_SUCCESS);
 }

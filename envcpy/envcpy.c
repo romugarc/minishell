@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:42:52 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/13 19:44:57 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/15 18:14:02 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,5 +211,6 @@ t_envlist	*envcpy(char **envp)
 	if (first_time == 1)
 		rm_val("OLDPWD", &tmp, &first_time);
 	get_shlvl(&tmp);
+	tmp->env_ = 0;
 	return (tmp);
 }
