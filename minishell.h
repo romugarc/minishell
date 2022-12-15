@@ -187,6 +187,7 @@ int			ft_isenvarc(char c, int mode);
 char		*ft_strdup_s_to_e(char const *src, size_t n, size_t index);
 int			free_flags(t_f_str f_str, int mode);
 int			is_sp_char(t_f_str f_str, int i);
+int			ft_isspace(char c);
 
 //free
 void		free_command_line(t_commands *commands, char *line, int nb_pipes, int g);
