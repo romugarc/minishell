@@ -14,9 +14,9 @@
 
 t_commands	new_comm(t_commands comm, char *temp)
 {
-	int	i;
+	//int	i; //variable not used
 
-	i = 0;
+	//i = 0;
 	free(comm.sgl_cmd[0]);
 	comm.sgl_cmd[0] = ft_strdup(temp);
 	return (comm);

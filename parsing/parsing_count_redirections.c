@@ -44,6 +44,9 @@ void	count_redirections(t_commands **commands, int np, t_f_str f_str)
 
 	i = -1;
 	k = 0;
+	r = i + 42;
+	if (r == 41)
+		r++;
 	while (++i < np)
 	{
 		j = 0;

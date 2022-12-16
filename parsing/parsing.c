@@ -12,6 +12,13 @@
 
 #include "../minishell.h"
 
+void	freeing_all(t_misc misc, t_envlist *envc)
+{
+	free(misc.line);
+	free_envc(envc);
+	rl_clear_history();
+}
+
 int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc)
 {
 	int	ret;
@@ -22,6 +29,7 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc
 	if (misc->line == NULL)
 	{
 		ft_putstr_fd("exit\n", 1);
+		freeing_all(*misc, envc);
 		exit(EXIT_SUCCESS);
 	}
 	if (misc->line[0] != '\0')
