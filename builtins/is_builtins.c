@@ -6,11 +6,30 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 14:20:47 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/13 11:02:32 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 18:24:57 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	whithout_builtins(t_commands comm)
+{
+	if (strcmp_tof(comm.sgl_cmd[0], "/bin/echo") == 1
+		|| strcmp_tof(comm.sgl_cmd[0], "echo") == 1
+		|| strcmp_tof(comm.sgl_cmd[0], "/usr/bin/cd") == 1
+		|| strcmp_tof(comm.sgl_cmd[0], "cd") == 1
+		|| strcmp_tof(comm.sgl_cmd[0], "/bin/pwd") == 1
+		|| strcmp_tof(comm.sgl_cmd[0], "pwd") == 1
+		|| strcmp_tof(comm.sgl_cmd[0], "export") == 1
+		|| strcmp_tof(comm.sgl_cmd[0], "unset") == 1
+		|| strcmp_tof(comm.sgl_cmd[0], "/usr/bin/env") == 1
+		|| strcmp_tof(comm.sgl_cmd[0], "exit") == 1
+		|| strcmp_tof(comm.sgl_cmd[0], "env") == 1)
+	{
+		return (1);
+	}
+	return (0);
+}
 
 int	strcmp_tof(char *cmd, char *str)
 {

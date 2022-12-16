@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:14:53 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/11 11:32:01 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 12:35:04 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,9 @@ int	ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat)
 				g_errno = 0;
 				return (0);
 			}
-			ft_putstr_fd("env: illegal option -- ", 2);
-			ft_putchar_fd(cmd.sgl_cmd[1][i], 2);
-			ft_putchar_fd('\n', 2);
-			g_errno = 1;
-			return (0);
+			return (put_char_error(cmd.sgl_cmd[1][i], 1, 0));
 		}
-		ft_putstr_fd("env: ", 2);
-		ft_putchar_fd(cmd.sgl_cmd[1][1], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		g_errno = 127;
-		return (0);
+		return (put_char_error(cmd.sgl_cmd[1][i], 1, 0));
 	}
 	while (tmp)
 	{

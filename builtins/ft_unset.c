@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:52:15 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/15 18:16:30 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 14:43:17 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,13 @@ int	valid_id(char *var, char *cmd)
 	while (var[i] && var[i] != '=')
 	{
 		if (ft_isenvarc(var[0], 1) == 0 || ft_isenvarc(var[i], 0) == 0)
-		{
-			printf("minishell: %s: `%s': not a valid identifier\n", cmd, var);
-			return (0);
-		}
+			return (puterror(cmd, var, 3, 0));
 		i++;
 	}
 	return (1);
 }
 
-void	rm_val(char *str, t_envlist **envc, int *first_time)
+int	rm_val(char *str, t_envlist **envc, int *first_time)
 {
 	t_envlist *cpy;
 
@@ -86,7 +83,7 @@ void	rm_val(char *str, t_envlist **envc, int *first_time)
 			free(cpy->val);
 			cpy->val = malloc(sizeof(char));
 			if (!cpy->val)
-				return ;
+				return (-1);
 			cpy->val[0] = '\0';
 			if ((*first_time) == 1)
 			{
@@ -97,6 +94,7 @@ void	rm_val(char *str, t_envlist **envc, int *first_time)
 		}
 		cpy = cpy->next;
 	}
+	return (0);
 }
 
 int	ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc, int *oldp_stat)
@@ -120,7 +118,13 @@ int	ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc, int *oldp_stat)
 			else if (strcmp_tof(sgl_cmd[line], "PWD") == 1)
 			{
 				(*oldp_stat) = -1;
-				rm_val(sgl_cmd[line], envc, &for_rm_val);
+				if (rm_val(sgl_cmd[line], envc, &for_rm_val) == -1)
+				{
+					g_errno = 134;
+					if (nb_comm > 1)
+						exit(EXIT_FAILURE);
+					return (-1);
+				}
 			}
 		}
 		line++;

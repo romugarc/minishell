@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 15:56:42 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/10 18:53:19 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 13:24:06 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,20 @@ int	refresh_pwd(t_envlist **envc)
 		return (0);
 	path = malloc(sizeof(char) * 10000000);
 	if (!path)
+	{
+		g_errno = 134;
 		return (-1);
+	}
 	path = getcwd(path, 10000000);
 	if (tmp->val)
 		free(tmp->val);
 	tmp->val = malloc(sizeof(char) * ft_strlen(path) + 1);
 	if (!tmp->val)
+	{
+		free(path);
+		g_errno = 134;
 		return (-1);
+	}
 	i = 0;
 	while (path[i])
 	{
@@ -75,7 +82,10 @@ int	refresh_oldp(t_envlist **envc)
 	{
 		cpy->val = malloc(sizeof(char));
 		if (!cpy->val)
+		{
+			g_errno = 134;
 			return (-1);
+		}
 		cpy->val[0] = '\0';
 	}
 	return (0);
@@ -105,8 +115,12 @@ int	ft_cd(char **tab, int nb_comm, t_envlist **envc)
 	if (chdir(tab[1]) != -1 && path != NULL)
 	{
 		oldp_first_time(envc);
-		refresh_oldp(envc);
-		refresh_pwd(envc);
+		if (refresh_oldp(envc) == -1 || refresh_pwd(envc) == -1)
+		{
+			if (path)
+				free(path);
+			return (-1);
+		}
 		g_errno = 0;
 	}
 	else
@@ -114,7 +128,8 @@ int	ft_cd(char **tab, int nb_comm, t_envlist **envc)
 		g_errno = 1;
 		perror(tab[1]);
 	}
-	free(path);
+	if (path)
+		free(path);
 	if (nb_comm != 1)
 		exit(EXIT_SUCCESS);
 	return (1);

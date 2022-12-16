@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:42:20 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/15 16:08:26 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 12:25:33 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,7 @@ void	ft_exit(char **cmd, int nb_comm)
 		while (cmd[1][caractere])
 		{
 			if (ft_isdigit(cmd[1][caractere]) == 0)
-			{
-				ft_putstr_fd("exit\n", 2);
-				ft_putstr_fd("minishell: exit: ", 2);
-				ft_putstr_fd(cmd[1], 2);
-				ft_putstr_fd(": numeric argument required\n", 2);
-				exit(255);
-			}
+				puterror(cmd[1], NULL, 6, 0);
 			caractere++;
 		}
 		if (i <= 2)
