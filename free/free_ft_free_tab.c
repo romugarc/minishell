@@ -6,11 +6,11 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 16:44:20 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/14 17:48:18 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/17 17:38:17 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_free_tab(char **tab)
 {

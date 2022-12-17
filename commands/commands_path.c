@@ -6,11 +6,11 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:59:49 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/17 17:21:10 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/17 17:38:50 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*get_slash_next(char *str, char *new_str)
 {

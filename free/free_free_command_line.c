@@ -6,11 +6,11 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:13:04 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/16 11:30:55 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 17:37:52 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	free_taboutfile(t_cmd *commands, int i)
 {

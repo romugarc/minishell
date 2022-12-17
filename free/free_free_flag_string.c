@@ -6,11 +6,11 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 11:42:36 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/16 11:44:31 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 17:38:11 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	free_flag_string(t_f_str flag_string)
 {

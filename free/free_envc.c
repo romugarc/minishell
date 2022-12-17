@@ -6,11 +6,11 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:58:28 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/17 13:42:28 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/17 17:37:46 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	free_envc(t_envlist *envc)
 {

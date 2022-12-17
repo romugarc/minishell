@@ -6,11 +6,11 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 16:44:26 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/17 13:36:31 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/17 17:37:37 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	sig_heredoc(int signum)
 {
