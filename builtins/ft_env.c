@@ -6,23 +6,16 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:14:53 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/16 12:35:04 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 20:46:47 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat)
+static int	check_line_tiret(t_commands cmd)
 {
-	int			i;
-	int			out;
-	t_envlist	*tmp;
+	int	i;
 
-	tmp = envc;
-	if (exec.nb_comm == 1)
-		out = cmd.fdout;
-	else
-		out = 1;
 	if (cmd.sgl_cmd[1])
 	{
 		i = 0;
@@ -33,12 +26,17 @@ int	ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat)
 			if (cmd.sgl_cmd[1][i] == '\0')
 			{
 				g_errno = 0;
-				return (0);
+				return (2);
 			}
 			return (put_char_error(cmd.sgl_cmd[1][i], 1, 0));
 		}
 		return (put_char_error(cmd.sgl_cmd[1][i], 1, 0));
 	}
+	return (0);
+}
+
+static void	display_env(t_envlist *tmp, int oldp_stat, int out)
+{
 	while (tmp)
 	{
 		if (strcmp_tof(tmp->var, "PWD") == 1 && oldp_stat == -1)
@@ -57,6 +55,25 @@ int	ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat)
 		}
 		tmp = tmp->next;
 	}
+}
+
+int	ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat)
+{
+	int			ret;
+	int			out;
+	t_envlist	*tmp;
+
+	tmp = envc;
+	if (exec.nb_comm == 1)
+		out = cmd.fdout;
+	else
+		out = 1;
+	ret = check_line_tiret(cmd);
+	if (ret == 2)
+		return (0);
+	else if (ret == -1)
+		return (-1);
+	display_env(tmp, oldp_stat, out);
 	g_errno = 0;
 	if (exec.nb_comm > 1)
 		exit(EXIT_SUCCESS);
