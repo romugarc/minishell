@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:58:28 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/14 16:36:12 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/17 11:20:11 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	free_envc(t_envlist *envc)
 {
 	t_envlist	*cpy;
+
 	while (envc)
 	{
 		if (envc->val)

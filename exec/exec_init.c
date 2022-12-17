@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 13:01:41 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/10 18:01:41 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 16:11:13 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int	**tab_fd_mall(int nb_comm)
 
 	ret = malloc(sizeof(int *) * (nb_comm + 1));
 	if (!ret)
+	{
+		g_errno = 134;
 		return (NULL);
+	}
 	i = 0;
 	while (i < nb_comm)
 	{
@@ -27,6 +30,7 @@ int	**tab_fd_mall(int nb_comm)
 		if (!ret[i])
 		{
 			free_tab(ret, i);
+			g_errno = 134;
 			return (NULL);
 		}
 		i++;
@@ -34,16 +38,18 @@ int	**tab_fd_mall(int nb_comm)
 	return (ret);
 }
 
-int	exec_init(t_exec *exec, int nb_comm)
+int	exec_init(t_exec *exec)
 {
 	(*exec).comm_i = 0;
 	(*exec).status = 0;
-	(*exec).temp = nb_comm;
-	(*exec).nb_comm = nb_comm;
+	(*exec).nb_comm = (*exec).temp;
 	(*exec).error = 0;
-	(*exec).cpid = malloc(sizeof(int) * (nb_comm + 1));
-	(*exec).fd = tab_fd_mall(nb_comm);
+	(*exec).cpid = malloc(sizeof(int) * ((*exec).temp));
+	(*exec).fd = tab_fd_mall((*exec).temp);
 	if (!(*exec).cpid || !(*exec).fd)
-		return (free_all((*exec), nb_comm));
+	{
+		g_errno = 134;
+		return (free_all((*exec), (*exec).temp));
+	}
 	return (0);
 }

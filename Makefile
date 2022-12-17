@@ -11,9 +11,12 @@ SRCS	=	main.c									\
 			error_error_handler.c					\
 													\
 			commands_path.c							\
+			commands_path_next.c					\
 													\
 			envcpy/envcpy.c							\
 			envcpy/tmp_env.c						\
+			envcpy/shlvl.c							\
+			envcpy/get_env_str.c					\
 													\
 			init_init_commands.c					\
 			init_init_inc.c							\
@@ -34,6 +37,9 @@ SRCS	=	main.c									\
 			utils/utils_ft_strdup_s_to_e.c			\
 			utils/utils_is_sp_char.c				\
 			utils/utils_ft_isspace.c				\
+			utils/puterror.c						\
+			utils/exec_utils.c						\
+			utils/other_strlen.c					\
 													\
 			exec/exec.c								\
 			exec/exec_init.c						\
@@ -41,6 +47,8 @@ SRCS	=	main.c									\
 			exec/child_process.c					\
 			exec/free_all_exec.c					\
 			exec/dup_fd.c							\
+			exec/check_access.c						\
+			exec/is_command_path.c					\
 													\
 			builtins/is_builtins.c					\
 			builtins/ft_echo.c						\
@@ -48,9 +56,16 @@ SRCS	=	main.c									\
 			builtins/ft_cd.c						\
 			builtins/ft_unset.c						\
 			builtins/ft_export.c					\
+			builtins/get_next_val.c					\
+			builtins/get_new_val.c					\
+			builtins/valid_id_exp.c					\
+			builtins/export_var_val.c				\
+			builtins/print_export.c					\
+			builtins/add_export.c					\
 			builtins/ft_env.c						\
 			builtins/ft_exit.c						\
 			builtins/ft_refresh_pwd.c				\
+			builtins/rm_var.c						\
 													\
 			parsing/parsing.c						\
 			parsing/parsing_quotes_flags.c			\

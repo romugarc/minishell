@@ -6,13 +6,13 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:57:18 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/14 16:09:40 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 19:02:37 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	child_process(t_commands *cmd, t_exec *exec, t_envlist **envc, int *oldp_stat)
+void	child_process(t_commands *cmd, t_exec *exec, t_envlist **envc, int *oldp)
 {
 	if (cmd[(*exec).comm_i].sgl_cmd == NULL)
 		exit(EXIT_SUCCESS);
@@ -25,7 +25,7 @@ void	child_process(t_commands *cmd, t_exec *exec, t_envlist **envc, int *oldp_st
 		exit(127);
 	else if (is_it_builtin(cmd[(*exec).comm_i].sgl_cmd[0], exec) == 1)
 	{
-		is_builtins(cmd[(*exec).comm_i], exec, envc, oldp_stat);
+		is_builtins(cmd[(*exec).comm_i], exec, envc, oldp);
 		exit(EXIT_SUCCESS);
 	}
 	else
