@@ -19,18 +19,12 @@
 # include "libft/ft_printf.h"
 # include "libft/get_next_line.h"
 
-# define TRUE 1
-# define FALSE 0
-# define ERR -1
-# define PROMPT_SYMBOL "minishell$ "
-
 int	g_errno;
 
 typedef struct s_commands
 {
-	int		nb_args_in_command;
-	int		nb_infile;
-	int		nb_outfile;
+	int		nb_inf;
+	int		nb_outf;
 	int		nb_hd;
 	int		fdin;
 	int		fdout;
@@ -39,9 +33,8 @@ typedef struct s_commands
 	int		append;
 	int		*tab_fdin;
 	int		*tab_fdout;
-	char	**tab_infile;
-	char	**tab_outfile;
-	char	**tab_hd;
+	char	**tab_inf;
+	char	**tab_outf;
 	char	*flag_in;
 	char	*flag_out;
 	char	**sgl_cmd;
@@ -60,7 +53,7 @@ typedef struct s_inc
 	int	j;
 	int	k;
 	int	n;
-	int l_i;
+	int	l_i;
 	int	l_j;
 	int	l_e;
 	int	lastfd;
@@ -73,12 +66,6 @@ typedef struct s_f_str
 	char	*quotes;
 	t_inc	i;
 }	t_f_str;
-
-typedef struct	s_misc
-{
-	int		nb_commands;
-	char	*line;
-}	t_misc;
 
 typedef struct s_exec
 {
@@ -101,6 +88,15 @@ typedef struct s_envcpy
 	struct s_envcpy	*next;
 }	t_envlist;
 
+typedef struct s_misc
+{
+	int			nb_commands;
+	int			mode;
+	char		*line;
+	char		*ex_var;
+	t_envlist	*tmp;
+}	t_misc;
+
 //parsing
 int			parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc);
 char		*correct_line(char *line);
@@ -117,19 +113,22 @@ int			form_tab2(t_commands **com, int np);
 int			correct_tab(t_commands **com, int np);
 int			reform_tab(t_commands **com, int np);
 int			create_fd(t_commands **cmd, int np, t_envlist *envc);
-int			form_heredoc(t_commands **c, int nb_pipes);
 int			create_fdin(t_commands **cmd, t_inc inc, int *lastfd);
 int			create_fdin2(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc);
 int			expand_variable(t_commands **cmd, int np, t_envlist *envc);
 int			copy_var(char *line, t_inc *i, t_envlist *envc, char **new_line);
-int			expand_search(char *str, t_inc inc, t_f_str f_str);
-int			cat_ex_var(char *line, t_inc *i, char *envstr, char **new_line, int mode);
+int			cat_ex_var(char *line, t_inc *i, char *envstr, char **new_line);
 int			cat_ex_varnf(char *line, t_inc *i, char **new_line);
 int			search_expand(char **line, t_envlist *envc);
 int			expand_heredoc(char **str, t_envlist *envc);
 int			check_fd(t_commands **cmd, int np);
 int			remove_quotes(t_commands **cmd, int np);
+int			removing_quotes(char **str);
 int			parse_error(char *line, t_f_str f_str);
+int			cat_ex_var(char *line, t_inc *i, char *envstr, char **new_line);
+int			cat_ex_varnf(char *line, t_inc *i, char **new_line);
+int			create_fdnorm(t_commands **cmd, t_inc *i, int mode, t_envlist *env);
+int			hd_routine(t_commands **c, t_inc inc, t_heredoc *hd, t_envlist *envc);
 
 //exec
 int			exec_main(t_commands *commands, int nb_comm, t_envlist **envc);
@@ -169,12 +168,9 @@ t_commands	new_comm(t_commands comm, char *temp);
 char		*get_slash(char *str);
 void		free_envc(t_envlist *envc);
 
-
-
 //exec utils
 
 //parsing utils
-void		prompt(void);
 int			count_arguments(char *line, char c, t_f_str *f_str);
 int			is_in_quotes(t_f_str f_str, int i);
 void		ft_increment(char const *s, char c, size_t *i, t_f_str f_str);
@@ -189,6 +185,10 @@ int			free_flags(t_f_str f_str, int mode);
 int			is_sp_char(t_f_str f_str, int i);
 int			ft_isspace(char c);
 
+//builtin utils
+int	refresh_pwd(t_envlist **envc);
+int	refresh_oldp(t_envlist **envc);
+
 //free
 void		free_command_line(t_commands *commands, char *line, int nb_pipes, int g);
 void		free_tab(int **tab, int i);
@@ -198,7 +198,7 @@ int			ft_free_tab(char **tab);
 int			free_char_tab_ret(t_exec exec);
 int			free_expand(char *a, char *b, char *c, char *d);
 void		ft_lstclear_v2(t_envlist **lst);
-
+void		free_flag_string(t_f_str flag_string);
 
 //init
 t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs);
