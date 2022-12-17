@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 15:19:22 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/17 15:37:51 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/17 15:44:04 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 			print_parsing_err(g_errno);
-		free_flag_string(f_str);
+		free_flag_string(flag_string);
 		free_command_line(commands, misc.line, misc.nb_commands, g_errno);
 	}
 	return (0);
