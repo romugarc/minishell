@@ -9,7 +9,7 @@ SRCS	=	main.c									\
 			free/free_free_flag_string.c			\
 													\
 			commands/commands_path.c				\
-			commandscommands_path_next.c			\
+			commands/commands_path_next.c			\
 													\
 			envcpy/envcpy.c							\
 			envcpy/tmp_env.c						\
