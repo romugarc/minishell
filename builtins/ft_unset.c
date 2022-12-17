@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:52:15 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/17 14:25:10 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 17:05:13 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int	ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc, int *oldp)
 	int	line;
 	int	for_rm_val;
 
+	line = 0;
+	for_rm_val = 0;
 	init_vars(&line, &for_rm_val, sgl_cmd[line], 0);
 	while (sgl_cmd[line])
 	{
