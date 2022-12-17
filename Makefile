@@ -1,11 +1,13 @@
 NAME	= minishell
 
-SRCS	=	main.c prompt.c							\
+SRCS	=	main.c									\
 			signal_sig_handler.c					\
 			free_free_command_line.c				\
 			free_ft_free_tab.c						\
 			free_free_expand.c						\
 			free_envc.c								\
+			free_free_flag_string.c					\
+													\
 			error_error_handler.c					\
 													\
 			commands_path.c							\
@@ -62,6 +64,8 @@ SRCS	=	main.c prompt.c							\
 			builtins/add_export.c					\
 			builtins/ft_env.c						\
 			builtins/ft_exit.c						\
+			builtins/ft_refresh_pwd.c				\
+			builtins/rm_var.c						\
 													\
 			parsing/parsing.c						\
 			parsing/parsing_quotes_flags.c			\
@@ -75,14 +79,18 @@ SRCS	=	main.c prompt.c							\
 			parsing/parsing_reform_tab.c			\
 			parsing/parsing_correct_tab.c			\
 			parsing/parsing_create_fd.c				\
-			parsing/parsing_form_heredoc.c			\
 			parsing/parsing_create_fd_in.c			\
 			parsing/parsing_expand_variable.c		\
 			parsing/parsing_copy_var.c				\
-			parsing/parsing_expand_variable_misc.c	\
+			parsing/parsing_expand_heredoc.c		\
 			parsing/parsing_check_fd.c				\
 			parsing/parsing_remove_quotes.c			\
 			parsing/parsing_parse_error.c			\
+			parsing/parsing_cat_ex_var.c			\
+			parsing/parsing_create_fdnorm.c			\
+			parsing/parsing_hd_routine.c			\
+			parsing/parsing_search_expand.c			\
+			parsing/parsing_removing_quotes.c		\
 
 RL_LIB = -L$(shell brew --prefix readline)/lib
 RL_INC = -I$(shell brew --prefix readline)/include
