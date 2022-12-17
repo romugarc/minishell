@@ -6,40 +6,29 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:59:49 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/13 16:05:53 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/17 12:06:20 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_commands	new_comm(t_commands comm, char *temp)
+char	*get_slash_next(char *str, char *new_str)
 {
-	//int	i; //variable not used
+	int	i;
+	int	j;
 
-	//i = 0;
-	free(comm.sgl_cmd[0]);
-	comm.sgl_cmd[0] = ft_strdup(temp);
-	return (comm);
-}
-
-t_commands	check_comm(t_commands comm, char **allpath)
-{
-	int		j;
-	int		res;
-	char	*temp;
-
+	i = 0;
 	j = 0;
-	res = -1;
-	while (allpath[j] && res == -1)
+	while (str[i])
 	{
-		temp = ft_strjoin(allpath[j], comm.sgl_cmd[0]);
-		res = access(temp, F_OK);
-		if (res == 0)
-			comm = new_comm(comm, temp);
-		free(temp);
+		if (str[i] == ':')
+			new_str[j++] = '/';
+		new_str[j] = str[i];
+		i++;
 		j++;
 	}
-	return (comm);
+	new_str[j] = '\0';
+	return (new_str);
 }
 
 char	*get_slash(char *str)
@@ -58,20 +47,59 @@ char	*get_slash(char *str)
 	}
 	new_str = malloc(sizeof(char) * (i + j + 1));
 	if (!new_str)
-		return (str);
-	i = 0;
-	j = 0;
-	while (str[i])
 	{
-		if (str[i] == ':')
-			new_str[j++] = '/';
-		new_str[j] = str[i];
-		i++;
-		j++;
+		g_errno = 134;
+		return (str);
 	}
-	new_str[j] = '\0';
+	new_str = get_slash_next(str, new_str);
 	free(str);
 	return (new_str);
+}
+
+int	commands_path_2(t_envlist **cpy, char ***allpath, char **str)
+{
+	(*str) = ft_strjoin((*cpy)->val, "/");
+	if (!(*str))
+	{
+		g_errno = 134;
+		return (-1);
+	}
+	(*str) = get_slash((*str));
+	if (!(*str))
+	{
+		g_errno = 134;
+		return (-1);
+	}
+	(*allpath) = ft_split((*str), ':');
+	if (!(*allpath))
+	{
+		g_errno = 134;
+		free(*str);
+		return (-1);
+	}
+	return (0);
+}
+
+void	commands_path_3(t_commands **comm, int nb_comm, char **allpath)
+{
+	int		i;
+	t_exec	exec;
+
+	i = 0;
+	while (i < nb_comm)
+	{
+		if ((*comm)[i].sgl_cmd == NULL)
+			i++;
+		else if ((*comm)[i].sgl_cmd[0] == NULL)
+			i++;
+		else if (is_it_builtin((*comm)[i].sgl_cmd[0], &exec) != 1)
+		{
+			(*comm)[i].sgl_cmd[0] = check_comm((*comm)[i], allpath);
+			i++;
+		}
+		else
+			i++;
+	}
 }
 
 t_commands	*commands_path(t_commands *comm, int nb_comm, t_envlist *envcpy)
@@ -79,37 +107,17 @@ t_commands	*commands_path(t_commands *comm, int nb_comm, t_envlist *envcpy)
 	int			i;
 	char		*str;
 	char		**allpath;
-	t_exec		exec;
 	t_envlist	*cpy;
 
 	i = 0;
 	cpy = envcpy;
-	while (cpy)
-	{
-		if (strcmp_tof(cpy->var, "PATH") == 1)
-			break;
-		cpy = cpy->next;
-	}
+	search_var(&cpy, "PATH");
 	if (!cpy)
-		return (comm);
-	str = ft_strjoin(cpy->val, "/");
-	str = get_slash(str);
-	allpath = ft_split(str, ':');
+		return (NULL);
+	if (commands_path_2(&cpy, &allpath, &str) == -1)
+		return (NULL);
 	free(str);
-	while (i < nb_comm)
-	{
-		if (comm[i].sgl_cmd == NULL)
-			i++;
-		else if (comm[i].sgl_cmd[0] == NULL)
-			i++;
-		else if (is_it_builtin(comm[i].sgl_cmd[0], &exec) != 1)
-		{
-			comm[i] = check_comm(comm[i], allpath);
-			i++;
-		}
-		else
-			i++;
-	}
+	commands_path_3(&comm, nb_comm, allpath);
 	free_char_tab(allpath);
 	return (comm);
 }

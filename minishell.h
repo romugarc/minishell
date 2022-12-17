@@ -159,19 +159,49 @@ t_envlist	*ft_lstnew_env(char **envp, int line);
 int			ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat);
 void		ft_exit(char **cmd, int nb_comm);
 void		rm_var(char *var, t_envlist **envc);
-void		rm_val(char *str, t_envlist **envc, int *first_time);
+int			rm_val(char *str, t_envlist **envc, int *first_time);
 int			check_pwd(void);
 int			check_cmd_fd(t_commands cmd);
 int			check_access(t_commands comm, t_envlist **envc);
 void		sighandler(int sig);
 void		pipe_sighandler(int sig);
-t_commands	new_comm(t_commands comm, char *temp);
+char		*new_comm(char *sglcmd, char *temp);
 char		*get_slash(char *str);
 void		free_envc(t_envlist *envc);
-
+int			check_access(t_commands comm, t_envlist **envc);
+void		print_export(t_envlist *envc, int oldp_stat, int out);
+int			add_export(t_envlist **envc, char *new_var, char c);
+int			get_next_val(t_envlist **envc, char *new_var, char c);
+int			get_new_val(t_envlist **envc, char *new_val, char c);
+int			valid_id_exp(char *var, char *cmd, int *oldp_stat);
+char		*export_valstr(char *new_var);
+char		*export_varstr(char *new_var, char c);
 
 
 //exec utils
+int			puterror(char *s1, char *s2, int mod, int ret);
+int			put_char_error(char c, int mod, int ret);
+int			is_command_path(t_commands cmd, t_envlist **envc);
+int			is_it_path(char *str);
+int			whithout_builtins(t_commands comm);
+void		search_var(t_envlist **cpy, char *search);
+int			whithout_builtins(t_commands comm);
+int			is_it_path(char *str);
+int			check_cmd_fd(t_commands cmd);
+int			get_shlvl(t_envlist **envc);
+t_envlist	*new_shlvl(void);
+int			strlen_from(char *str, char *from);
+int			strlen_until(char *str, char *until);
+char		*valuestr(char **envp, int line);
+char		*varstr(char **envp, int line);
+char		*check_comm(t_commands comm, char **allpath);
+char		*new_comm(char *sglcmd, char *temp);
+int			strlen_after_c(char *new_var, char c);
+int			strlen_from_c(char *str, char c);
+int			strlen_until_c(char *new_var, char c);
+int			is_equal(char *new_var);
+int			ft_strcmp(char *s1, char *s2);
+
 
 //parsing utils
 void		prompt(void);
@@ -203,15 +233,22 @@ void		ft_lstclear_v2(t_envlist **lst);
 //init
 t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs);
 void		init_inc(t_inc *inc);
-int			exec_init(t_exec *exec, int nb_comm);
+int			exec_init(t_exec *exec);
 int			*init_tab_fd(int nb_file);
 void		init_command_tab(t_commands **commands, int nb_pipes);
 
 //error
 int			error_handler(int argc, char **argv);
+int			error_type(t_commands *comm, int line, t_envlist **envc);
+int			mall_error(void);
+
 
 //signal
+void		sighandler(int sig);
 void		sig_handler(int signum);
 void		sig_heredoc(int signum);
+void		pipe_sighandler(int sig);
+void		cancel_sighandler(int signal);
+
 
 #endif

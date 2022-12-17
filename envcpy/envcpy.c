@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:42:52 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/15 18:14:02 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 20:25:57 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,92 +24,6 @@ t_envlist	*ft_lstlast_env(t_envlist *lst)
 	return (cpy);
 }
 
-int	strlen_until(char *str, char *until)
-{
-	int	i;
-	int	u;
-
-	i = 0;
-	while (str[i])
-	{
-		u = 0;
-		while (until[u])
-		{
-			if (str[i] == until[u])
-				return (i);
-			u++;
-		}
-		i++;
-	}
-	return (i);
-}
-
-int	strlen_from(char *str, char *from)
-{
-	int	i;
-	int	f;
-	int	count;
-
-	i = 0;
-	count = -2;
-	while (str[i])
-	{
-		f = 0;
-		while (from[f])
-			if (str[i] == from[f++] && count == -2)
-				count = -1;
-		i++;
-		if (count >= -1)
-			count++;
-	}
-	if (count == -2)
-		return (0);
-	return (count);
-}
-
-char	*varstr(char **envp, int line)
-{
-	int		i;
-	char	*var;
-
-	i = 0;
-	var = malloc(sizeof(char) * strlen_until(envp[line], "=") + 1);
-	if (!var)
-		exit(EXIT_FAILURE);
-	while (envp[line][i] && envp[line][i] != '=')
-	{
-		var[i] = envp[line][i];
-		i++;
-	}
-	var[i] = '\0';
-	return (var);
-}
-
-char	*valuestr(char **envp, int line)
-{
-	int		i;
-	int		v;
-	char	*value;
-
-	i = 0;
-	v = 0;
-	value = malloc(sizeof(char) * strlen_from(envp[line], "=") + 1);
-	if (!value)
-		exit(EXIT_FAILURE);
-	while (envp[line][i] != '=' && envp[line][i])
-		i++;
-	if (envp[line][i] == '=')
-		i++;
-	while (envp[line][i])
-	{
-		value[v] = envp[line][i];
-		i++;
-		v++;
-	}
-	value[v] = '\0';
-	return (value);
-}
-
 t_envlist	*ft_lstnew_env(char **envp, int line)
 {
 	int			i;
@@ -125,6 +39,11 @@ t_envlist	*ft_lstnew_env(char **envp, int line)
 			lst->equal = 1;
 	lst->var = varstr(envp, line);
 	lst->val = valuestr(envp, line);
+	if (!lst->var || !lst->val)
+	{
+		g_errno = 134;
+		exit(EXIT_FAILURE);
+	}
 	lst->next = NULL;
 	return (lst);
 }
@@ -132,6 +51,7 @@ t_envlist	*ft_lstnew_env(char **envp, int line)
 void	ft_lstadd_back_env(t_envlist **alst, t_envlist *new_lst)
 {
 	t_envlist	*cpy;
+
 	if (alst)
 	{
 		if (*alst)
@@ -158,42 +78,11 @@ t_envlist	*new_shlvl(void)
 	new->val = ft_strdup("1");
 	new->next = NULL;
 	if (!new->var || !new->val)
-		return (NULL);
+	{
+		g_errno = 134;
+		exit(EXIT_FAILURE);
+	}
 	return (new);
-}
-
-void	get_shlvl(t_envlist **envc)
-{
-	char		*tmp;
-	t_envlist	*cpy;
-
-	cpy = (*envc);
-	while (cpy)
-	{
-		if (strcmp_tof(cpy->var, "SHLVL") == 1)
-			break;
-		cpy = cpy->next;
-	}
-	if (cpy)
-	{
-		if (cpy->val)
-		{
-			cpy->equal = 1;
-			tmp = cpy->val;
-			if (ft_atoi(cpy->val) < 0)
-				cpy->val = ft_itoa(0);
-			else
-				cpy->val = ft_itoa(ft_atoi(cpy->val) + 1);
-			free(tmp);
-		}
-		else
-		{
-			cpy->equal = 1;
-			cpy->val = ft_strdup("1");
-		}
-	}
-	else
-		ft_lstadd_back_env(envc, new_shlvl());
 }
 
 t_envlist	*envcpy(char **envp)
