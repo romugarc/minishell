@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:59:49 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/17 12:06:20 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/17 17:21:10 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_cmd	*commands_path(t_cmd *comm, int nb_comm, t_envlist *envcpy)
 	cpy = envcpy;
 	search_var(&cpy, "PATH");
 	if (!cpy)
-		return (NULL);
+		return (comm);
 	if (commands_path_2(&cpy, &allpath, &str) == -1)
 		return (NULL);
 	free(str);
