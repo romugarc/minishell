@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_refresh_pwd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:25:44 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/17 13:53:26 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 15:47:41 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ static int	refreshing_pwd(char **val, char *path)
 	i = 0;
 	while (path[i])
 	{
-		*val[i] = path[i];
+		(*val)[i] = path[i];
 		i++;
 	}
-	*val[i] = '\0';
+	(*val)[i] = '\0';
 	return (0);
 }
 
