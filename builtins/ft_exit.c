@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 17:42:20 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/17 11:04:42 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 16:17:43 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	ft_exit(char **cmd, int nb_comm)
 	int	caractere;
 
 	i = 0;
+	flag_exit = 0;
 	while (cmd[i])
 		i++;
 	if (i >= 2)
@@ -45,12 +46,11 @@ void	ft_exit(char **cmd, int nb_comm)
 		caractere = 0;
 		while (cmd[1][caractere])
 		{
-			if (ft_isdigit(cmd[1][caractere]) == 0)
+			if (ft_isdigit(cmd[1][caractere++]) == 0)
 			{
 				puterror(cmd[1], NULL, 6, 0);
 				flag_exit = 1;
 			}
-			caractere++;
 		}
 		if (exit_behaviour(cmd, i, flag_exit) == -1)
 			return ;
