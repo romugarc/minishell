@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:42:52 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/16 20:25:57 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/17 15:36:51 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ t_envlist	*ft_lstnew_env(char **envp, int line)
 	i = 0;
 	lst = malloc(sizeof(t_envlist));
 	if (!lst)
+	{
+		g_errno = 134;
 		exit(EXIT_FAILURE);
+	}
 	lst->equal = 0;
 	while (envp[line][i])
 		if (envp[line][i++] == '=')

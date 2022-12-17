@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 14:02:54 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/17 11:07:24 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 15:13:48 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,16 @@ int	ft_echo_first_n(char *str)
 	return (1);
 }
 
-int	set_fd(int nb_comm, int fdout)
+int	set_fd(t_exec exec, int fdout)
 {
 	int	out;
 
-	if (nb_comm == 1)
+	if (exec.nb_comm == 1)
 		out = fdout;
-	else
+	else if (exec.temp < exec.nb_comm)
 		out = 1;
+	else
+		out = 0;
 	return (out);
 }
 
@@ -70,7 +72,7 @@ int	ft_echo(char **tab, t_exec exec, t_cmd cmd)
 	int	out;
 
 	line = 1;
-	out = set_fd(exec.nb_comm, cmd.fdout);
+	out = set_fd(exec, cmd.fdout);
 	while (tab[line])
 	{
 		if (ft_echo_next_n(tab[line]) == 0)

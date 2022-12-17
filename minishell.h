@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 14:21:58 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/17 14:26:28 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 15:17:47 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ int			pipe_error_case(int nb_comm, t_exec exec, t_cmd *cmd);
 void		wait_all_cpid(pid_t *cpid, int status, int i, t_exec *exec);
 int			**tab_fd_mall(int nb_comm);
 void		close_fd(int **fd, int i, t_cmd *cmd);
-void		child_process(t_cmd *commands, t_exec *exec, t_envlist **envc, int *oldp_stat);
+void		child_process(t_cmd *cmd, t_exec *exec, t_envlist **env, int *oldp);
 int			ft_echo(char **tab, t_exec exec, t_cmd cmd);
 int			is_builtins(t_cmd cmd, t_exec *exec, t_envlist **envc, int *oldp);
 int			strcmp_tof(char *cmd, char *str);
