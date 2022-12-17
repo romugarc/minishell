@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_init_command_tab.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:08:45 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/16 11:24:27 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 17:37:43 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	init_command_tab(t_cmd **commands, int nb_pipes)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_init_tab_fd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:07:56 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/28 17:21:54 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 17:37:51 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	*init_tab_fd(int nb_file)
 {

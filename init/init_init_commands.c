@@ -6,11 +6,11 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:22:01 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/17 14:19:02 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 17:37:46 by fsariogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	free_full_command_line(char **fcl, int nbp)
 {
