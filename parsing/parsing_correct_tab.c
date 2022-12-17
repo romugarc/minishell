@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:48:37 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/16 13:07:04 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 16:52:58 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	correcting_tab(char	**tab, t_f_str *f_str, int *del_f)
 		else
 		{
 			i.start = 0;
-			*del_f = 0;
+			*del_f = set_del_flag(*tab);
 		}
 		ft_del_str_from_i(*tab, i.start);
 	}
