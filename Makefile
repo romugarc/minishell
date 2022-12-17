@@ -1,27 +1,25 @@
 NAME	= minishell
 
 SRCS	=	main.c									\
-			signal_sig_handler.c					\
-			free_free_command_line.c				\
-			free_ft_free_tab.c						\
-			free_free_expand.c						\
-			free_envc.c								\
-			free_free_flag_string.c					\
+			utils/signal_sig_handler.c				\
+			free/free_free_command_line.c			\
+			free/free_ft_free_tab.c					\
+			free/free_free_expand.c					\
+			free/free_envc.c						\
+			free/free_free_flag_string.c			\
 													\
-			error_error_handler.c					\
-													\
-			commands_path.c							\
-			commands_path_next.c					\
+			commands/commands_path.c				\
+			commandscommands_path_next.c			\
 													\
 			envcpy/envcpy.c							\
 			envcpy/tmp_env.c						\
 			envcpy/shlvl.c							\
 			envcpy/get_env_str.c					\
 													\
-			init_init_commands.c					\
-			init_init_inc.c							\
-			init_init_tab_fd.c						\
-			init_init_command_tab.c					\
+			init/init_init_commands.c				\
+			init/init_init_inc.c					\
+			init/init_init_tab_fd.c					\
+			init/init_init_command_tab.c			\
 													\
 			utils/utils_correct_line.c				\
 			utils/utils_count_arguments.c			\
@@ -102,7 +100,7 @@ OBJS	=	${SRCS:.c=.o}
 CC		=	gcc
 RM		=	rm -f
 
-CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror
 
 all:		${NAME}
 
