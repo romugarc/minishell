@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	remove_quotes_intab(t_commands **cmd, int i)
+static int	remove_quotes_intab(t_cmd **cmd, int i)
 {
 	int		j;
 
@@ -39,7 +39,7 @@ static int	remove_quotes_intab(t_commands **cmd, int i)
 	return (0);
 }
 
-int	remove_quotes(t_commands **cmd, int np)
+int	remove_quotes(t_cmd **cmd, int np)
 {
 	t_inc	i;
 

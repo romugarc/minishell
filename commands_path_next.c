@@ -21,7 +21,7 @@ char	*new_comm(char *sglcmd, char *temp)
 	return (sglcmd);
 }
 
-int	check_comm_next(t_commands *comm, char **temp)
+int	check_comm_next(t_cmd *comm, char **temp)
 {
 	(*comm).sgl_cmd[0] = new_comm((*comm).sgl_cmd[0], (*temp));
 	if (!(*comm).sgl_cmd[0])
@@ -33,7 +33,7 @@ int	check_comm_next(t_commands *comm, char **temp)
 	return (0);
 }
 
-char	*check_comm(t_commands comm, char **allpath)
+char	*check_comm(t_cmd comm, char **allpath)
 {
 	int		j;
 	int		res;

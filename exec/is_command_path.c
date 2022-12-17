@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	sec_check_comm(t_commands comm, char **allpath)
+int	sec_check_comm(t_cmd comm, char **allpath)
 {
 	int		j;
 	int		res;
@@ -35,7 +35,7 @@ int	sec_check_comm(t_commands comm, char **allpath)
 	return (0);
 }
 
-int	is_command_path(t_commands cmd, t_envlist **envc)
+int	is_command_path(t_cmd cmd, t_envlist **envc)
 {
 	t_envlist	*cpy;
 	char		*str;

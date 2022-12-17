@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	error_type(t_commands *comm, int line, t_envlist **envc)
+int	error_type(t_cmd *comm, int line, t_envlist **envc)
 {
 	int			i;
 	t_envlist	*cpy;

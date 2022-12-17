@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static	int	malloc_chain_files(t_commands **c, int nb_pipes)
+static	int	malloc_chain_files(t_cmd **c, int nb_pipes)
 {
 	int	i;
 
@@ -40,7 +40,7 @@ static	int	malloc_chain_files(t_commands **c, int nb_pipes)
 	return (0);
 }
 
-static int	malloc_tab_fd_files(t_commands **c, int nb_pipes)
+static int	malloc_tab_fd_files(t_cmd **c, int nb_pipes)
 {
 	int	i;
 
@@ -68,7 +68,7 @@ static int	malloc_tab_fd_files(t_commands **c, int nb_pipes)
 	return (0);
 }
 
-static int	malloc_t_files(t_commands **c, int nb_pipes)
+static int	malloc_t_files(t_cmd **c, int nb_pipes)
 {
 	int	i;
 
@@ -96,7 +96,7 @@ static int	malloc_t_files(t_commands **c, int nb_pipes)
 	return (0);
 }
 
-int	malloc_tab_files(t_commands **c, int nb_pipes)
+int	malloc_tab_files(t_cmd **c, int nb_pipes)
 {
 	if (malloc_t_files(c, nb_pipes) == 1)
 		return (1);

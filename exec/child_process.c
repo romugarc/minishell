@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	child_process(t_commands *cmd, t_exec *exec, t_envlist **envc, int *oldp)
+void	child_process(t_cmd *cmd, t_exec *exec, t_envlist **envc, int *oldp)
 {
 	if (cmd[(*exec).comm_i].sgl_cmd == NULL)
 		exit(EXIT_SUCCESS);

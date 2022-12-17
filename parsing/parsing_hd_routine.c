@@ -24,7 +24,7 @@ static int	hd_expand(char **lineh, t_envlist *env, t_heredoc *hd)
 	return (0);
 }
 
-int	hd_routine(t_commands **c, t_inc inc, t_heredoc *hd, t_envlist *env)
+int	hd_routine(t_cmd **c, t_inc inc, t_heredoc *hd, t_envlist *env)
 {
 	int		breaking;
 	char	*lineh;

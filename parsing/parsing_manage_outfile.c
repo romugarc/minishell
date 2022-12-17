@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	manage_outfile3(t_commands **com, t_f_str f_str, t_inc *i)
+static int	manage_outfile3(t_cmd **com, t_f_str f_str, t_inc *i)
 {
 	int	end;
 
@@ -39,7 +39,7 @@ static int	manage_outfile3(t_commands **com, t_f_str f_str, t_inc *i)
 	return (0);
 }
 
-int	manage_outfile(t_commands **com, t_f_str f_str, t_inc *i, int *cpy_f)
+int	manage_outfile(t_cmd **com, t_f_str f_str, t_inc *i, int *cpy_f)
 {
 	if (f_str.sp_chars[i->k] == '6' && f_str.sp_chars[i->k + 1] == '6')
 	{

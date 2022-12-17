@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	free_taboutfile(t_commands *commands, int i)
+static void	free_taboutfile(t_cmd *commands, int i)
 {
 	free(commands[i].flag_out);
 	close_tab_fd(commands[i].tab_fdout, commands[i].nb_outf);
@@ -20,7 +20,7 @@ static void	free_taboutfile(t_commands *commands, int i)
 	ft_free_tab(commands[i].tab_outf);
 }
 
-static void	free_tabinfile(t_commands *commands, int i)
+static void	free_tabinfile(t_cmd *commands, int i)
 {
 	free(commands[i].flag_in);
 	close_tab_fd(commands[i].tab_fdin, commands[i].nb_inf);
@@ -28,7 +28,7 @@ static void	free_tabinfile(t_commands *commands, int i)
 	ft_free_tab(commands[i].tab_inf);
 }
 
-void	free_command_line(t_commands *commands, char *line, int nb_pipes, int g)
+void	free_command_line(t_cmd *commands, char *line, int nb_pipes, int g)
 {
 	int	i;
 

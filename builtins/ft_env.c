@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	check_line_tiret(t_commands cmd)
+static int	check_line_tiret(t_cmd cmd)
 {
 	int	i;
 
@@ -57,7 +57,7 @@ static void	display_env(t_envlist *tmp, int oldp_stat, int out)
 	}
 }
 
-int	ft_env(t_commands cmd, t_exec exec, t_envlist *envc, int oldp_stat)
+int	ft_env(t_cmd cmd, t_exec exec, t_envlist *envc, int oldp_stat)
 {
 	int			ret;
 	int			out;

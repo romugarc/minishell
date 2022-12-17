@@ -11,7 +11,7 @@ void	print_parsing_err(int errnb)
 int	main(int argc, char **argv, char **envp)
 {
 	t_misc			misc;
-	t_commands		*commands;
+	t_cmd		*commands;
 	t_f_str			flag_string;
 	t_envlist		*envc;
 

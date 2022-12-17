@@ -22,7 +22,7 @@ static void	reinit_somevar(t_inc *i)
 	i->j = 0;
 }
 
-static int	forming_tab2(t_commands **com, t_f_str f_str, t_inc *i, int *cpy_f)
+static int	forming_tab2(t_cmd **com, t_f_str f_str, t_inc *i, int *cpy_f)
 {
 	i->start = find_special_char('6', f_str, i, (*com)[i->i].sgl_cmd[i->j]);
 	if (i->start > -1 || *cpy_f == 1)
@@ -43,7 +43,7 @@ static int	forming_tab2(t_commands **com, t_f_str f_str, t_inc *i, int *cpy_f)
 	return (0);
 }
 
-int	form_tab2(t_commands **com, int np)
+int	form_tab2(t_cmd **com, int np)
 {
 	t_inc	i;
 	t_f_str	f_str;
@@ -70,7 +70,7 @@ int	form_tab2(t_commands **com, int np)
 	return (0);
 }
 
-static int	forming_tab(t_commands **com, t_f_str f_str, t_inc *i, int *cpy_f)
+static int	forming_tab(t_cmd **com, t_f_str f_str, t_inc *i, int *cpy_f)
 {
 	i->start = find_special_char('7', f_str, i, (*com)[i->i].sgl_cmd[i->j]);
 	if (i->start > -1 || *cpy_f == 1)
@@ -91,7 +91,7 @@ static int	forming_tab(t_commands **com, t_f_str f_str, t_inc *i, int *cpy_f)
 	return (0);
 }
 
-int	form_tab(t_commands **com, int np)
+int	form_tab(t_cmd **com, int np)
 {
 	t_inc	i;
 	t_f_str	f_str;

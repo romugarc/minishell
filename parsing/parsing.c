@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/16 19:44:19 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 14:22:57 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	form_line(t_misc *m, t_f_str *f_str, t_envlist *envc)
 	return (0);
 }
 
-static int	v_p(t_commands **commands, t_misc *m, t_envlist *en)
+static int	v_p(t_cmd **commands, t_misc *m, t_envlist *en)
 {
 	if (malloc_tab_files(commands, m->nb_commands) == 1)
 		return (134);
@@ -59,7 +59,7 @@ static int	v_p(t_commands **commands, t_misc *m, t_envlist *en)
 	return (0);
 }
 
-int	parsing(t_commands **commands, t_f_str *f_str, t_misc *m, t_envlist *envc)
+int	parsing(t_cmd **cmd, t_f_str *f_str, t_misc *m, t_envlist *envc)
 {
 	int	ret;
 
@@ -70,16 +70,16 @@ int	parsing(t_commands **commands, t_f_str *f_str, t_misc *m, t_envlist *envc)
 	init_inc(&f_str->i);
 	m->nb_commands = count_arguments(m->line, '|', f_str);
 	f_str->i.k = 0;
-	*commands = init_commands(m->line, m->nb_commands, f_str);
-	if (*commands == NULL)
+	*cmd = init_commands(m->line, m->nb_commands, f_str);
+	if (*cmd == NULL)
 		return (134);
-	init_command_tab(commands, m->nb_commands);
-	count_redirections(commands, m->nb_commands, *f_str);
+	init_command_tab(cmd, m->nb_commands);
+	count_redirections(cmd, m->nb_commands, *f_str);
 	if (ret != 0)
 		return (258);
 	else
 	{
-		ret = v_p(commands, m, envc);
+		ret = v_p(cmd, m, envc);
 		if (ret == 1)
 			return (1);
 		else if (ret == 134)

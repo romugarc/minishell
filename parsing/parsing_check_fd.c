@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	print_err_fd(t_commands **cmd, int i, char *str, int mode)
+static int	print_err_fd(t_cmd **cmd, int i, char *str, int mode)
 {
 	if (mode == 1)
 	{
@@ -31,7 +31,7 @@ static int	print_err_fd(t_commands **cmd, int i, char *str, int mode)
 	return (1);
 }
 
-static int	check_fdout(t_commands **cmd, int i, int j)
+static int	check_fdout(t_cmd **cmd, int i, int j)
 {
 	if ((*cmd)[i].flag_out[j] == '0' && (*cmd)[i].tab_fdout != NULL)
 	{
@@ -56,7 +56,7 @@ static int	check_fdout(t_commands **cmd, int i, int j)
 	return (0);
 }
 
-static int	check_fdin(t_commands **cmd, t_inc i)
+static int	check_fdin(t_cmd **cmd, t_inc i)
 {
 	if ((*cmd)[i.i].flag_in[i.j] == '0' && (*cmd)[i.i].tab_fdin != NULL)
 	{
@@ -71,7 +71,7 @@ static int	check_fdin(t_commands **cmd, t_inc i)
 	return (0);
 }
 
-static int	check_fdnorm(t_commands **cmd, t_inc *i, int mode)
+static int	check_fdnorm(t_cmd **cmd, t_inc *i, int mode)
 {
 	t_inc	inc;
 
@@ -99,7 +99,7 @@ static int	check_fdnorm(t_commands **cmd, t_inc *i, int mode)
 	return (0);
 }
 
-int	check_fd(t_commands **cmd, int np)
+int	check_fd(t_cmd **cmd, int np)
 {
 	t_inc	inc;
 

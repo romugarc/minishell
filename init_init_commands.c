@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:22:01 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/16 16:47:53 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 14:19:02 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void	free_full_command_line(char **fcl, int nbp)
 	free(fcl);
 }
 
-t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs)
+t_cmd	*init_commands(char	*line, int nb_pipes, t_f_str *fs)
 {
-	int			i;
-	t_commands	*commands;
-	char		**full_command_line;
+	int		i;
+	t_cmd	*commands;
+	char	**full_command_line;
 
 	full_command_line = ft_split_v2old(line, '|', *fs);
-	commands = malloc(sizeof(t_commands) * (nb_pipes + 1));
+	commands = malloc(sizeof(t_cmd) * (nb_pipes + 1));
 	if (!commands)
 		return (NULL);
 	i = 0;

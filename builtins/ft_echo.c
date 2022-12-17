@@ -64,7 +64,7 @@ int	set_fd(int nb_comm, int fdout)
 	return (out);
 }
 
-int	ft_echo(char **tab, t_exec exec, t_commands cmd)
+int	ft_echo(char **tab, t_exec exec, t_cmd cmd)
 {
 	int	line;
 	int	out;

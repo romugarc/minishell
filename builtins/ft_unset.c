@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:52:15 by fsariogl          #+#    #+#             */
-/*   Updated: 2022/12/17 13:52:49 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 14:25:10 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	exit_or_rmvar(int nb_comm, t_envlist **envc, char *sglcmdline, int mode)
 	return (0);
 }
 
-int	ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc, int *oldp_stat)
+int	ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc, int *oldp)
 {
 	int	ret;
 	int	line;
@@ -111,7 +111,7 @@ int	ft_unset(char **sgl_cmd, int nb_comm, t_envlist **envc, int *oldp_stat)
 			exit_or_rmvar(nb_comm, envc, sgl_cmd[line], 2);
 			if (strcmp_tof(sgl_cmd[line], "PWD") == 1)
 			{
-				(*oldp_stat) = -1;
+				(*oldp) = -1;
 				if (rm_val(sgl_cmd[line], envc, &for_rm_val) == -1)
 					if (exit_or_rmvar(nb_comm, envc, sgl_cmd[line], 0) == -1)
 						return (-1);

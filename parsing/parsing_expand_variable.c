@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	expand_var_tab2(t_commands **cmd, t_envlist *envc, t_inc i)
+static int	expand_var_tab2(t_cmd **cmd, t_envlist *envc, t_inc i)
 {
 	if ((*cmd)[i.i].nb_outf > 0)
 	{
@@ -28,7 +28,7 @@ static int	expand_var_tab2(t_commands **cmd, t_envlist *envc, t_inc i)
 	return (0);
 }
 
-static int	expand_var_tab(t_commands **cmd, t_envlist *envc, t_inc i)
+static int	expand_var_tab(t_cmd **cmd, t_envlist *envc, t_inc i)
 {
 	if ((*cmd)[i.i].nb_inf > 0)
 	{
@@ -51,7 +51,7 @@ static int	expand_var_tab(t_commands **cmd, t_envlist *envc, t_inc i)
 	return (0);
 }
 
-int	expand_variable(t_commands **c, int np, t_envlist *envc)
+int	expand_variable(t_cmd **c, int np, t_envlist *envc)
 {
 	t_inc	i;
 

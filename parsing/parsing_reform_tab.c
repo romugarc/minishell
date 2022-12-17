@@ -40,7 +40,7 @@ static char	**reform_tab2(char **sgl_cmd, int n)
 	return (new_sgl);
 }
 
-int	reform_tab(t_commands **com, int np)
+int	reform_tab(t_cmd **com, int np)
 {
 	t_inc	i;
 	char	**oldtab;

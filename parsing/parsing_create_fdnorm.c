@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	create_fdout2(t_commands **cmd, int i, int j, int *lastfd)
+static int	create_fdout2(t_cmd **cmd, int i, int j, int *lastfd)
 {
 	if (access((*cmd)[i].tab_outf[j], F_OK) == 0)
 	{
@@ -30,7 +30,7 @@ static int	create_fdout2(t_commands **cmd, int i, int j, int *lastfd)
 	return (0);
 }
 
-static int	create_fdout(t_commands **cmd, int i, int j, int *lastfd)
+static int	create_fdout(t_cmd **cmd, int i, int j, int *lastfd)
 {
 	if ((*cmd)[i].flag_out[j] == '0' && (*cmd)[i].tab_fdout != NULL)
 	{
@@ -59,7 +59,7 @@ static int	create_fdout(t_commands **cmd, int i, int j, int *lastfd)
 	return (0);
 }
 
-static int	create_fdnormin(t_commands **cmd, t_inc *i, t_envlist *envc)
+static int	create_fdnormin(t_cmd **cmd, t_inc *i, t_envlist *envc)
 {
 	t_inc	inc;
 	int		ret;
@@ -87,7 +87,7 @@ static int	create_fdnormin(t_commands **cmd, t_inc *i, t_envlist *envc)
 	return (0);
 }
 
-int	create_fdnorm(t_commands **cmd, t_inc *i, int mode, t_envlist *envc)
+int	create_fdnorm(t_cmd **cmd, t_inc *i, int mode, t_envlist *envc)
 {
 	t_inc	inc;
 

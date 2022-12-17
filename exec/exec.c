@@ -28,7 +28,7 @@ void	wait_all_cpid(pid_t *cpid, int status, int i, t_exec *exec)
 	(*exec).error = 0;
 }
 
-int	pipe_error_case(int nb_comm, t_exec exec, t_commands *cmd)
+int	pipe_error_case(int nb_comm, t_exec exec, t_cmd *cmd)
 {
 	if (nb_comm > 1)
 		close_fd(exec.fd, exec.comm_i, cmd);
@@ -38,7 +38,7 @@ int	pipe_error_case(int nb_comm, t_exec exec, t_commands *cmd)
 	return (-1);
 }
 
-int	exec_error_case(t_commands *cmd, t_envlist **envc, t_exec *exec, int *oldp)
+int	exec_error_case(t_cmd *cmd, t_envlist **envc, t_exec *exec, int *oldp)
 {
 	if (!cmd)
 		return (-1);
@@ -61,7 +61,7 @@ int	exec_error_case(t_commands *cmd, t_envlist **envc, t_exec *exec, int *oldp)
 	return (0);
 }
 
-int	pipe_exec(t_exec *exec, t_commands *cmd, t_envlist **envc, int *oldp_stat)
+int	pipe_exec(t_exec *exec, t_cmd *cmd, t_envlist **envc, int *oldp_stat)
 {
 	if ((*exec).temp > 1)
 		if (pipe((*exec).fd[(*exec).comm_i]) == -1)
@@ -84,7 +84,7 @@ int	pipe_exec(t_exec *exec, t_commands *cmd, t_envlist **envc, int *oldp_stat)
 	return (0);
 }
 
-int	exec_main(t_commands *commands, int nb_comm, t_envlist **envc)
+int	exec_main(t_cmd *commands, int nb_comm, t_envlist **envc)
 {
 	t_exec		exec;
 	static int	oldp_stat = 0;

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	init_command_tab(t_commands **commands, int nb_pipes)
+void	init_command_tab(t_cmd **commands, int nb_pipes)
 {
 	int	i;
 

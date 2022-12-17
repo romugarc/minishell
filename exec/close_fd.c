@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	close_fd(int **fd, int i, t_commands *cmd)
+void	close_fd(int **fd, int i, t_cmd *cmd)
 {
 	while (i >= 0)
 	{

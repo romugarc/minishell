@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	ft_pwd(int nb_comm, t_commands cmd, t_exec exec)
+int	ft_pwd(int nb_comm, t_cmd cmd, t_exec exec)
 {
 	char	*path;
 	int		out;

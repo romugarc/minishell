@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	get_lastfd(t_commands cmd, int mode)
+static int	get_lastfd(t_cmd cmd, int mode)
 {
 	int		lastfd;
 	char	*cfd;
@@ -40,7 +40,7 @@ static int	get_lastfd(t_commands cmd, int mode)
 	return (1);
 }
 
-static int	create_fd2(t_commands **cmd, t_envlist *envc, t_inc *inc)
+static int	create_fd2(t_cmd **cmd, t_envlist *envc, t_inc *inc)
 {
 	inc->lastfd = 1;
 	if ((*cmd)[inc->i].nb_outf > 0)
@@ -53,7 +53,7 @@ static int	create_fd2(t_commands **cmd, t_envlist *envc, t_inc *inc)
 	return (0);
 }
 
-int	create_fd(t_commands **cmd, int np, t_envlist *envc)
+int	create_fd(t_cmd **cmd, int np, t_envlist *envc)
 {
 	t_inc	inc;
 

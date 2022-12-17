@@ -80,7 +80,7 @@ int	commands_path_2(t_envlist **cpy, char ***allpath, char **str)
 	return (0);
 }
 
-void	commands_path_3(t_commands **comm, int nb_comm, char **allpath)
+void	commands_path_3(t_cmd **comm, int nb_comm, char **allpath)
 {
 	int		i;
 	t_exec	exec;
@@ -102,7 +102,7 @@ void	commands_path_3(t_commands **comm, int nb_comm, char **allpath)
 	}
 }
 
-t_commands	*commands_path(t_commands *comm, int nb_comm, t_envlist *envcpy)
+t_cmd	*commands_path(t_cmd *comm, int nb_comm, t_envlist *envcpy)
 {
 	int			i;
 	char		*str;

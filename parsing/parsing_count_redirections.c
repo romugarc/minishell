@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	is_redir(t_commands *c, char *str, t_f_str f_str, int *k)
+static int	is_redir(t_cmd *c, char *str, t_f_str f_str, int *k)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ static int	is_redir(t_commands *c, char *str, t_f_str f_str, int *k)
 	return (0);
 }
 
-void	count_redirections(t_commands **commands, int np, t_f_str f_str)
+void	count_redirections(t_cmd **commands, int np, t_f_str f_str)
 {
 	int	i;
 	int	j;

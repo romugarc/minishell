@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	dup_fd(t_exec exec, int nb_comm, t_commands *cmd)
+void	dup_fd(t_exec exec, int nb_comm, t_cmd *cmd)
 {
 	if (cmd[exec.comm_i].fdin >= 3)
 		dup2(cmd[exec.comm_i].fdin, 0);

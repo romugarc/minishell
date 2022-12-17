@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	ft_export_next(t_commands cmd, t_envlist **envc, int *oldp_stat)
+int	ft_export_next(t_cmd cmd, t_envlist **envc, int *oldp_stat)
 {
 	int	i;
 	int	ret;
@@ -33,7 +33,7 @@ int	ft_export_next(t_commands cmd, t_envlist **envc, int *oldp_stat)
 	return (0);
 }
 
-int	ft_export(t_commands cmd, t_exec exec, t_envlist **envc, int *oldp_stat)
+int	ft_export(t_cmd cmd, t_exec exec, t_envlist **envc, int *oldp_stat)
 {
 	int		out;
 

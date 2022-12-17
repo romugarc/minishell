@@ -33,7 +33,7 @@ static void	end_hd_prompt(t_heredoc hd, int fdsave, int *lfd)
 	free(hd.pipefd);
 }
 
-static int	heredoc_prompt(t_commands **c, t_inc inc, int *lfd, t_envlist *envc)
+static int	heredoc_prompt(t_cmd **c, t_inc inc, int *lfd, t_envlist *envc)
 {
 	t_heredoc	hd;
 	int			fdsave;
@@ -59,7 +59,7 @@ static int	heredoc_prompt(t_commands **c, t_inc inc, int *lfd, t_envlist *envc)
 	return (0);
 }
 
-int	create_fdin2(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc)
+int	create_fdin2(t_cmd **cmd, t_inc inc, int *lastfd, t_envlist *envc)
 {
 	if ((*cmd)[inc.i].flag_in[inc.j] == '1' && (*cmd)[inc.i].tab_fdin != NULL)
 	{
@@ -71,7 +71,7 @@ int	create_fdin2(t_commands **cmd, t_inc inc, int *lastfd, t_envlist *envc)
 	return (0);
 }
 
-int	create_fdin(t_commands **cmd, t_inc inc, int *lastfd)
+int	create_fdin(t_cmd **cmd, t_inc inc, int *lastfd)
 {
 	if ((*cmd)[inc.i].flag_in[inc.j] == '0' && (*cmd)[inc.i].tab_fdin != NULL)
 	{

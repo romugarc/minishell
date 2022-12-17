@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	check_access_next(t_envlist *cpy, t_commands comm)
+int	check_access_next(t_envlist *cpy, t_cmd comm)
 {
 	search_var(&cpy, "PATH");
 	if (cpy)
@@ -30,7 +30,7 @@ int	check_access_next(t_envlist *cpy, t_commands comm)
 	return (0);
 }
 
-int	check_access(t_commands comm, t_envlist **envc)
+int	check_access(t_cmd comm, t_envlist **envc)
 {
 	int			ret;
 	t_envlist	*cpy;

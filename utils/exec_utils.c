@@ -40,7 +40,7 @@ int	is_equal(char *new_var)
 	return (0);
 }
 
-int	check_cmd_fd(t_commands cmd)
+int	check_cmd_fd(t_cmd cmd)
 {
 	if (cmd.fdin < 0 || cmd.fdout < 0)
 	{

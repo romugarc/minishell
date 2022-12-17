@@ -82,7 +82,7 @@ int	free_flags(t_f_str f_str, int mode)
 	return (1);
 }
 
-int	correct_tab(t_commands **com, int np)
+int	correct_tab(t_cmd **com, int np)
 {
 	t_inc	i;
 	t_f_str	f_str;
