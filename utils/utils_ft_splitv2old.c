@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 15:06:58 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/19 15:10:21 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/16 11:56:43 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	ft_free_all_tab(char **tab)
 	free(tab);
 }
 
-static char	*ft_strdup_n_to_i(char const *src, size_t n, size_t index, char **tab)
+static char	*ft_strdup_n_to_i(char const *s, size_t n, size_t index, char **tab)
 {
 	size_t	i;
 	char	*dest;
@@ -37,9 +37,9 @@ static char	*ft_strdup_n_to_i(char const *src, size_t n, size_t index, char **ta
 		return (NULL);
 	}
 	i = 0;
-	while (src[n] && n < index)
+	while (s[n] && n < index)
 	{
-		dest[i] = src[n];
+		dest[i] = s[n];
 		n++;
 		i++;
 	}

@@ -6,13 +6,11 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 13:52:50 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/14 14:55:02 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/16 15:30:42 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
 
 static int	parse_quote_error(t_f_str f_str, int *i)
 {

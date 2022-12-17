@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-void	free_flag_string(t_f_str flag_string)
-{
-	free(flag_string.sp_chars);
-	free(flag_string.quotes);
-}
-
 void	print_parsing_err(int errnb)
 {
 	if (errnb == 134)

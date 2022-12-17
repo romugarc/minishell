@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   free_free_flag_string.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 17:12:05 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/11/07 18:10:31 by fsariogl         ###   ########.fr       */
+/*   Created: 2022/12/16 11:42:36 by rgarcia           #+#    #+#             */
+/*   Updated: 2022/12/16 11:44:31 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	prompt(void)
+void	free_flag_string(t_f_str flag_string)
 {
-	ft_putstr_fd("minishell$ ", 0);
+	free(flag_string.sp_chars);
+	free(flag_string.quotes);
 }

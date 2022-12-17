@@ -6,118 +6,59 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 15:12:36 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/14 09:54:29 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/16 13:05:47 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	cating_ex_varnf(char **n_line, char *b_ex, char *a_ex)
+static int	copy_var2(char *line, t_inc *i, t_misc m, char **new_line)
 {
-	char	*tmp_line;
+	char	*res;
 
-	tmp_line = NULL;
-	*n_line = ft_strjoin(b_ex, a_ex);
-	if (*n_line == NULL)
-		return (free_expand(tmp_line, NULL, NULL, NULL));
-	free(b_ex);
-	free(a_ex);
-	return (0);
-}
-
-static int	cating_ex_var(char **n_line, char *b_ex, char *a_ex, char *envstr)
-{
-	char	*tmp_line;
-
-	tmp_line = NULL;;
-	*n_line = ft_strjoin(b_ex, envstr);
-	if (*n_line == NULL)
-		return (free_expand(tmp_line, NULL, NULL, NULL));
-	if (tmp_line != NULL)
-		free(tmp_line);
-	tmp_line = *n_line;
-	*n_line = ft_strjoin(*n_line, a_ex);
-	if (*n_line == NULL)
-		return (free_expand(tmp_line, NULL, NULL, NULL));
-	free(tmp_line);
-	free(b_ex);
-	free(a_ex);
-	return (0);
-}
-
-int	cat_ex_varnf(char *line, t_inc *i, char **new_line)
-{
-	char	*bef_ex;
-	char	*aft_ex;
-
-	bef_ex = ft_strdup_s_to_e(line, i->l_i, i->start);
-	if (bef_ex == NULL)
-		return (1);
-	aft_ex = ft_strdup_s_to_e(line, i->l_e, ft_strlen(line));
-	if (aft_ex == NULL)
-		return (free_expand(bef_ex, aft_ex, NULL, NULL));
-	if (cating_ex_varnf(new_line, bef_ex, aft_ex) == 1)
-		return (free_expand(bef_ex, aft_ex, NULL, NULL));
-	return (0);
-}
-
-int	cat_ex_var(char *line, t_inc *i, char *envstr, char **new_line, int mode)
-{
-	char	*bef_ex;
-	char	*aft_ex;
-
-	if (!envstr)
-		return (1);
-	bef_ex = ft_strdup_s_to_e(line, i->l_i, i->start);
-	if (bef_ex == NULL)
-		return (1);
-	aft_ex = ft_strdup_s_to_e(line, i->l_e, ft_strlen(line));
-	if (aft_ex == NULL)
-		return (free_expand(bef_ex, aft_ex, NULL, NULL));	
-	if (cating_ex_var(new_line, bef_ex, aft_ex, envstr) == 1)
-		return (free_expand(bef_ex, aft_ex, NULL, NULL));
-	if (mode == 1)
-		free(envstr);
+	if (i->l_j == 1)
+	{
+		if (cat_ex_var(line, i, m.tmp->val, new_line) == 1)
+			return (free_expand(m.ex_var, NULL, NULL, NULL));
+	}
+	else if (line[i->start + 1] == '?')
+	{
+		res = ft_itoa(g_errno);
+		if (cat_ex_var(line, i, res, new_line) == 1)
+			return (free_expand(m.ex_var, res, NULL, NULL));
+		free(res);
+	}
+	else if (i->l_e > i->start + 1)
+	{
+		if (cat_ex_varnf(line, i, new_line) == 1)
+			return (free_expand(m.ex_var, NULL, NULL, NULL));
+	}
+	else
+		*new_line = NULL;
 	return (0);
 }
 
 int	copy_var(char *line, t_inc *i, t_envlist *envc, char **new_line)
 {
-	char		*ex_var;
-	t_envlist	*tmp;
+	t_misc	m;
 
-	ex_var = NULL;
+	m.ex_var = NULL;
 	if (i->l_e > i->start + 1)
 	{
-		ex_var = ft_strdup_s_to_e(line, i->start + 1, i->l_e);
-		if (ex_var == NULL)
+		m.ex_var = ft_strdup_s_to_e(line, i->start + 1, i->l_e);
+		if (m.ex_var == NULL)
 			return (1);
-		tmp = envc;
-		while (tmp != NULL && i->l_j == 0)
+		m.tmp = envc;
+		while (m.tmp != NULL && i->l_j == 0)
 		{
-			if (ft_strrcmp(ex_var, tmp->var) == 0)
+			if (ft_strrcmp(m.ex_var, m.tmp->var) == 0)
 				i->l_j = 1;
 			else
-				tmp = tmp->next;
+				m.tmp = m.tmp->next;
 		}
 	}
-	if (i->l_j == 1)
-	{
-		if (cat_ex_var(line, i, tmp->val, new_line, 0) == 1)
-			return (free_expand(ex_var, NULL, NULL, NULL));
-	}
-	else if (line[i->start + 1] == '?')
-	{
-		if (cat_ex_var(line, i, ft_itoa(g_errno), new_line, 1) == 1)
-			return (free_expand(ex_var, NULL, NULL, NULL));
-	}
-	else if (i->l_e > i->start + 1)
-	{
-		if (cat_ex_varnf(line, i, new_line) == 1)
-			return (free_expand(ex_var, NULL, NULL, NULL));
-	}
-	else
-		*new_line = NULL;
-	free(ex_var);
+	if (copy_var2(line, i, m, new_line) == 1)
+		return (1);
+	free(m.ex_var);
 	return (0);
 }

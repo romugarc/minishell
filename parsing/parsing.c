@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 12:53:03 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/14 21:21:49 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 19:44:19 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,98 +19,71 @@ void	freeing_all(t_misc misc, t_envlist *envc)
 	rl_clear_history();
 }
 
-int	parsing(t_commands **commands, t_f_str *f_str, t_misc *misc, t_envlist *envc)
+static int	form_line(t_misc *m, t_f_str *f_str, t_envlist *envc)
+{
+	if (m->line == NULL)
+	{
+		ft_putstr_fd("exit\n", 1);
+		freeing_all(*m, envc);
+		exit(EXIT_SUCCESS);
+	}
+	if (m->line[0] != '\0')
+		add_history(m->line);
+	if (special_char_flags(f_str, m->line) != 0)
+		return (134);
+	if (quotes_flags(f_str, m->line) != 0)
+		return (134);
+	return (0);
+}
+
+static int	v_p(t_commands **commands, t_misc *m, t_envlist *en)
+{
+	if (malloc_tab_files(commands, m->nb_commands) == 1)
+		return (134);
+	if (form_tab(commands, m->nb_commands) == 1)
+		return (134);
+	if (form_tab2(commands, m->nb_commands) == 1)
+		return (134);
+	correct_tab(commands, m->nb_commands);
+	if (reform_tab(commands, m->nb_commands) == 1)
+		return (134);
+	if (expand_variable(commands, m->nb_commands, en) == 1)
+		return (134);
+	if (remove_quotes(commands, m->nb_commands) == 1)
+		return (134);
+	if (create_fd(commands, m->nb_commands, en) == 134)
+		return (134);
+	if (g_errno == -42)
+		return (1);
+	check_fd(commands, m->nb_commands);
+	return (0);
+}
+
+int	parsing(t_commands **commands, t_f_str *f_str, t_misc *m, t_envlist *envc)
 {
 	int	ret;
 
-//	misc->line = get_next_line(0);
-//	misc->line = correct_line(misc->line);
-	misc->line = readline("minishell$ ");
-	if (misc->line == NULL)
-	{
-		ft_putstr_fd("exit\n", 1);
-		freeing_all(*misc, envc);
-		exit(EXIT_SUCCESS);
-	}
-	if (misc->line[0] != '\0')
-		add_history(misc->line);
-	if (special_char_flags(f_str, misc->line) != 0)
+	m->line = readline("minishell$ ");
+	if (form_line(m, f_str, envc) == 134)
 		return (134);
-	if (quotes_flags(f_str, misc->line) != 0)
-		return (134);
-//	if (expand_variablee(&misc->line, envc) == 1)
-//		return (134);
-	ret = parse_error(misc->line, *f_str);
+	ret = parse_error(m->line, *f_str);
 	init_inc(&f_str->i);
-	misc->nb_commands = count_arguments(misc->line, '|', f_str);
+	m->nb_commands = count_arguments(m->line, '|', f_str);
 	f_str->i.k = 0;
-	*commands = init_commands(misc->line, misc->nb_commands, f_str);
+	*commands = init_commands(m->line, m->nb_commands, f_str);
 	if (*commands == NULL)
 		return (134);
-	init_command_tab(commands, misc->nb_commands);
-	count_redirections(commands, misc->nb_commands, *f_str);
-	// parcourir commands[i].nb_infiles et outfiles et si ces valeurs sont à 0, on ne fait pas les 2 prochaines lignes
-	if (ret == 0)
+	init_command_tab(commands, m->nb_commands);
+	count_redirections(commands, m->nb_commands, *f_str);
+	if (ret != 0)
+		return (258);
+	else
 	{
-		if(malloc_tab_files(commands, misc->nb_commands) == 1)
-			return (134);
-		if (form_tab(commands, misc->nb_commands) == 1)
-			return (134);
-		if (form_tab2(commands, misc->nb_commands) == 1)
-			return (134);
-		correct_tab(commands, misc->nb_commands);
-		if (reform_tab(commands, misc->nb_commands) == 1)
-			return (134);
-		if (expand_variable(commands, misc->nb_commands, envc) == 1)
-			return (134);
-		if (remove_quotes(commands, misc->nb_commands) == 1)
-			return (134);
-		if (create_fd(commands, misc->nb_commands, envc) == 134)
-			return (134);
-		if (g_errno == -42)
+		ret = v_p(commands, m, envc);
+		if (ret == 1)
 			return (1);
-		check_fd(commands, misc->nb_commands);
-		return (0);
+		else if (ret == 134)
+			return (134);
 	}
-	return (258);
+	return (0);
 }
-
-//debug code pour commands (attention aux segfault si y a rien dans commands)
-/*	i = 0;
-	while (i < *nb_pipes)
-	{
-		printf("avantnb\n");
-		commands[i]->nb_infile = 0;
-		commands[i]->nb_outfile = 0;
-		printf("avantredir\n");
-		count_redirections(commands[i], *flag_string, tab);
-		printf("%d\t%d\n", commands[i]->nb_infile, commands[i]->nb_outfile);
-		i++;
-	}*/
-/*	i = 0;
-	while (i < *nb_pipes)
-	{
-		j = 0;
-		while ((*commands)[i].sgl_cmd[j] != 0)
-		{
-			printf("%s.%d\n", (*commands)[i].sgl_cmd[j], i);
-			j++;
-		}
-		j = 0;
-		while ((*commands)[i].nb_infile > 0 && j < (*commands)[i].nb_infile)
-		{
-			printf("%s.%d.infile\n", (*commands)[i].tab_infile[j], i);
-			j++;
-		}
-		if ((*commands)[i].nb_infile > 0)
-			printf("%s.%dfin\n", (*commands)[i].flag_in, i);
-		j = 0;
-		while ((*commands)[i].nb_outfile > 0 && j < (*commands)[i].nb_outfile)
-		{
-			printf("%s.%d.outfile\n", (*commands)[i].tab_outfile[j], i);
-			j++;
-		}
-		if ((*commands)[i].nb_outfile > 0)
-			printf("%s.%dfout\n", (*commands)[i].flag_out, i);
-		i++;
-	}*/

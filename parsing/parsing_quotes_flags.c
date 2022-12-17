@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:49:32 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/15 18:18:30 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/16 15:30:58 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	double_quotes_flags(char *line, char **quote_string, int *i)
 		(*quote_string)[*i] = '0';
 }
 
-int quotes_flags(t_f_str *f_str, char *line)
+int	quotes_flags(t_f_str *f_str, char *line)
 {
 	int		i;
 	char	*quote_string;

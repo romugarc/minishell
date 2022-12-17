@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 20:25:44 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/16 20:28:19 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/17 13:53:26 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	refreshing_pwd(char **val, char *path)
 
 int	refresh_pwd(t_envlist **envc)
 {
-	int			i;
 	char		*path;
 	t_envlist	*tmp;
 

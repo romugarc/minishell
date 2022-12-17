@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:44:31 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/11 11:52:32 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/16 15:26:57 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int	form_tab2(t_commands **com, int np)
 	t_inc	i;
 	t_f_str	f_str;
 	int		cpy_flag;
-	
+
 	init_inc(&i);
 	while (i.i < np)
 	{
 		reinit_somevar(&i);
 		cpy_flag = 0;
-		while ((*com)[i.i].sgl_cmd[i.j] != 0 && i.n < (*com)[i.i].nb_outfile)
+		while ((*com)[i.i].sgl_cmd[i.j] != 0 && i.n < (*com)[i.i].nb_outf)
 		{
 			if (quotes_flags(&f_str, (*com)[i.i].sgl_cmd[i.j]) == 1)
 				return (free_flags(f_str, 1));
@@ -102,7 +102,7 @@ int	form_tab(t_commands **com, int np)
 	{
 		reinit_somevar(&i);
 		cpy_flag = 0;
-		while ((*com)[i.i].sgl_cmd[i.j] != 0 && i.n < (*com)[i.i].nb_infile)
+		while ((*com)[i.i].sgl_cmd[i.j] != 0 && i.n < (*com)[i.i].nb_inf)
 		{	
 			if (quotes_flags(&f_str, (*com)[i.i].sgl_cmd[i.j]) == 1)
 				return (free_flags(f_str, 1));

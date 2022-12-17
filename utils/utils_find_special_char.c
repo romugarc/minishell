@@ -6,7 +6,7 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 19:33:24 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/03 18:50:11 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/16 11:47:40 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,12 @@ int	find_special_char(char c, t_f_str f_str, t_inc *inc, char *s_c)
 	{
 		inc->l_j = inc->j;
 		i = 0;
-		inc->k = 0; //enlever cette ligne si le rework est mauvais
+		inc->k = 0;
 	}
 	while (f_str.sp_chars[inc->k] != '\0' && s_c[i] != '\0')
 	{
 		if (f_str.sp_chars[inc->k] == c && f_str.quotes[inc->k] == '0')
-		{
-				return (i);
-		}
+			return (i);
 		inc->k += 1;
 		i++;
 	}

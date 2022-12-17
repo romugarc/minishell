@@ -6,11 +6,24 @@
 /*   By: fsariogl <fsariogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:22:01 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/13 13:14:47 by fsariogl         ###   ########.fr       */
+/*   Updated: 2022/12/16 16:47:53 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	free_full_command_line(char **fcl, int nbp)
+{
+	int	i;
+
+	i = 0;
+	while (i < nbp)
+	{
+		free(fcl[i]);
+		i++;
+	}
+	free(fcl);
+}
 
 t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs)
 {
@@ -36,12 +49,6 @@ t_commands	*init_commands(char	*line, int nb_pipes, t_f_str *fs)
 		i++;
 	}
 	commands[i].sgl_cmd = NULL;
-	i = 0;
-	while (i < nb_pipes)
-	{
-		free(full_command_line[i]);
-		i++;
-	}
-	free(full_command_line);
+	free_full_command_line(full_command_line, nb_pipes);
 	return (commands);
 }

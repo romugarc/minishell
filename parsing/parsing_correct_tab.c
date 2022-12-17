@@ -6,7 +6,7 @@
 /*   By: rgarcia <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:48:37 by rgarcia           #+#    #+#             */
-/*   Updated: 2022/12/06 16:08:08 by rgarcia          ###   ########lyon.fr   */
+/*   Updated: 2022/12/16 13:07:04 by rgarcia          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	find_start_char(t_f_str f_str, t_inc *inc, char *s_c)
 		if ((f_str.sp_chars[inc->k] == '7' || f_str.sp_chars[inc->k] == '6') \
 			&& f_str.quotes[inc->k] == '0')
 		{
-				inc->l_i = i;
-				return (i);
+			inc->l_i = i;
+			return (i);
 		}
 		inc->k += 1;
 		i++;
@@ -90,7 +90,7 @@ int	correct_tab(t_commands **com, int np)
 
 	i.i = 0;
 	i.k = 0;
-	while(i.i < np)
+	while (i.i < np)
 	{
 		i.n = 0;
 		i.l_i = 0;
